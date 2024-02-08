@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Interface\Common\" />
+    <Folder Include="Interface\Customer\" />
+    <Folder Include="Interface\Admin\" />
+    <Folder Include="Interface\Vendor\" />
+    <Folder Include="Interface\Public\" />
+    <Folder Include="Pages\Admin\" />
+    <Folder Include="Pages\Common\" />
+    <Folder Include="Pages\Customer\" />
+    <Folder Include="Pages\Vendor\" />
+    <Folder Include="Pages\Public\" />
+    <Folder Include="ServiceManager\Admin\" />
+    <Folder Include="ServiceManager\Common\" />
+    <Folder Include="ServiceManager\Customer\" />
+    <Folder Include="ServiceManager\Public\" />
+    <Folder Include="ServiceManager\Vendor\" />
+  </ItemGroup>
+
+</Project>
