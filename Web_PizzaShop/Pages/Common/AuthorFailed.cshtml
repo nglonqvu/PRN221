@@ -1,0 +1,52 @@
+﻿@page
+@model Web_PizzaShop.Pages.Common.LoginModel
+@{
+    Layout = "_Layout";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Sign Up Form</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="~/css/Common/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+
+    <link rel="stylesheet" href="~/css/Common/Style.css">
+
+</head>
+<body>
+
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-image">
+                <figure><img src="~/images/error.png" alt="sing up image"></figure>
+            </div>
+
+            <div class="signin-form">
+                <h2 class="form-title" style="color:red">ALERT !</h2>
+                <form method="POST" class="register-form" id="login-form">
+                    <div class="form-group">
+                        <label for="remember-me" class="label-agree-term"><span><span></span></span>This Resource has restricted access, Please Login to be granted access to these resources!</label>
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                    </div>
+                </form>
+                <div class="social-login">
+                    <span class="social-label">We apologize for these inconveniences :( </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/js/Common/jquery.min.js"></script>
+</body>
+</html>

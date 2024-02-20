@@ -18,12 +18,10 @@
     <Folder Include="ServiceManager\Public\" />
     <Folder Include="ServiceManager\Vendor\" />
     <Folder Include="wwwroot\css\Admin\" />
-    <Folder Include="wwwroot\css\Common\" />
     <Folder Include="wwwroot\css\Customer\" />
     <Folder Include="wwwroot\css\Vender\" />
     <Folder Include="wwwroot\css\Public\" />
     <Folder Include="wwwroot\js\Admin\" />
-    <Folder Include="wwwroot\js\Common\" />
     <Folder Include="wwwroot\js\Customer\" />
     <Folder Include="wwwroot\js\Vender\" />
     <Folder Include="wwwroot\js\Public\" />
