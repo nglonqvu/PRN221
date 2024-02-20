@@ -12,7 +12,6 @@
     <Folder Include="Interface\Admin\" />
     <Folder Include="Interface\Vendor\" />
     <Folder Include="Interface\Public\" />
-    <Folder Include="Pages\Admin\" />
     <Folder Include="Pages\Common\" />
     <Folder Include="Pages\Customer\" />
     <Folder Include="Pages\Vendor\" />
