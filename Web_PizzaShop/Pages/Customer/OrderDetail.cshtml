@@ -1,0 +1,72 @@
+﻿@page
+@model Web_PizzaShop.Pages.Customer.OrderDetailModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Detail - PizzaShop</title>
+    <link rel="stylesheet" href="style.css">
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            color: red;
+            text-align: center;
+        }
+
+        .order-details {
+            width: 100%;
+            max-width: 600px; /* Điều chỉnh dựa trên bố cục của bạn */
+            border-collapse: collapse;
+            margin: 20px auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+            .order-details th, .order-details td {
+                padding: 10px;
+                border: 1px solid #ddd; /* Đường viền màu xám nhạt */
+                text-align: left;
+            }
+
+            .order-details tr:nth-child(odd) {
+                background-color: #f9f9f9; /* Nền màu xám nhạt cho các hàng lẻ */
+            }
+
+            .order-details tr:hover {
+                background-color: #f1f1f1; /* Màu nền xám đậm hơn khi di chuột qua */
+            }
+
+            .order-details th {
+                background-color: #4CAF50; /* Màu nền cho tiêu đề */
+                color: white; /* Màu chữ cho tiêu đề */
+            }
+
+    </style>
+</head>
+<body>
+    <h2>Ordered Detail</h2>
+    <table class="order-details">
+        <tr>
+            <th>Status:</th>
+            <th>Price:</th>
+            <th>Quantity:</th>
+            <th>Amount:</th>
+        </tr>
+        <!-- Ví dụ về một hàng dữ liệu -->
+        <tr>
+            <td>Pending</td>
+            <td>100.000đ</td>
+            <td>2</td>
+            <td>200.000đ</td>
+        </tr>
+    </table>
+</body>
+
+</html>

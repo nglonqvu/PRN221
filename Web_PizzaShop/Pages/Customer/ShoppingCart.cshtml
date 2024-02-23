@@ -1,0 +1,188 @@
+﻿@page
+@model Web_PizzaShop.Pages.Customer.ShoppingCartModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shopping Cart</title>
+
+    <link rel="stylesheet" href="https://pizza.webmau68.com/wp-content/themes/flatsome/assets/css/flatsome.css?ver=3.15.7" type="text/css" media="all">
+    <link rel="stylesheet" href="https://pizza.webmau68.com/wp-content/themes/flatsome/assets/css/flatsome-shop.css?ver=3.15.7" type="text/css" media="all">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style type="text/css">
+        #wrapper, #main {
+            background-color: transparent;
+            position: relative;
+        }
+        .absolute-footer, html {
+            background-color: white;
+        }
+
+        .shop_table thead th, .shop_table .order-total td, .shop_table .order-total th {
+            border-width: 3px;
+            color: white;
+        }
+
+        a {
+            color: white;
+            text-decoration: none;
+        }
+
+            a:hover, a.remove:hover, a.icon-circle:hover {
+                color: yellow;
+            }
+
+        span.amount {
+            white-space: nowrap;
+            color: white;
+            font-weight: bold;
+        }
+
+        .cart_totals th.product-name {
+            border-width: 3px;
+            color: white;
+        }
+
+        .widget-title i {
+            opacity: 48.35;
+            margin-right: 4px;
+            color: white;
+        }
+
+        .cart_totals tbody th {
+            color: white;
+        }
+
+        .is-outline:hover, .primary.is-outline:hover {
+            color: #fff;
+            background-color: yellowgreen;
+            border-color: yellowgreen;
+        }
+
+        .primary.is-underline, .primary.is-link, .primary.is-outline {
+             color: white; 
+        }
+
+        .button.disabled, button.disabled, .button[disabled], button[disabled] {
+            opacity: 1;
+        }
+        h3{
+            color:white
+        }
+    </style>
+</head>
+
+<body>
+    <main id="main">
+        <div id="content" class="content-area page-wrapper" role="main">
+            <div class="row row-main">
+                <h2 style="color: red;">Shopping Cart</h2>
+                <div class="large-12 col">
+                    <div class="col-inner">
+                        <div class="woocommerce row row-large row-divided">
+                            <div class="col large-7 pb-0">
+                                <form class="woocommerce-cart-form" action="https://pizza.webmau68.com/gio-hang/" method="post">
+                                    <div class="cart-wrapper sm-touch-scroll">
+                                        <table class="shop_table shop_table_responsive cart woocommerce-cart-form__contents" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="product-name" colspan="3">Sản phẩm</th>
+                                                    <th class="product-price">Giá</th>
+                                                    <th class="product-quantity">Số lượng</th>
+                                                    <th class="product-subtotal">Tạm tính</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="woocommerce-cart-form__cart-item cart_item">
+                                                    <td class="product-remove">
+                                                        <a href="https://pizza.webmau68.com/gio-hang/?remove_item=2a38a4a9316c49e5a833517c45d31070&amp;_wpnonce=1d8d275a2b" class="remove" aria-label="Xóa sản phẩm này" data-product_id="88" data-product_sku="">×</a>
+                                                    </td>
+                                                    <td class="product-thumbnail">
+                                                        <a href=""><img width="300" height="300" src="https://pizza.webmau68.com/wp-content/uploads/hawaii1.jpg" </a>
+                                                    </td>
+                                                    <td class="product-name" data-title="Sản phẩm">
+                                                        <a href="https://pizza.webmau68.com/sản%20phẩm/hawaii-pizza/">Hawaii Pizza</a>
+                                                        <div class="show-for-small mobile-product-price">
+                                                            <span class="mobile-product-price__qty">1 x </span>
+                                                            <span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span>
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-price" data-title="Giá">
+                                                        <span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span>
+                                                    </td>
+                                                    <td class="product-quantity" data-title="Số lượng">
+                                                        <div class="quantity buttons_added">
+                                                            <input type="button" value="-" class="minus button is-form">
+                                                            <label class="screen-reader-text" for="quantity_65d4c43b70008">#p2: Hawaii Pizza số lượng</label>
+                                                            <input type="number" id="quantity_65d4c43b70008" class="input-text qty text" step="1" min="0" max="" name="cart[2a38a4a9316c49e5a833517c45d31070][qty]" value="1" title="SL" size="4" placeholder="" inputmode="numeric">
+                                                            <input type="button" value="+" class="plus button is-form">
+                                                        </div>
+                                                    </td>
+                                                    <td class="product-subtotal" data-title="Tạm tính">
+                                                        <span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="6" class="actions clear">
+                                                        <div class="continue-shopping pull-left text-left">
+                                                            <a class="button-continue-shopping button primary is-outline" href="https://pizza.webmau68.com/cua-hang/">← Tiếp tục xem sản phẩm</a>
+                                                        </div>
+                                                        <button type="submit" class="button primary mt-0 pull-left small" name="update_cart" value="Cập nhật giỏ hàng" disabled="" aria-disabled="true">Cập nhật giỏ hàng</button>
+                                                        <input type="hidden" id="woocommerce-cart-nonce" name="woocommerce-cart-nonce" value="1d8d275a2b">
+                                                        <input type="hidden" name="_wp_http_referer" value="/gio-hang/">
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="cart-collaterals large-5 col pb-0">
+                                <div class="cart-sidebar col-inner ">
+                                    <div class="cart_totals ">
+                                        <table cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th class="product-name" colspan="2">Cộng giỏ hàng</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <h2>Cộng giỏ hàng</h2>
+                                        <table cellspacing="0" class="shop_table shop_table_responsive">
+                                            <tbody>
+                                                <tr class="cart-subtotal">
+                                                    <th>Tạm tính</th>
+                                                    <td data-title="Tạm tính"><span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span></td>
+                                                </tr>
+                                                <tr class="order-total">
+                                                    <th>Tổng</th>
+                                                    <td data-title="Tổng"><strong><span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span></strong> </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <div class="wc-proceed-to-checkout">
+                                            <a style="background-color: #FDBA14;" href="https://pizza.webmau68.com/thanh-toan/" class="checkout-button button alt wc-forward wp-element-button">Tiến hành thanh toán</a>
+                                        </div>
+                                    </div>
+                                    <form class="checkout_coupon mb-0" method="post">
+                                        <div class="coupon">
+                                            <h3 class="widget-title"><i class="fa fa-tag fa-lg"></i> Phiếu ưu đãi</h3>
+                                            <input type="text" name="coupon_code" class="input-text" id="coupon_code" value="" placeholder="Mã ưu đãi">
+                                            <input type="submit" class="is-form expand" name="apply_coupon" value="Áp dụng">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html> 
