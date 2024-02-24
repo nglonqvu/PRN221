@@ -1,0 +1,122 @@
+﻿@page
+@model Web_PizzaShop.Pages.Customer.OrderDetailModel
+@{
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Đơn Hàng</title>
+    <link rel="stylesheet" href="style.css">
+    <style type="text/css">
+      body, html {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    color:wheat;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: white;
+}
+
+.order-summary .status {
+    color: green;
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+
+.actions button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    margin: 10px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.actions button:hover {
+    opacity: 0.9;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: red">Chi Tiết Đơn Hàng</h1>
+        <section class="order-summary">
+            <h2>Đơn Hàng</h2>
+            <p><strong>Mã Đơn Hàng:</strong> #123456</p>
+            <p><strong>Ngày Đặt Hàng:</strong> 1 Tháng 1, 2024</p>
+            <p><strong>Trạng Thái:</strong> <span class="status">Đã Giao</span></p>
+        </section>
+
+        <section class="customer-info">
+            <h2>Thông Tin Khách Hàng</h2>
+            <p><strong>Tên:</strong> Nguyễn Văn A</p>
+            <p><strong>Email:</strong> nguyenvana@example.com</p>
+            <p><strong>Số Điện Thoại:</strong> +123456789</p>
+            <p><strong>Địa Chỉ Giao Hàng:</strong> 123 Đường, Phường, Quận, TP.HCM</p>
+        </section>
+
+        <section class="order-details">
+            <h2>Sản Phẩm Đã Đặt</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sản Phẩm</th>
+                        <th>Số Lượng</th>
+                        <th>Giá</th>
+                        <th>Tổng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Pizza Hải Sản Nhiệt Đới</td>
+                        <td>2</td>
+                        <td>200.000₫</td>
+                        <td>400.000₫</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="payment-info">
+            <h2>Thanh Toán & Hóa Đơn</h2>
+            <p><strong>Phương Thức Thanh Toán:</strong> Thẻ Tín Dụng</p>
+            <p><strong>Tổng Cộng:</strong> 500.000₫</p>
+        </section>
+
+        <section class="actions">
+            <button onclick="contactSupport()">Liên Hệ Hỗ Trợ</button>
+            <button onclick="reorder()">Đặt Hàng Lại</button>
+        </section>
+    </div>
+</body>
+</html>

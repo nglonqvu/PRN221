@@ -1,0 +1,89 @@
+﻿@page
+@model Web_PizzaShop.Pages.Customer.OrderedModel
+@{
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Detail - PizzaShop</title>
+    <link rel="stylesheet" href="style.css">
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            color: red;
+            text-align: center;
+        }
+
+        .order-details {
+            width: 100%;
+            max-width: 600px; 
+            border-collapse: collapse;
+            margin: 20px auto;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+            .order-details th, .order-details td {
+                padding: 10px;
+                border: 1px solid #ddd; 
+                text-align: left;
+            }
+
+            .order-details tr:nth-child(odd) {
+                color:wheat;
+            }
+
+
+            .order-details th {
+                background-color: #4CAF50; 
+                color: white; 
+            }
+
+            .order-details a {
+                background-color: #007bff; 
+                color: white; 
+                border: none; 
+                padding: 5px 10px; 
+                border-radius: 5px;
+                cursor: pointer; 
+                text-align: center; 
+            }
+
+                .order-details a:hover {
+                    background-color: #0056b3; 
+                }
+
+    </style>
+</head>
+<body>
+    <h2>Ordered</h2>
+    <table class="order-details">
+        <thead>
+            <tr>
+                <th>Trạng Thái:</th>
+                <th>Giá:</th>
+                <th>Số Lượng:</th>
+                <th>Tổng Cộng:</th>
+                <th>Hành Động:</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Đang Chờ Xử Lý</td>
+                <td>100.000đ</td>
+                <td>2</td>
+                <td>200.000đ</td>
+                <td><a href="OrderedDetail">Chi Tiết</a></td>
+            </tr>
+
+        </tbody>
+    </table>
+</body>
+
+</html>
