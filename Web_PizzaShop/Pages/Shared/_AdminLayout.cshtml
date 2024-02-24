@@ -1,0 +1,194 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="~/images/required/ico/favicon.ico">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="~/images/required/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/images/required/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/images/required/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="~/images/required/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="~/images/required/ico/favicon.png">
+
+    <title>Circloid - Responsive HTML Admin Template</title>
+
+    <!-- Required CSS Files -->
+    <link type="text/css" href="~/css/required/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link type="text/css" href="~/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/js/required/jquery-ui-1.11.0.custom/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/js/required/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/required/mCustomScrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/required/icheck/all.css" rel="stylesheet" />
+    <link type="text/css" href="~/fonts/metrize-icons/styles-metrize-icons.css" rel="stylesheet">
+
+    <!-- Optional CSS Files -->
+    <link type="text/css" href="~/css/optional/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+    <!-- add CSS files here -->
+    <!-- More Required CSS Files -->
+    <link type="text/css" href="~/css/styles-core.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/styles-core-responsive.css" rel="stylesheet" />
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="~/js/required/misc/ie10-viewport-bug-workaround.js"></script>
+
+    <!--[if IE 7]>
+    <link type="text/css" href="~/css/required/misc/style-ie7.css" rel="stylesheet">
+    <script type="text/javascript" src="~/fonts/lte-ie7.js"></script>
+    <![endif]-->
+    <!--[if IE 8]>
+    <link type="text/css" href="~/css/required/misc/style-ie8.css" rel="stylesheet">
+    <![endif]-->
+    <!--[if lte IE 8]>
+    <script type="text/javascript" src="~/css/required/misc/excanvas.min.js"></script>
+    <![endif]-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="container-fluid">
+        <div id="header-container">
+            <div class="header-bar navbar navbar-inverse" role="navigation">
+                <!-- NOTE TO READER: Accepts the following class(es) "navbar-fixed-top" class -->
+                <div class="container">
+                    <div class="navbar-header">
+                        <!-- START logo -->
+                        <div class="logo">
+                            <a href="#">
+
+                            </a>
+                        </div>
+                        <!-- END logo -->
+                        <!-- START Mobile Menu Toggle -->
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!-- END Mobile Menu Toggle -->
+                        <!-- START Search Bar -->
+                        <div class="header-search">
+                            <!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
+                            <form role="form" class="icheck-square" method="post" action="pages-search-results.html">
+                                <ul>
+                                    <li>
+                                        <a href="#" class="search-closed">
+                                            <span aria-hidden="true" class="icon icon-search"></span>
+                                            <span class="main-text">Search</span>
+                                        </a>
+                                        <a href="#" class="search-opened">
+                                            <span aria-hidden="true" class="icon icon-cross"></span>
+                                            <span class="main-text">Search</span>
+                                        </a>
+                                        <ul>
+                                            <li class="simple-search">
+                                                <div class="simple-search-inner">
+                                                    <div class="simple-search-block">
+                                                        <div class="input-group">
+                                                            <input type="text" class="form-control" id="input-search" placeholder="Enter Search Terms...">
+                                                            <span class="input-group-btn">
+                                                                <button type="submit" class="btn btn-default">
+                                                                    <span class="main-text">Search</span>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="advanced-search">
+                                                <div class="advanced-search-block">
+                                                    <div class="form-group">
+                                                        <label for="input-advanced-select">Advanced Option as dropdown list</label>
+                                                        <select id="input-advanced-select" class="form-control">
+                                                            <option>Advanced Option 1</option>
+                                                            <option>Advanced Option 2</option>
+                                                            <option>Advanced Option 3</option>
+                                                            <option>Advanced Option 4</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div class="checkbox">
+                                                        <label>
+                                                            <input type="checkbox" value="" id="input-advanced-checkbox-1">
+                                                            Must contain at least one search term
+                                                        </label>
+                                                    </div>
+
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="input-advanced-radio-set-1" id="input-advanced-radio-1" value="option1" checked>
+                                                            Must only be in "Themes" category
+                                                        </label>
+                                                    </div>
+                                                    <div class="radio">
+                                                        <label>
+                                                            <input type="radio" name="input-advanced-radio-set-1" id="input-advanced-radio-2" value="option2">
+                                                            Must only be in "Plugins" category
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </form>
+                        </div>
+                        <!-- END Search Bar -->
+                        <!-- START Header Info Container -->
+                        <div class="header-info">
+                            <!-- START Header User Profile -->
+                            <div class="header-profile">
+                                <!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
+                                <ul class="header-profile-menu">
+                                    <li>
+                                        <a href="#" class="top">
+                                            <span class="header-profile-menu-icon">
+                                                <img class="list-thumbnail" src="http://placehold.it/39x39" width="39" height="39" alt="39x39" />
+                                            </span>
+                                            <span class="main-menu-text">
+                                                Ken Adams
+                                                <i class="icon icon-arrow-down-bold-round icon-size-small"></i>
+                                            </span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="pages-profile.html">
+                                                    <span aria-hidden="true" class="icon icon-user"></span>
+                                                    <span class="main-text">Profile</span>
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="pages-signin-1.html">
+                                                    <span aria-hidden="true" class="icon icon-arrow-curve-right"></span>
+                                                    <span class="main-text">Logout</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- END Header User Profile -->
+
+                        </div>
+                        <!-- END Header Info Container -->
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="body-container">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>

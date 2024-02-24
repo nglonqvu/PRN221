@@ -1,0 +1,668 @@
+﻿@page
+@model Web_PizzaShop.Pages.Admin.ProductListModel
+@{
+	Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Demo CSS Files -->
+	<link type="text/css" href="assets/css/demo-files/ecommerce-product-list.css" rel="stylesheet" />
+</head>
+<body>
+		<!-- START Body Container -->
+		<div id="body-container">
+
+		<!-- START Left Column -->
+		<div id="left-column" class="">
+			<!-- NOTE TO READER: Accepts the following class(es) "menu-icon-only", "fixed" class -->
+			<div id="mainnav">
+				<ul class="mainnav">
+					<!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
+					<li class="menu-item-top">
+						<a href="index.html" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-grid-big"></span>
+							</span>
+							<span class="main-menu-text">Dashboard</span>
+						</a>
+					</li>
+					<li class="menu-item-top selected">
+						<a href="#" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-dollar"></span>
+							</span>
+							<span class="main-menu-text">Dashboard</span>
+						</a>
+						<ul>
+							<li><a href="Dashboard">Dashboard</a></li>
+							<li><a href="OrderList">Order List</a></li>
+							<li><a href="OrderView">Order View</a></li>
+							<li><a href="ProductList">Product List</a></li>
+							<li><a href="ProductEdit">Product Edit</a></li>
+						</ul>
+					</li>
+					<li class="menu-item-top">
+						<a href="#" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-layers"></span>
+							</span>
+							<span class="badge pull-right-corner">3</span>
+							<span class="main-menu-text">Layouts</span>
+						</a>
+						<ul>
+							<li><a href="menu-left-header-fixed.html">Left Menu (Fixed Header)</a></li>
+							<li><a href="menu-left-icon-only.html">Left Menu (Icon Only)</a></li>
+							<li><a href="menu-left-fixed.html">Left Menu (Fixed)</a></li>
+							<li><a href="menu-left-boxed.html">Boxed Layout</a></li>
+							<li><a href="menu-horizontal-normal.html">Horizontal Menu (Normal)</a></li>
+							<li><a href="menu-horizontal-text-only.html">Horizontal Menu (Text Only)</a></li>
+							<li><a href="menu-horizontal-fixed.html">Horizontal Menu (Fixed + Header)</a></li>
+							<li><a href="menu-horizontal-boxed.html">Boxed Layout (Horizontal Menu)</a></li>
+						</ul>
+					</li>
+					<li class="menu-item-top">
+						<a href="#" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-star"></span>
+							</span>
+							<span class="main-menu-text">UI Kits</span>
+						</a>
+						<ul>
+							<li><a href="ui-blocks.html">Blocks</a></li>
+							<li><a href="ui-panels-wells.html">Panels &amp; Wells</a></li>
+							<li><a href="ui-buttons.html">Buttons</a></li>
+							<li><a href="ui-widgets.html">Widgets</a></li>
+							<li><a href="ui-charts.html">Charts</a></li>
+							<li><a href="ui-icons.html">Icons</a></li>
+							<li><a href="ui-typography.html">Typography</a></li>
+							<li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a></li>
+							<li><a href="ui-tooltips-popover.html">Tooltips &amp; Popover</a></li>
+							<li><a href="ui-modal.html">Modal</a></li>
+							<li><a href="ui-bootstrap-others.html">Other Bootstrap Elements</a></li>
+							<li><a href="ui-notification-toastr.html">Notifications (Toastr)</a></li>
+							<li><a href="ui-grid-layout.html">Grid Layout</a></li>
+						</ul>
+					</li>
+					<li class="menu-item-top">
+						<a href="#" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-documents"></span>
+							</span>
+							<span class="badge pull-right-corner hidden-collapsed highlight-color-green">7</span>
+							<span class="main-menu-text">Pages</span>
+						</a>
+						<ul>
+							<li><a href="pages-blank.html">Blank Page</a></li>
+							<li><a href="pages-basic-text.html">Basic Text Page</a></li>
+							<li><a href="pages-search-results.html">Search Results</a></li>
+							<li><a href="pages-mailbox-inbox.html">Mailbox - Inbox</a></li>
+							<li><a href="pages-profile.html">Profile - Customer</a></li>
+							<li><a href="pages-profile-admin.html">Profile - Admin</a></li>
+							<li><a href="pages-signup.html">Sign Up</a></li>
+							<li><a href="pages-signin-1.html">Sign In - Type 1</a></li>
+							<li>
+								<a href="pages-signin-2.html">
+									<span class="badge pull-right">Fancy Effects</span>
+									Sign In - Type 2
+								</a>
+							</li>
+							<li><a href="pages-forgot-password.html">Forgot Password</a></li>
+							<li><a href="pages-404.html">404 Page</a></li>
+							<li><a href="pages-500.html">500 Page</a></li>
+							<li><a href="pages-invoice.html">Invoice</a></li>
+							<li><a href="pages-changelog-faqs.html">Changelog/FAQs</a></li>
+							<li><a href="pages-calendar.html">Calendar</a></li>
+							<li><a href="pages-task-list.html">Task List</a></li>
+							<li><a href="pages-timeline.html">Timeline</a></li>
+						</ul>
+					</li>
+					<li class="menu-item-top">
+						<a href="#" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-settings"></span>
+							</span>
+							<span class="main-menu-text">Forms</span>
+						</a>
+						<ul>
+							<li><a href="form-elements.html">Form Elements</a></li>
+							<li>
+								<a href="form-extras.html">
+									<span class="badge pull-right">Goodies</span>
+									Form Extras
+								</a>
+							</li>
+							<li><a href="form-validation.html">Form Validation</a></li>
+							<li><a href="form-wizard.html">Form Wizard</a></li>
+							<li><a href="form-file-upload.html">Form Upload</a></li>
+							<li><a href="form-image-cropping.html">Image Cropping</a></li>
+						</ul>
+					</li>
+					<li class="menu-item-top">
+						<a href="#" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-grids"></span>
+							</span>
+							<span class="main-menu-text">Tables</span>
+						</a>
+						<ul>
+
+							<li><a href="tables-basic.html">Basic Tables</a></li>
+							<li><a href="tables-responsive.html">Responsive Tables</a></li>
+							<li><a href="tables-datatables.html">Data Tables</a></li>
+						</ul>
+					</li>
+					<li class="menu-item-top">
+						<a href="#" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-block-menu"></span>
+							</span>
+							<span class="main-menu-text">Menu Levels</span>
+						</a>
+						<ul>
+							<li>
+								<a href="#">Menu Level 1.1</a>
+								<ul>
+									<li>
+										<a href="#">Menu Level 2.1</a>
+										<ul>
+											<li>
+												<a href="#">Menu Level 3.1</a>
+												<ul>
+													<li>
+														<a href="#">Menu Level 4.1</a>
+														<ul>
+															<li><a href="#">Menu Level 5.1</a></li>
+															<li><a href="#">Menu Level 5.2</a></li>
+															<li><a href="#">Menu Level 5.3</a></li>
+														</ul>
+													</li>
+													<li><a href="#">Menu Level 4.2</a></li>
+													<li><a href="#">Menu Level 4.3</a></li>
+												</ul>
+											</li>
+											<li><a href="#">Menu Level 3.2</a></li>
+											<li><a href="#">Menu Level 3.3</a></li>
+										</ul>
+									</li>
+									<li><a href="#">Menu Level 2.2</a></li>
+									<li><a href="#">Menu Level 2.3</a></li>
+								</ul>
+							</li>
+							<li><a href="#">Menu Level 1.2</a></li>
+							<li><a href="#">Menu Level 1.3</a></li>
+						</ul>
+					</li>
+					<li class="menu-item-top">
+						<a href="#" class="top">
+							<span class="main-menu-icon">
+								<span aria-hidden="true" class="icon icon-map"></span>
+							</span>
+							<span class="main-menu-text">Maps</span>
+						</a>
+						<ul>
+							<li><a href="maps-google.html">Google Maps</a></li>
+							<li><a href="maps-vector.html">Vector Maps</a></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!-- END Left Column -->
+			<!-- START Right Column -->
+			<div id="right-column">
+				<div class="right-column-content container-fluid">
+					<div class="row">
+						<div class="col-xs-12">
+							<ol class="breadcrumb">
+								<li>
+									<a href="index.html">Home</a>
+								</li>
+								<li>
+									<a href="ecommerce-product-list.html">eCommerce</a>
+								</li>
+								<li class="active">
+									<a href="ecommerce-product-list.html">Product List</a>
+								</li>
+							</ol>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6">
+							<h1>
+								<span aria-hidden="true" class="icon icon-dollar"></span>
+								<span class="main-text">
+									Product List
+								</span>
+							</h1>
+						</div>
+						<div class="col-md-6">
+
+							<!-- START Main Buttons -->
+							<div class="page-heading-controls">
+								<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Add Product</a>
+								<a href="#" role="button" class="btn btn-info">Copy</a>
+								<a href="#" role="button" class="btn btn-danger">Delete</a>
+							</div>
+							<!-- END Main Buttons -->
+
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+
+							<!-- START Block: Product List -->
+							<div class="block">
+								<div class="block-heading">
+									<div class="main-text h2">
+										Products
+									</div>
+								</div>
+								<div class="block-content-outer">
+									<div class="block-content-inner">
+										<div class="table-responsive">
+											<form role="form">
+												<table class="table table-condensed table-striped table-bordered table-hover">
+													<thead>
+														<tr>
+															<th class="text-center">
+																<input type="checkbox" class="list-select-all">
+															</th>
+															<th class="text-center col-xs-1">Image</th>
+															<th class="col-xs-2">Product Name</th>
+															<th class="col-xs-1">SKU</th>
+															<th class="text-right col-xs-2">Price</th>
+															<th class="col-xs-2">Quantity</th>
+															<th class="col-xs-2">Status</th>
+															<th class="text-right col-xs-2">Action</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td></td>
+															<td></td>
+															<td>
+																<input type="text" class="form-control input-sm" placeholder="Product Name" size="5" />
+															</td>
+															<td>
+																<input type="text" class="form-control input-sm" placeholder="SKU" size="4" />
+															</td>
+															<td>
+																<input type="text" class="form-control input-sm text-right" placeholder="Price" size="3" />
+															</td>
+															<td>
+																<input type="text" class="form-control input-sm text-right" placeholder="Quantity" size="3" />
+															</td>
+															<td>
+																<select id="input-demo-v" class="form-control">
+																	<option>-- Status --</option>
+																	<option>Completed</option>
+																	<option>Cancelled</option>
+																	<option>Pending</option>
+																	<option>Action Required</option>
+																</select>
+															</td>
+															<td class="text-right">
+																<button type="button" class="btn btn-default">Filter</button>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>Apple Cinema 30"</td>
+															<td>APLC30</td>
+															<td class="text-right">$105.00</td>
+															<td class="text-right">
+																<span class="highlight-color-red-text">9</span>
+															</td>
+															<td>
+																<span class="label label-success">Completed</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>Canon EOS 5D</td>
+															<td>CNEOS5D</td>
+															<td class="text-right">$785.00</td>
+															<td class="text-right">
+																<span class="highlight-color-red-text">0</span>
+															</td>
+															<td>
+																<span class="label label-danger">Cancelled</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>HP LP3065</td>
+															<td>HPLP3065-1</td>
+															<td class="text-right">$5,623.00</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">43</span>
+															</td>
+															<td>
+																<span class="label label-warning">Pending</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>HTC Touch HD</td>
+															<td>HTCTHD</td>
+															<td class="text-right">$928.77</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">12</span>
+															</td>
+															<td>
+																<span class="label label-info">Action Required</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>MacBook</td>
+															<td>APLMB-1</td>
+															<td class="text-right">$1200.28</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">990</span>
+															</td>
+															<td>
+																<span class="label label-primary">Processing</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>Apple Cinema 30"</td>
+															<td>APLC30</td>
+															<td class="text-right">$105.00</td>
+															<td class="text-right">
+																<span class="highlight-color-red-text">9</span>
+															</td>
+															<td>
+																<span class="label label-success">Completed</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>Canon EOS 5D</td>
+															<td>CNEOS5D</td>
+															<td class="text-right">$785.00</td>
+															<td class="text-right">
+																<span class="highlight-color-red-text">0</span>
+															</td>
+															<td>
+																<span class="label label-danger">Cancelled</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>HP LP3065</td>
+															<td>HPLP3065-1</td>
+															<td class="text-right">$5,623.00</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">43</span>
+															</td>
+															<td>
+																<span class="label label-warning">Pending</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>HTC Touch HD</td>
+															<td>HTCTHD</td>
+															<td class="text-right">$928.77</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">12</span>
+															</td>
+															<td>
+																<span class="label label-info">Action Required</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>MacBook</td>
+															<td>APLMB-1</td>
+															<td class="text-right">$1200.28</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">990</span>
+															</td>
+															<td>
+																<span class="label label-primary">Processing</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>Apple Cinema 30"</td>
+															<td>APLC30</td>
+															<td class="text-right">$105.00</td>
+															<td class="text-right">
+																<span class="highlight-color-red-text">9</span>
+															</td>
+															<td>
+																<span class="label label-success">Completed</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>Canon EOS 5D</td>
+															<td>CNEOS5D</td>
+															<td class="text-right">$785.00</td>
+															<td class="text-right">
+																<span class="highlight-color-red-text">0</span>
+															</td>
+															<td>
+																<span class="label label-danger">Cancelled</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>HP LP3065</td>
+															<td>HPLP3065-1</td>
+															<td class="text-right">$5,623.00</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">43</span>
+															</td>
+															<td>
+																<span class="label label-warning">Pending</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>HTC Touch HD</td>
+															<td>HTCTHD</td>
+															<td class="text-right">$928.77</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">12</span>
+															</td>
+															<td>
+																<span class="label label-info">Action Required</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+														<tr>
+															<td class="text-center">
+																<input type="checkbox">
+															</td>
+															<td class="text-center">
+																<img src="http://placehold.it/40x40" width="40" height="40" class="list-thumbnail" alt="" />
+															</td>
+															<td>MacBook</td>
+															<td>APLMB-1</td>
+															<td class="text-right">$1200.28</td>
+															<td class="text-right">
+																<span class="highlight-color-green-text">990</span>
+															</td>
+															<td>
+																<span class="label label-primary">Processing</span>
+															</td>
+															<td class="text-right">
+																<a href="ecommerce-product-edit.html" role="button" class="btn btn-primary">Edit</a>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+												<div class="help-text">Showing 1 - 20 of 98</div>
+												<ul class="pagination">
+													<li class="disabled"><a href="#">&laquo;</a></li>
+													<li class="active"><a href="#"><span>1 <span class="sr-only">(current)</span></span></a></li>
+													<li><a href="#">2</a></li>
+													<li><a href="#">3</a></li>
+													<li><a href="#">4</a></li>
+													<li><a href="#">5</a></li>
+													<li><a href="#">&raquo;</a></li>
+												</ul>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- END Block: Product List -->
+
+						</div>
+					</div>
+				</div>
+
+				<!-- START Footer Container -->
+				<div id="footer-container">
+					<div class="footer-content">
+						&copy; <a href="#?ref=Base5Builder">Circloid</a> was made with <span style="color:#FF0000;">&#10084;</span> and supported by - <a href="http://base5builder.com/" target="_blank" style="font-weight:300;color:#ffffff;background:#1d1d1d;padding:0 3px;">Base<span style="color:#ffa733;font-weight:bold">5</span>Builder</a>
+					</div>
+				</div>
+				<!-- END Footer Container -->
+
+			</div>
+			<!-- END Right Column -->
+
+		</div>
+		<!-- END Body Container -->
+
+	<!-- Placed at the end of the document so the pages load faster -->
+	<!-- Required JS Files -->
+	<script type="text/javascript" src="assets/js/required/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="assets/js/required/bootstrap/bootstrap.min.js"></script>
+	<script type="text/javascript" src="assets/js/required/jquery.easing.1.3-min.js"></script>
+	<script type="text/javascript" src="assets/js/required/jquery.mCustomScrollbar.min.js"></script>
+	<script type="text/javascript" src="assets/js/required/misc/jquery.mousewheel-3.0.6.min.js"></script>
+	<script type="text/javascript" src="assets/js/required/misc/retina.min.js"></script>
+	<script type="text/javascript" src="assets/js/required/icheck.min.js"></script>
+	<script type="text/javascript" src="assets/js/required/misc/jquery.ui.touch-punch.min.js"></script>
+	<script type="text/javascript" src="assets/js/required/circloid-functions.js"></script>
+
+	<!-- Optional JS Files -->
+	<script type="text/javascript" src="assets/js/optional/misc/moment.js"></script>
+	<script type="text/javascript" src="assets/js/optional/bootstrap-datetimepicker.min.js"></script>
+	<!-- add optional JS plugin files here -->
+	<!-- REQUIRED: User Editable JS Files -->
+	<script type="text/javascript" src="assets/js/script.js"></script>
+	<!-- add additional User Editable files here -->
+</body>
+</html>
