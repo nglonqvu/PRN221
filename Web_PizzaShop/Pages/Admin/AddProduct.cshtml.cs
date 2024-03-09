@@ -8,17 +8,17 @@ using Web_PizzaShop.Models;
 
 namespace Web_PizzaShop.Pages.Admin
 {
-    public class ProductEditModel : PageModel
+    public class AddProductModel : PageModel
     {
         IWebHostEnvironment webHostEnvironment;
-        private readonly ILogger<ProductEditModel> logger;
+        private readonly ILogger<AddProductModel> logger;
         private readonly IAdminService service;
         private readonly PRN221_PRJContext context;
         private readonly IHubContext<HubService> _hubContext;
         [BindProperty]
         public Pizza pizza { get; set; }
-        public List<Category>? categories { get; set; }
-        public ProductEditModel(IWebHostEnvironment webHostEnvironment, ILogger<ProductEditModel> logger, IAdminService service, PRN221_PRJContext context, IHubContext<HubService> hubContext)
+        public List<Category> categories { get; set; }
+        public AddProductModel(IWebHostEnvironment webHostEnvironment, ILogger<AddProductModel> logger, IAdminService service, PRN221_PRJContext context, IHubContext<HubService> hubContext)
         {
             this.webHostEnvironment = webHostEnvironment;
             this.logger = logger;
@@ -26,26 +26,34 @@ namespace Web_PizzaShop.Pages.Admin
             this.context = context;
             _hubContext = hubContext;
         }
-        public async Task OnGet(int itemid)
+        public async Task OnGet()
         {
-            pizza = await service.GetPizzaById(itemid);
             categories = await service.GetAllCategory();
         }
 
         public async Task OnPost()
         {
             int selectedCategoryId = int.Parse(Request.Form["CategoryId"]);
-            bool success = await service.UpdatePizza(pizza, selectedCategoryId);
+            List<Pizza> pizzas = await context.Pizzas.ToListAsync();
+            foreach (var _pizza in pizzas)
+            {
+                if (pizza.Name == _pizza.Name)
+                {
+                    TempData["msg"] = "Pizza Name already exist!!";
+                    break;
+                }
+            }
+            bool success = await service.AddPizza(pizza, selectedCategoryId);
             if (success)
             {
                 pizza = await service.GetPizzaById(pizza.Id);
                 categories = await service.GetAllCategory();
                 await _hubContext.Clients.All.SendAsync("ReloadData");
-                TempData["msg"] = "Your changes have been saved successfully.";
+                TempData["msg"] = "Add pizza successfully !!";
             }
             else
             {
-                TempData["msg"] = "Edit fail!!";
+                TempData["msg"] = "Add fail !!";
             }
         }
 
@@ -54,7 +62,6 @@ namespace Web_PizzaShop.Pages.Admin
             if (file != null && file.Length > 0)
             {
                 var filePath = Path.Combine(webHostEnvironment.WebRootPath + "/images/pizzas", file.FileName);
-                Console.WriteLine(filePath);
                 using (var stream = new FileStream(filePath, FileMode.Create))
                 {
                     await file.CopyToAsync(stream);

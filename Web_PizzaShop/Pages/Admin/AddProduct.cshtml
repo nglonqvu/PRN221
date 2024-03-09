@@ -1,0 +1,388 @@
+﻿@page
+@model Web_PizzaShop.Pages.Admin.AddProductModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <!-- Demo CSS Files -->
+    <link type="text/css" href="~/css/demo-files/ecommerce-product-edit.css" rel="stylesheet" />
+    <link type="text/css" href="~/css/demo-files/form-file-upload.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <!-- START Body Container -->
+    <div id="body-container">
+
+        <!-- START Left Column -->
+        <div id="left-column" class="">
+            <!-- NOTE TO READER: Accepts the following class(es) "menu-icon-only", "fixed" class -->
+            <div id="mainnav">
+                <ul class="mainnav">
+                    <!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
+                    <li class="menu-item-top">
+                        <a href="index.html" class="top">
+                            <span class="main-menu-icon">
+                                <span aria-hidden="true" class="icon icon-grid-big"></span>
+                            </span>
+                            <span class="main-menu-text">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="menu-item-top selected">
+                        <a href="#" class="top">
+                            <span class="main-menu-icon">
+                                <span aria-hidden="true" class="icon icon-dollar"></span>
+                            </span>
+                            <span class="main-menu-text">Dashboard</span>
+                        </a>
+                        <ul>
+                            <li><a href="Dashboard">Dashboard</a></li>
+                            <li><a href="OrderList">Order List</a></li>
+                            <li><a href="ProductList">Product List</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- END Left Column -->
+        <!-- START Right Column -->
+        <div id="right-column">
+            <form method="post" class="form-horizontal product-edit" role="form">
+                <input type="text" asp-for="@Model.pizza.Id" hidden>
+                <div class="right-column-content container-fluid">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <ol class="breadcrumb">
+                                <li>
+                                    <a href="ProductList">Pizza List</a>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h1>
+                                <span aria-hidden="true" class="icon icon-dollar"></span>
+                                <span class="main-text">
+                                    Product Edit
+                                </span>
+                            </h1>
+                        </div>
+                        <div class="col-md-6">
+
+                            <!-- START Main Buttons -->
+                            <div class="page-heading-controls">
+                                <input class="btn btn-primary" role="button" type="submit" value="Add"
+                                    id="addButton"/>
+                                <a href="ecommerce-product-list.html" role="button" class="btn btn-danger">Cancel</a>
+                            </div>
+                            <!-- END Main Buttons -->
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <!-- START Block: Product Edit -->
+                            <div class="block">
+                                <div class="block-content-outer">
+                                    <div class="block-content-inner">
+
+                                        <ul id="product-edit-tabs" class="nav nav-tabs tabs-alt-1">
+                                            <li class="active">
+                                                <a href="#product-edit-tabs-general" data-toggle="tab">General</a>
+                                            </li>
+                                            <li><a href="#product-edit-tabs-data" data-toggle="tab">Data</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="product-edit-tabs-general">
+                                                <div class="form-group">
+                                                    <label for="product-location"
+                                                        class="col-sm-2 col-md-2 control-label">
+                                                        Image
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <div class="product-image-preview">
+                                                                    <a href="#" data-toggle="modal"
+                                                                        data-target="#product-image-preview-1">
+                                                                        <img src=".../wwwroot/images/pizzas/Pizza_Thit_Va_Xuc_Xich_400x275.jpg"
+                                                                            width="150" height="150" alt="">
+                                                                    </a>
+                                                                    <p class="text-center">
+                                                                        <a href="#" data-toggle="modal"
+                                                                            data-target="#product-image-preview-1">
+                                                                            Change
+                                                                            Image
+                                                                        </a>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="product-name" class="col-sm-2 col-md-2 control-label">
+                                                        Pizza Name
+                                                        <span class="required-item">*</span>
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input asp-for="@Model.pizza.Name" type="text"
+                                                            class="form-control" id="product-name"
+                                                            placeholder="Pizza Name">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="meta-desc" class="col-sm-2 col-md-2 control-label">
+                                                        Description
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <textarea asp-for="@Model.pizza.Description"
+                                                            class="form-control" id="meta-desc" rows="4"
+                                                            placeholder="This will be shows as your product description in search engines"></textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="meta-keywords" class="col-sm-2 col-md-2 control-label">
+                                                        Price
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input asp-for="@Model.pizza.Price" type="number"
+                                                            class="form-control" id="product-name"
+                                                            placeholder="Pizza Price">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="meta-keywords" class="col-sm-2 col-md-2 control-label">
+                                                        Hot
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input class="form-check-input"
+                                                            asp-for="@Model.pizza.IsPizzaOfTheWeek" type="checkbox">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 col-md-2 control-label">Category</label>
+                                                    <div class="col-sm-4">
+                                                        <select class="form-control" name="CategoryId">
+                                                            @{
+                                                                foreach (var category in Model.categories)
+                                                                {
+                                                                    <option value="@category.Id">
+                                                                        @category.Name
+                                                                    </option>
+                                                                }
+                                                            }
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="pizzaOfWeek"
+                                                        class="col-sm-2 col-md-2 control-label">Create Date</label>
+                                                    <div class="col-sm-4">
+                                                        <input asp-for="@Model.pizza.CreatedAt" type="date"
+                                                            class="form-control" readonly />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="pizzaOfWeek"
+                                                        class="col-sm-2 col-md-2 control-label">Delete Date</label>
+                                                    <div class="col-sm-4">
+                                                        <input asp-for="@Model.pizza.DeletedAt" type="date"
+                                                            class="form-control" readonly />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <div class="tab-pane" id="product-edit-tabs-data">
+                                                <div class="form-group">
+                                                    <label for="product-model" class="col-sm-2 col-md-2 control-label">
+                                                        Model
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control" id="product-model"
+                                                            placeholder="Enter product model number" value=''>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="product-sku" class="col-sm-2 col-md-2 control-label">
+                                                        SKU
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control" id="product-sku"
+                                                            placeholder="Enter product SKU" value=''>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="product-location"
+                                                        class="col-sm-2 col-md-2 control-label">
+                                                        Location
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input type="text" class="form-control" id="product-location"
+                                                            placeholder="Where is this item located?" value=''>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="product-location"
+                                                        class="col-sm-2 col-md-2 control-label">
+                                                        Price
+                                                    </label>
+                                                    <div class="col-sm-2">
+                                                        <input type="text" class="form-control" id="product-price"
+                                                            placeholder="Format: $1234.56" value=''>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="product-tax"
+                                                        class="col-sm-2 col-md-2 control-label">Taxable</label>
+                                                    <div class="col-sm-1">
+                                                        <select id="product-tax" class="form-control">
+                                                            <option>Yes</option>
+                                                            <option>No</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="product-location"
+                                                        class="col-sm-2 col-md-2 control-label">
+                                                        Image
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <div class="product-image-preview">
+                                                                    <a href="#" data-toggle="modal"
+                                                                        data-target="#product-image-preview-1">
+                                                                        <img src="" width="150" height="150" alt="">
+                                                                    </a>
+                                                                    <p class="text-center">
+                                                                        <a href="#" data-toggle="modal"
+                                                                            data-target="#product-image-preview-1">
+                                                                            Change
+                                                                            Image
+                                                                        </a>
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- END Right Column -->
+
+    </div>
+    <!-- END Body Container -->
+    <!-- START: Modal -->
+    <div class="modal fade" id="product-image-preview-1" tabindex="-1" role="dialog"
+        aria-labelledby="product-image-preview-label-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="product-image-preview-label-1">Upload A New Image</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile"
+                                class="dropzone" id="customized-dropzone">
+                                <input type="text" asp-for="@Model.pizza.Id" hidden>
+                                <div class="dz-message">
+                                    <span class="icon icon-download-selection icon-size-large"></span>
+                                    <span class="main-text">Drop Your File Here</span>
+                                </div>
+                                <div class="fallback">
+                                    <input name="file" type="file" />
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-sm-6">
+                            <div id="customized-dropzone-results">
+                                <h3>Upload Results</h3>
+                                <p>The results of your uploads will be displayed here.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @if (@TempData["msg"] == "Add pizza successfully!!")
+                {
+                    <div class="modal-body" style="color: green; text-align: center; font-size: large;">
+                        @TempData["msg"]
+                    </div>
+                }
+                else
+                {
+                    <div class="modal-body" style="color: red; text-align: center;">
+                        @TempData["msg"]
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @if (@TempData["msg"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                $('#successModal').modal('show');
+
+                setTimeout(function () {
+                    $('#successModal').modal('hide');
+                }, 2500);
+            });
+        </script>
+    }
+    <!-- END: Modal -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Required JS Files -->
+    <script type="text/javascript" src="~/js/required/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="~/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="~/js/required/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/js/required/jquery.easing.1.3-min.js"></script>
+    <script type="text/javascript" src="~/js/required/jquery.mCustomScrollbar.min.js"></script>
+    <script type="text/javascript" src="~/js/required/misc/jquery.mousewheel-3.0.6.min.js"></script>
+    <script type="text/javascript" src="~/js/required/misc/retina.min.js"></script>
+    <script type="text/javascript" src="~/js/required/icheck.min.js"></script>
+    <script type="text/javascript" src="~/js/required/misc/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="~/js/required/circloid-functions.js"></script>
+
+    <!-- Optional JS Files -->
+    <script type="text/javascript" src="~/js/optional/misc/moment.js"></script>
+    <script type="text/javascript" src="~/js/optional/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="~/js/optional/ckeditor/ckeditor.js"></script>
+    <script type="text/javascript" src="~/js/optional/ckeditor/adapters/jquery.js"></script>
+    <!-- This jQuery Adapter is REQUIRED for CKEditor to function properly -->
+    <script type="text/javascript" src="~/js/optional/dropzone.min.js"></script>
+    <!-- add optional JS plugin files here -->
+    <!-- REQUIRED: User Editable JS Files -->
+    <script type="text/javascript" src="~/js/script.js"></script>
+    <!-- add additional User Editable files here -->
+    <!-- Demo JS Files -->
+    <script type="text/javascript" src="~/js/demo-files/ecommerce-product-edit.js"></script>
+    <script type="text/javascript" src="~/js/demo-files/form-file-upload.js"></script>
+</body>
+
+</html>

@@ -24,6 +24,7 @@ namespace Web_PizzaShop.Models
         public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<Pizza> Pizzas { get; set; } = null!;
         public virtual DbSet<PizzaIngredient> PizzaIngredients { get; set; } = null!;
+        public virtual DbSet<PizzaOption> PizzaOptions { get; set; } = null!;
         public virtual DbSet<PizzaOrder> PizzaOrders { get; set; } = null!;
         public virtual DbSet<Review> Reviews { get; set; } = null!;
         public virtual DbSet<Role> Roles { get; set; } = null!;
@@ -37,12 +38,12 @@ namespace Web_PizzaShop.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-			var config = new ConfigurationBuilder()
-					.SetBasePath(Directory.GetCurrentDirectory())
-					.AddJsonFile("appsettings.json")
-					.Build();
-			optionsBuilder.UseSqlServer(config.GetConnectionString("PRN221_DB"));
-		}
+            var config = new ConfigurationBuilder()
+                    .SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+            optionsBuilder.UseSqlServer(config.GetConnectionString("PRN221_DB"));
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -181,6 +182,33 @@ namespace Web_PizzaShop.Models
                     .HasForeignKey(d => d.PizzaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK__PizzaIngr__Pizza__5629CD9C");
+            });
+
+            modelBuilder.Entity<PizzaOption>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("Pizza_Option");
+
+                entity.Property(e => e.OptionId).ValueGeneratedOnAdd();
+
+                entity.HasOne(d => d.CakeBase)
+                    .WithMany()
+                    .HasForeignKey(d => d.CakeBaseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Pizza_Option_CakeBases");
+
+                entity.HasOne(d => d.Pizza)
+                    .WithMany()
+                    .HasForeignKey(d => d.PizzaId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Pizza_Option_Pizzas");
+
+                entity.HasOne(d => d.Size)
+                    .WithMany()
+                    .HasForeignKey(d => d.SizeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Pizza_Option_Sizes");
             });
 
             modelBuilder.Entity<PizzaOrder>(entity =>
