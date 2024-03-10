@@ -18,6 +18,8 @@ namespace Web_PizzaShop.Pages.Admin
         [BindProperty]
         public Pizza pizza { get; set; }
         public List<Category>? categories { get; set; }
+        public List<Size> sizes { get; set; }
+        public List<Size> pizza_sizes { get; set; }
         public ProductEditModel(IWebHostEnvironment webHostEnvironment, ILogger<ProductEditModel> logger, IAdminService service, PRN221_PRJContext context, IHubContext<HubService> hubContext)
         {
             this.webHostEnvironment = webHostEnvironment;
@@ -30,6 +32,8 @@ namespace Web_PizzaShop.Pages.Admin
         {
             pizza = await service.GetPizzaById(itemid);
             categories = await service.GetAllCategory();
+            sizes = await service.GetSizes();
+            pizza_sizes = await service.GetSizesByPizzaId(itemid);
         }
 
         public async Task OnPost()
@@ -38,8 +42,7 @@ namespace Web_PizzaShop.Pages.Admin
             bool success = await service.UpdatePizza(pizza, selectedCategoryId);
             if (success)
             {
-                pizza = await service.GetPizzaById(pizza.Id);
-                categories = await service.GetAllCategory();
+                await OnGet(pizza.Id);
                 await _hubContext.Clients.All.SendAsync("ReloadData");
                 TempData["msg"] = "Your changes have been saved successfully.";
             }
@@ -65,6 +68,50 @@ namespace Web_PizzaShop.Pages.Admin
             await context.SaveChangesAsync();
             await _hubContext.Clients.All.SendAsync("ReloadData");
             categories = await service.GetAllCategory();
+        }
+
+        public async Task OnPostAddSize()
+        {
+            int size = int.Parse(Request.Form["selectedSize"]);
+            sizes = await service.GetSizesByPizzaId(pizza.Id);
+            foreach (var size1 in sizes)
+            {
+                if (size == size1.Id)
+                {
+                    await OnGet(pizza.Id);
+                    TempData["msg"] = "Size already exist";
+                    break;
+                }
+            }
+            if (TempData["msg"] == null)
+            {
+                bool success = await service.AddPizzaSize(pizza.Id, size);
+                if (success)
+                {
+                    await OnGet(pizza.Id);
+                    await _hubContext.Clients.All.SendAsync("ReloadData");
+                    TempData["msg"] = "Add size successfully.";
+                }
+                else
+                {
+                    await OnGet(pizza.Id);
+                    TempData["msg"] = "Add size fail!!";
+                }
+            }
+        }
+
+        public async Task OnPostDeleteSize()
+        {   
+            int size = int.Parse(Request.Form["SizeIdDelete"]);
+            var PizzaDelete = await context.PizzaOptions.Where(po => po.SizeId == size && po.PizzaId == pizza.Id).ToListAsync();
+            foreach (var Pizza in PizzaDelete)
+            {
+                context.PizzaOptions.Remove(Pizza);
+            }
+            await context.SaveChangesAsync();
+            await OnGet(pizza.Id);
+            await _hubContext.Clients.All.SendAsync("ReloadData");
+            TempData["msg"] = "Delete size successfully.";
         }
     }
 }

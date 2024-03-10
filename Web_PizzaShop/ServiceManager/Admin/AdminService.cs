@@ -253,5 +253,45 @@ namespace Web_PizzaShop.ServiceManager.Admin
                 return false;
             }
         }
+
+        public async Task<List<Size>> GetSizes()
+        {
+            List<Size> sizes = await _dbContext.Sizes.ToListAsync();
+            return sizes;
+        }
+
+        public async Task<List<Size>> GetSizesByPizzaId(int pizzaid)
+        {
+            List<PizzaOption> pizzaOptions = await _dbContext.PizzaOptions.Where(pro => pro.PizzaId == pizzaid).ToListAsync();
+            List<Size> sizes = await GetSizes();
+            List<Size> sizepiiza = new List<Size>();
+            var sizeMap = sizes.ToDictionary(c => c.Id);
+            foreach (var pizza in pizzaOptions)
+            {
+                if (sizeMap.TryGetValue(pizza.SizeId, out var _size))
+                {
+                    sizepiiza.Add(_size);
+                }
+            }
+            sizepiiza = sizepiiza.Distinct().ToList();
+            return sizepiiza;
+        }
+
+        public async Task<bool> AddPizzaSize(int pizzaId, int sizeId)
+        {
+            try
+            {
+                List<CakeBasis> cakeBases = _dbContext.CakeBases.ToList();
+                int randomIndex = new Random().Next(cakeBases.Count);
+                CakeBasis cakeBasis = cakeBases[randomIndex];
+                await _dbContext.Database.ExecuteSqlInterpolatedAsync(
+                $"INSERT INTO Pizza_Option (PizzaId, SizeId, CakeBaseId) VALUES ({pizzaId}, {sizeId}, {cakeBasis.Id})");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 }

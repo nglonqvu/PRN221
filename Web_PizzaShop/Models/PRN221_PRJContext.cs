@@ -186,26 +186,24 @@ namespace Web_PizzaShop.Models
 
             modelBuilder.Entity<PizzaOption>(entity =>
             {
-                entity.HasNoKey();
+                entity.HasKey(e => e.OptionId);
 
                 entity.ToTable("Pizza_Option");
 
-                entity.Property(e => e.OptionId).ValueGeneratedOnAdd();
-
                 entity.HasOne(d => d.CakeBase)
-                    .WithMany()
+                    .WithMany(p => p.PizzaOptions)
                     .HasForeignKey(d => d.CakeBaseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Pizza_Option_CakeBases");
 
                 entity.HasOne(d => d.Pizza)
-                    .WithMany()
+                    .WithMany(p => p.PizzaOptions)
                     .HasForeignKey(d => d.PizzaId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Pizza_Option_Pizzas");
 
                 entity.HasOne(d => d.Size)
-                    .WithMany()
+                    .WithMany(p => p.PizzaOptions)
                     .HasForeignKey(d => d.SizeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Pizza_Option_Sizes");

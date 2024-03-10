@@ -12,7 +12,7 @@
     <!-- Demo CSS Files -->
     <link type="text/css" href="~/css/demo-files/ecommerce-product-edit.css" rel="stylesheet" />
     <link type="text/css" href="~/css/demo-files/form-file-upload.css" rel="stylesheet" />
-	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -77,7 +77,8 @@
 
                             <!-- START Main Buttons -->
                             <div class="page-heading-controls">
-                                <input class="btn btn-primary" role="button" type="submit" value="Save" id="saveButton" />
+                                <input class="btn btn-primary" role="button" type="submit" value="Save"
+                                    id="saveButton" />
                                 <a href="#" role="button" class="btn btn-info">Apply</a>
                                 <a href="ecommerce-product-list.html" role="button" class="btn btn-danger">Cancel</a>
                             </div>
@@ -92,209 +93,172 @@
                             <div class="block">
                                 <div class="block-content-outer">
                                     <div class="block-content-inner">
-                                        
-                                            <ul id="product-edit-tabs" class="nav nav-tabs tabs-alt-1">
-                                                <li class="active">
-                                                    <a href="#product-edit-tabs-general"
-                                                       data-toggle="tab">General</a>
-                                                </li>
-                                                <li><a href="#product-edit-tabs-data" data-toggle="tab">Data</a></li>
-                                            </ul>
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="product-edit-tabs-general">
-                                                    <div class="form-group">
-                                                        <label for="product-location"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            Image
-                                                        </label>
-                                                        <div class="col-sm-9">
-                                                            <div class="row">
-                                                                <div class="col-sm-3">
-                                                                    <div class="product-image-preview">
+
+                                        <ul id="product-edit-tabs" class="nav nav-tabs tabs-alt-1">
+                                            <li class="active">
+                                                <a href="#product-edit-tabs-general" data-toggle="tab">General</a>
+                                            </li>
+                                            <li><a href="#product-edit-tabs-data" data-toggle="tab">Data</a></li>
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div class="tab-pane active" id="product-edit-tabs-general">
+                                                <div class="form-group">
+                                                    <label for="product-location"
+                                                        class="col-sm-2 col-md-2 control-label">
+                                                        Image
+                                                    </label>
+                                                    <div class="col-sm-9">
+                                                        <div class="row">
+                                                            <div class="col-sm-3">
+                                                                <div class="product-image-preview">
+                                                                    <a href="#" data-toggle="modal"
+                                                                        data-target="#product-image-preview-1">
+                                                                        <img src=".../wwwroot/images/pizzas/Pizza_Thit_Va_Xuc_Xich_400x275.jpg"
+                                                                            width="150" height="150" alt="">
+                                                                    </a>
+                                                                    <p class="text-center">
                                                                         <a href="#" data-toggle="modal"
-                                                                           data-target="#product-image-preview-1">
-                                                                            <img src=".../wwwroot/images/pizzas/Pizza_Thit_Va_Xuc_Xich_400x275.jpg"
-                                                                                 width="150" height="150" alt="">
+                                                                            data-target="#product-image-preview-1">
+                                                                            Change
+                                                                            Image
                                                                         </a>
-                                                                        <p class="text-center">
-                                                                            <a href="#"
-                                                                               data-toggle="modal"
-                                                                               data-target="#product-image-preview-1">
-                                                                                Change
-                                                                                Image
-                                                                            </a>
-                                                                        </p>
-                                                                    </div>
+                                                                    </p>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="product-name"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            Pizza Name
-                                                            <span class="required-item">*</span>
-                                                        </label>
-                                                        <div class="col-sm-4">
-                                                            <input asp-for="@Model.pizza.Name" type="text"
-                                                                   class="form-control" id="product-name"
-                                                                   placeholder="Pizza Name">
-                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="product-name" class="col-sm-2 col-md-2 control-label">
+                                                        Pizza Name
+                                                        <span class="required-item">*</span>
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input asp-for="@Model.pizza.Name" type="text"
+                                                            class="form-control" id="product-name"
+                                                            placeholder="Pizza Name">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="meta-desc" class="col-sm-2 col-md-2 control-label">
-                                                            Description
-                                                        </label>
-                                                        <div class="col-sm-4">
-                                                            <textarea asp-for="@Model.pizza.Description"
-                                                                      class="form-control" id="meta-desc" rows="4"
-                                                                      placeholder="This will be shows as your product description in search engines"></textarea>
-                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="meta-desc" class="col-sm-2 col-md-2 control-label">
+                                                        Description
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <textarea asp-for="@Model.pizza.Description"
+                                                            class="form-control" id="meta-desc" rows="4"
+                                                            placeholder="This will be shows as your product description in search engines"></textarea>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="meta-keywords"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            Price
-                                                        </label>
-                                                        <div class="col-sm-4">
-                                                            <input asp-for="@Model.pizza.Price" type="number"
-                                                                   class="form-control" id="product-name"
-                                                                   placeholder="Pizza Price">
-                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="meta-keywords" class="col-sm-2 col-md-2 control-label">
+                                                        Price
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input asp-for="@Model.pizza.Price" type="number"
+                                                            class="form-control" id="product-name"
+                                                            placeholder="Pizza Price">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="meta-keywords"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            Hot
-                                                        </label>
-                                                        <div class="col-sm-4">
-                                                            <input class="form-check-input"
-                                                                   asp-for="@Model.pizza.IsPizzaOfTheWeek" type="checkbox">
-                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="meta-keywords" class="col-sm-2 col-md-2 control-label">
+                                                        Hot
+                                                    </label>
+                                                    <div class="col-sm-4">
+                                                        <input class="form-check-input"
+                                                            asp-for="@Model.pizza.IsPizzaOfTheWeek" type="checkbox">
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label class="col-sm-2 col-md-2 control-label">Category</label>
-                                                        <div class="col-sm-4">
-                                                            <select class="form-control" name="CategoryId">
-                                                                @{
-                                                                    foreach (var category in Model.categories)
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 col-md-2 control-label">Category</label>
+                                                    <div class="col-sm-4">
+                                                        <select class="form-control" name="CategoryId">
+                                                            @{
+                                                                foreach (var category in Model.categories)
+                                                                {
+                                                                    if (category.Id == Model.pizza.CategoriesId)
                                                                     {
-                                                                        if (category.Id == Model.pizza.CategoriesId)
-                                                                        {
-                                                                            <option value="@category.Id" selected>
-                                                                                @category.Name
-                                                                            </option>
-                                                                        }
-                                                                        else
-                                                                        {
-                                                                            <option value="@category.Id">
-                                                                                @category.Name
-                                                                            </option>
-                                                                        }
+                                                                        <option value="@category.Id" selected>
+                                                                            @category.Name
+                                                                        </option>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <option value="@category.Id">
+                                                                            @category.Name
+                                                                        </option>
                                                                     }
                                                                 }
-                                                            </select>
-                                                        </div>
+                                                            }
+                                                        </select>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <label for="pizzaOfWeek"
-                                                               class="col-sm-2 col-md-2 control-label">Create Date</label>
-                                                        <div class="col-sm-4">
-                                                            <input asp-for="@Model.pizza.CreatedAt" type="date"
-                                                                   class="form-control" readonly />
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="pizzaOfWeek"
-                                                               class="col-sm-2 col-md-2 control-label">Delete Date</label>
-                                                        <div class="col-sm-4">
-                                                            <input asp-for="@Model.pizza.DeletedAt" type="date"
-                                                                   class="form-control" readonly />
-                                                        </div>
-                                                    </div>
-
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="pizzaOfWeek"
+                                                        class="col-sm-2 col-md-2 control-label">Create Date</label>
+                                                    <div class="col-sm-4">
+                                                        <input asp-for="@Model.pizza.CreatedAt" type="date"
+                                                            class="form-control" readonly />
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="pizzaOfWeek"
+                                                        class="col-sm-2 col-md-2 control-label">Delete Date</label>
+                                                    <div class="col-sm-4">
+                                                        <input asp-for="@Model.pizza.DeletedAt" type="date"
+                                                            class="form-control" readonly />
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <form id="deleteForm" method="post">
                                                 <div class="tab-pane" id="product-edit-tabs-data">
                                                     <div class="form-group">
-                                                        <label for="product-model"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            Model
-                                                        </label>
-                                                        <div class="col-sm-4">
-                                                            <input type="text" class="form-control" id="product-model"
-                                                                   placeholder="Enter product model number" value=''>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="product-sku"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            SKU
-                                                        </label>
-                                                        <div class="col-sm-4">
-                                                            <input type="text" class="form-control" id="product-sku"
-                                                                   placeholder="Enter product SKU" value=''>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="product-location"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            Location
-                                                        </label>
-                                                        <div class="col-sm-4">
-                                                            <input type="text" class="form-control"
-                                                                   id="product-location"
-                                                                   placeholder="Where is this item located?" value=''>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="product-location"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            Price
-                                                        </label>
-                                                        <div class="col-sm-2">
-                                                            <input type="text" class="form-control" id="product-price"
-                                                                   placeholder="Format: $1234.56" value=''>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="product-tax"
-                                                               class="col-sm-2 col-md-2 control-label">Taxable</label>
-                                                        <div class="col-sm-1">
-                                                            <select id="product-tax" class="form-control">
-                                                                <option>Yes</option>
-                                                                <option>No</option>
-                                                            </select>
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="product-location"
-                                                               class="col-sm-2 col-md-2 control-label">
-                                                            Image
-                                                        </label>
-                                                        <div class="col-sm-9">
-                                                            <div class="row">
-                                                                <div class="col-sm-3">
-                                                                    <div class="product-image-preview">
-                                                                        <a href="#" data-toggle="modal"
-                                                                           data-target="#product-image-preview-1">
-                                                                            <img src=""
-                                                                                 width="150" height="150" alt="">
-                                                                        </a>
-                                                                        <p class="text-center">
-                                                                            <a href="#"
-                                                                               data-toggle="modal"
-                                                                               data-target="#product-image-preview-1">
-                                                                                Change
-                                                                                Image
-                                                                            </a>
-                                                                        </p>
+                                                        <label for="selectedSize"
+                                                            class="col-sm-2 col-md-2 control-label">Size</label>
+                                                        <div style="display: flex;">
+                                                                <div class="col-sm-4">
+                                                                    <select id="selectedSize" name="selectedSize" class="form-control">
+                                                                        @foreach (var size in Model.sizes)
+                                                                        {
+                                                                            <option value="@size.Id">@size.Size1</option>
+                                                                        }
+                                                                    </select>
+                                                                </div>
+                                                                <div>
+                                                                    <div class="col-sm-offset-2 col-sm-10">
+                                                                        <button type="submit" asp-page-handler="AddSize" class="btn btn-primary"
+                                                                            id="addSizeBtn">Add</button>
                                                                     </div>
                                                                 </div>
-                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <table class="table">
+                                                        <thead>
+                                                            <tr>
+                                                                <th class="text-center col-xs-1">Size</th>
+                                                                <th class="text-center col-xs-1">Price</th>
+                                                                <th class="text-center col-xs-1">Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach (var size in Model.pizza_sizes)
+                                                            {
+                                                                <tr>
+                                                                    <input id="SizeIdDelete" name="SizeIdDelete" type="text" hidden>
+                                                                    <td class="text-center col-xs-1" data-size-id="@size.Id">@size.Size1</td>
+                                                                    <td class="text-center col-xs-1">@String.Format("{0:N0} đ", size.PriceSize)</td>
+                                                                    <td class="text-center col-xs-1">
+                                                                        <button type="submit" class="btn btn-danger delete-btn" asp-page-handler="DeleteSize">
+                                                                            Delete
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            }
+                                                        </tbody>
+                                                    </table>
                                                 </div>
-                                            </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -310,7 +274,7 @@
     <!-- END Body Container -->
     <!-- START: Modal -->
     <div class="modal fade" id="product-image-preview-1" tabindex="-1" role="dialog"
-         aria-labelledby="product-image-preview-label-1" aria-hidden="true">
+        aria-labelledby="product-image-preview-label-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -321,7 +285,7 @@
                     <div class="row">
                         <div class="col-sm-6">
                             <form method="post" enctype="multipart/form-data" asp-page-handler="UploadFile"
-                                  class="dropzone" id="customized-dropzone">
+                                class="dropzone" id="customized-dropzone">
                                 <input type="text" asp-for="@Model.pizza.Id" hidden>
                                 <div class="dz-message">
                                     <span class="icon icon-download-selection icon-size-large"></span>
@@ -343,33 +307,50 @@
             </div>
         </div>
     </div>
-	<div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content">
-				@if(@TempData["msg"] == "Your changes have been saved successfully."){
-				<div class="modal-body" style="color: green; text-align: center; font-size: large;">
-					@TempData["msg"]
-				</div>
-				}
-				else{
-					<div class="modal-body" style="color: red; text-align: center;">
-					@TempData["msg"]
-				</div>
-				}
-			</div>
-		</div>
-	</div>
-	@if(@TempData["msg"] != null){
-    <script>
-        $(document).ready(function () {
-            $('#successModal').modal('show');
+    <div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                @if (@TempData["msg"] == "Your changes have been saved successfully." || @TempData["msg"] == "Add size successfully.")
+                {
+                    <div class="modal-body" style="color: green; text-align: center; font-size: large;">
+                        @TempData["msg"]
+                    </div>
+                }
+                else
+                {
+                    <div class="modal-body" style="color: red; text-align: center;">
+                        @TempData["msg"]
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    @if (@TempData["msg"] != null)
+    {
+        <script>
+            $(document).ready(function () {
+                $('#successModal').modal('show');
 
-            setTimeout(function () {
-                $('#successModal').modal('hide');
-            }, 2500);
+                setTimeout(function () {
+                    $('#successModal').modal('hide');
+                }, 2500);
+            });
+        </script>
+    }
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    var deleteButtons = document.querySelectorAll('.delete-btn');
+
+    deleteButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var sizeId = button.closest('tr').querySelector('[data-size-id]').getAttribute('data-size-id');
+            document.getElementById('SizeIdDelete').value = sizeId;
         });
-    </script>
-	}
+    });
+});
+</script>
     <!-- END: Modal -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- Required JS Files -->

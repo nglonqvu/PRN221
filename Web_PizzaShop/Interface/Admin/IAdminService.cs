@@ -13,5 +13,8 @@ namespace Web_PizzaShop.Interface.Admin
         Task<Pizza> GetPizzaById(int id);
         Task<bool> UpdatePizza(Pizza pizza, int categoryid);
         Task<bool> AddPizza(Pizza pizza, int categoryId);
+        Task<List<Size>> GetSizes();
+        Task<List<Size>> GetSizesByPizzaId(int pizzaid);
+        Task<bool> AddPizzaSize(int pizzaId, int sizeId);
     }
 }
