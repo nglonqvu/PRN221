@@ -34,15 +34,16 @@ namespace Web_PizzaShop.Models
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
         public virtual DbSet<SupplierContract> SupplierContracts { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
+        public virtual DbSet<UserRole> UserRoles { get; set; } = null!;
         public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-            optionsBuilder.UseSqlServer(config.GetConnectionString("PRN221_DB"));
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=DESKTOP-BGPFEMJ;uid=sa;pwd=123456;database=PRN221_PRJ;TrustServerCertificate=true");
+            }
         }
 
 
@@ -138,7 +139,7 @@ namespace Web_PizzaShop.Models
                     .WithMany(p => p.OrderDetails)
                     .HasForeignKey(d => d.OrderId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderDeta__Order__52593CB8");
+                    .HasConstraintName("FK__OrderDeta__Order__48CFD27E");
             });
 
             modelBuilder.Entity<Pizza>(entity =>
@@ -176,7 +177,7 @@ namespace Web_PizzaShop.Models
                     .WithMany(p => p.PizzaIngredients)
                     .HasForeignKey(d => d.IngredientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PizzaIngr__Ingre__5535A963");
+                    .HasConstraintName("FK__PizzaIngr__Ingre__5165187F");
 
                 entity.HasOne(d => d.Pizza)
                     .WithMany(p => p.PizzaIngredients)
@@ -317,7 +318,7 @@ namespace Web_PizzaShop.Models
                 entity.HasOne(d => d.Supplier)
                     .WithMany(p => p.SupplierContracts)
                     .HasForeignKey(d => d.SupplierId)
-                    .HasConstraintName("FK__SupplierC__Suppl__5DCAEF64");
+                    .HasConstraintName("FK__SupplierC__Suppl__5812160E");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -329,27 +330,33 @@ namespace Web_PizzaShop.Models
                 entity.Property(e => e.Email).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
+            });
 
-                entity.HasMany(d => d.Roles)
-                    .WithMany(p => p.Users)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "UserRole",
-                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__RoleI__5EBF139D"),
-                        r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__UserI__5FB337D6"),
-                        j =>
-                        {
-                            j.HasKey("UserId", "RoleId").HasName("PK__UserRole__AF2760ADC2AAD719");
+            modelBuilder.Entity<UserRole>(entity =>
+            {
+                entity.HasKey(e => e.UserId);
 
-                            j.ToTable("UserRoles");
+                entity.HasIndex(e => e.RoleId, "IX_AspNetUserRoles_RoleId");
 
-                            j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
-                        });
+                entity.Property(e => e.UserId).ValueGeneratedNever();
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.UserRoles)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__UserRoles__RoleI__59063A47");
+
+                entity.HasOne(d => d.User)
+                    .WithOne(p => p.UserRole)
+                    .HasForeignKey<UserRole>(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__UserRoles__UserI__5FB337D6");
             });
 
             modelBuilder.Entity<UserToken>(entity =>
             {
                 entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name })
-                    .HasName("PK__UserToke__8CC49841610AC1CC");
+                    .HasName("PK__UserToke__8CC498415B9A5543");
 
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.UserTokens)

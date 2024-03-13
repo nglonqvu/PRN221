@@ -11,7 +11,7 @@ namespace Web_PizzaShop.Models
         public int Grade { get; set; }
         public int PizzaId { get; set; }
         public string Title { get; set; } = null!;
-        public string? UserId { get; set; }
+        public int? UserId { get; set; }
 
         public virtual Pizza Pizza { get; set; } = null!;
         public virtual User? User { get; set; }
