@@ -23,7 +23,7 @@ namespace Web_PizzaShop.Models
         public string PhoneNumber { get; set; } = null!;
         public string? State { get; set; }
         public string ZipCode { get; set; } = null!;
-        public string? UserId { get; set; }
+        public int? UserId { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 

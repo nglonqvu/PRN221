@@ -3,13 +3,12 @@ using System.Collections.Generic;
 
 namespace Web_PizzaShop.Models
 {
-    public partial class UserToken
+    public partial class UserRole
     {
         public int UserId { get; set; }
-        public string LoginProvider { get; set; } = null!;
-        public string Name { get; set; } = null!;
-        public string? Value { get; set; }
+        public int RoleId { get; set; }
 
+        public virtual Role Role { get; set; } = null!;
         public virtual User User { get; set; } = null!;
     }
 }

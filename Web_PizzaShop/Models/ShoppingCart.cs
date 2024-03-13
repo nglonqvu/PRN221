@@ -11,7 +11,7 @@ namespace Web_PizzaShop.Models
         }
 
         public int Id { get; set; }
-        public string UserId { get; set; } = null!;
+        public int UserId { get; set; }
 
         public virtual User User { get; set; } = null!;
         public virtual ICollection<ShoppingCartItem> ShoppingCartItems { get; set; }
