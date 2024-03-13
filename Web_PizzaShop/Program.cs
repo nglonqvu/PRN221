@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using System;
 using Web_PizzaShop.Hubs;
 using Web_PizzaShop.Interface.Admin;
@@ -13,6 +14,8 @@ builder.Services.AddSignalR();
 builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(15));
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddDbContext<PRN221_PRJContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("PRN221_DB")));
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+builder.Services.AddMvc();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -24,7 +27,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseCors("BTP_CORS");
 app.UseRouting();
 
 app.UseAuthorization();

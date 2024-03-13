@@ -16,5 +16,7 @@ namespace Web_PizzaShop.Interface.Admin
         Task<List<Size>> GetSizes();
         Task<List<Size>> GetSizesByPizzaId(int pizzaid);
         Task<bool> AddPizzaSize(int pizzaId, int sizeId);
+        Task<List<CakeBasis>> GetCakeBasisBySizePizza(int pid, int sid);
+        Task<bool> AddCakeBase(int pid, int sid, int cbid);
     }
 }

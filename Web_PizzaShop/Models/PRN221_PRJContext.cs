@@ -45,6 +45,7 @@ namespace Web_PizzaShop.Models
             optionsBuilder.UseSqlServer(config.GetConnectionString("PRN221_DB"));
         }
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<CakeBasis>(entity =>

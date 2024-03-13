@@ -284,12 +284,51 @@ namespace Web_PizzaShop.ServiceManager.Admin
                 List<CakeBasis> cakeBases = _dbContext.CakeBases.ToList();
                 int randomIndex = new Random().Next(cakeBases.Count);
                 CakeBasis cakeBasis = cakeBases[randomIndex];
-                await _dbContext.Database.ExecuteSqlInterpolatedAsync(
-                $"INSERT INTO Pizza_Option (PizzaId, SizeId, CakeBaseId) VALUES ({pizzaId}, {sizeId}, {cakeBasis.Id})");
+                PizzaOption pizzaOption = new PizzaOption(){
+                    CakeBaseId = cakeBasis.Id,
+                    PizzaId = pizzaId,
+                    SizeId = sizeId
+                };
+                await _dbContext.PizzaOptions.AddAsync(pizzaOption);
+                await _dbContext.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch
             {
+                return false;
+            }
+        }
+
+        public async Task<List<CakeBasis>> GetCakeBasisBySizePizza(int pid, int sid)
+        {
+            List<int> CakeBaseIds = new List<int>();
+            List<PizzaOption> pizzaOptions = await _dbContext.PizzaOptions.Where(po => po.PizzaId == pid && po.SizeId == sid).ToListAsync();
+            if (pizzaOptions == null)
+            {
+                return null;
+            }
+            foreach (var PizzaOption in pizzaOptions)
+            {
+                CakeBaseIds.Add(PizzaOption.CakeBaseId);
+            }
+            List<CakeBasis> selectedProducts = await _dbContext.CakeBases
+            .Where(cb => CakeBaseIds.Contains(cb.Id))
+            .ToListAsync();
+            return selectedProducts;
+        }
+
+        public async Task<bool> AddCakeBase(int pid, int sid, int cbid){
+            try{
+            PizzaOption pizzaOption = new PizzaOption(){
+                PizzaId = pid,
+                SizeId = sid,
+                CakeBaseId = cbid
+            };
+            _dbContext.PizzaOptions.Add(pizzaOption);
+            await _dbContext.SaveChangesAsync();
+            return true;
+            }
+            catch{
                 return false;
             }
         }
