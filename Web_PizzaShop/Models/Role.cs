@@ -7,12 +7,12 @@ namespace Web_PizzaShop.Models
     {
         public Role()
         {
-            UserRoles = new HashSet<UserRole>();
+            Users = new HashSet<User>();
         }
 
         public int Id { get; set; }
         public string? Name { get; set; }
 
-        public virtual ICollection<UserRole> UserRoles { get; set; }
+        public virtual ICollection<User> Users { get; set; }
     }
 }

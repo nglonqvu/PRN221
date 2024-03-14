@@ -8,6 +8,7 @@ namespace Web_PizzaShop.Models
         public Order()
         {
             OrderDetails = new HashSet<OrderDetail>();
+            PizzaOrders = new HashSet<PizzaOrder>();
         }
 
         public int OrderId { get; set; }
@@ -29,5 +30,6 @@ namespace Web_PizzaShop.Models
 
         public virtual User? User { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<PizzaOrder> PizzaOrders { get; set; }
     }
 }

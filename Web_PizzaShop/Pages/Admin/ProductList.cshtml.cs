@@ -74,8 +74,12 @@ namespace Web_PizzaShop.Pages.Admin
         {
             string _selectedIds = Request.Form["selectedPizzaIds"];
             var selectedIds = _selectedIds.Split(',').Select(int.Parse).ToList();
-
+            var optiontoDelete = await context.PizzaOptions.Where(p => selectedIds.Contains(p.PizzaId)).ToListAsync();
             var pizzasToDelete = await context.Pizzas.Where(p => selectedIds.Contains(p.Id)).ToListAsync();
+            foreach (var option in optiontoDelete)
+            {
+                context.PizzaOptions.Remove(option);
+            }
 
             foreach (var pizza in pizzasToDelete)
             {

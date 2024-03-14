@@ -5,6 +5,7 @@ namespace Web_PizzaShop.Models
 {
     public partial class PizzaOrder
     {
+        public int PiOrderId { get; set; }
         public int OrderId { get; set; }
         public int PizzaId { get; set; }
         public int? SizeId { get; set; }

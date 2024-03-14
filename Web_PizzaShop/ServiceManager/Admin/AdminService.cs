@@ -18,7 +18,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
             List<Category> categories = await GetAllCategory();
             var categoryMap = categories.ToDictionary(c => c.Id);
 
-            var query = _dbContext.Pizzas.Skip((currentPage - 1) * item_per_page)
+            var query = _dbContext.Pizzas.OrderByDescending(pizza => pizza.CreatedAt).Skip((currentPage - 1) * item_per_page)
                                           .Take(item_per_page);
 
             List<Pizza> pizzas = await query.ToListAsync();
@@ -94,7 +94,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
                     }
                 }
             }
-            var filteredPizzas = await query.ToListAsync();
+            var filteredPizzas = await query.OrderByDescending(pizza => pizza.CreatedAt).ToListAsync();
             return filteredPizzas.Count();
         }
 
@@ -162,7 +162,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
             query = query.Skip((currentPage - 1) * itemsPerPage)
                          .Take(itemsPerPage);
 
-            List<Pizza> filteredPizzas = await query.ToListAsync();
+            List<Pizza> filteredPizzas = await query.OrderByDescending(pizza => pizza.CreatedAt).ToListAsync();
             List<Category> categories = await GetAllCategory();
             var categoryMap = categories.ToDictionary(c => c.Id);
             foreach (var pizza in filteredPizzas)
@@ -178,7 +178,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
 
         public async Task<List<Category>> GetAllCategory()
         {
-            List<Category> categories = await _dbContext.Categories.ToListAsync();
+            List<Category> categories = await _dbContext.Categories.OrderBy(cate => cate.Id).ToListAsync();
             return categories;
         }
 
@@ -262,7 +262,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
 
         public async Task<List<Size>> GetSizesByPizzaId(int pizzaid)
         {
-            List<PizzaOption> pizzaOptions = await _dbContext.PizzaOptions.Where(pro => pro.PizzaId == pizzaid).ToListAsync();
+            List<PizzaOption> pizzaOptions = await _dbContext.PizzaOptions.Where(pro => pro.PizzaId == pizzaid).OrderBy(pro => pro.SizeId).ToListAsync();
             List<Size> sizes = await GetSizes();
             List<Size> sizepiiza = new List<Size>();
             var sizeMap = sizes.ToDictionary(c => c.Id);
@@ -289,7 +289,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
                     PizzaId = pizzaId,
                     SizeId = sizeId
                 };
-                await _dbContext.PizzaOptions.AddAsync(pizzaOption);
+                _dbContext.PizzaOptions.Add(pizzaOption);
                 await _dbContext.SaveChangesAsync();
                 return true;
             }

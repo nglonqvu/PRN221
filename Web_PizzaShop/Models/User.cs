@@ -11,6 +11,7 @@ namespace Web_PizzaShop.Models
             Reviews = new HashSet<Review>();
             ShoppingCarts = new HashSet<ShoppingCart>();
             UserTokens = new HashSet<UserToken>();
+            Roles = new HashSet<Role>();
         }
 
         public int Id { get; set; }
@@ -24,10 +25,11 @@ namespace Web_PizzaShop.Models
         public string? UserName { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public virtual UserRole? UserRole { get; set; }
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
         public virtual ICollection<ShoppingCart> ShoppingCarts { get; set; }
         public virtual ICollection<UserToken> UserTokens { get; set; }
+
+        public virtual ICollection<Role> Roles { get; set; }
     }
 }

@@ -56,52 +56,34 @@ namespace Web_PizzaShop.Pages.Admin
             }
         }
 
-        public async Task OnPostUploadFile(IFormFile file)
+        public async Task OnPostAddSize()
         {
-            if (file != null && file.Length > 0)
+            int size = int.Parse(Request.Form["selectedSize"]);
+            sizes = await service.GetSizesByPizzaId(pizza.Id);
+            foreach (var size1 in sizes)
             {
-                var filePath = Path.Combine(webHostEnvironment.WebRootPath + "/images/pizzas", file.FileName);
-                Console.WriteLine(filePath);
-                using (var stream = new FileStream(filePath, FileMode.Create))
+                if (size == size1.Id)
                 {
-                    await file.CopyToAsync(stream);
+                    await OnGet(pizza.Id);
+                    TempData["msg"] = "Size already exist";
+                    break;
                 }
             }
-            pizza = await service.GetPizzaById(pizza.Id);
-            pizza.ImageUrl = file.FileName;
-            await context.SaveChangesAsync();
-            await _hubContext.Clients.All.SendAsync("ReloadData");
-            categories = await service.GetAllCategory();
-        }
-
-        public async Task<IActionResult> OnPostAddSize()
-        {
-            if (int.TryParse(Request.Form["sizeId"], out int sizeId))
+            if (TempData["msg"] == null)
             {
-                sizes = await service.GetSizesByPizzaId(pizza.Id);
-                foreach (var size1 in sizes)
+                bool success = await service.AddPizzaSize(pizza.Id, size);
+                if (success)
                 {
-                    if (sizeId == size1.Id)
-                    {
-                        return BadRequest("Invalid sizeId");
-                    }
-                }
-                if (await service.AddPizzaSize(pizza.Id, sizeId))
-                {
-                    List<Size> _sizes = await service.GetSizesByPizzaId(pizza.Id);
-
-                    var jsonSerializerOptions = new JsonSerializerOptions
-                    {
-                        ReferenceHandler = ReferenceHandler.Preserve,
-                    };
-                    return new JsonResult(_sizes, jsonSerializerOptions);
+                    await OnGet(pizza.Id);
+                    await _hubContext.Clients.All.SendAsync("ReloadData");
+                    TempData["msg"] = "Add size successfully.";
                 }
                 else
                 {
-                    return BadRequest("Invalid sizeId");
+                    await OnGet(pizza.Id);
+                    TempData["msg"] = "Add size fail!!";
                 }
             }
-            return BadRequest("Invalid sizeId");
         }
 
         public async Task OnPostDeleteSize()
@@ -170,6 +152,25 @@ namespace Web_PizzaShop.Pages.Admin
                 return new JsonResult(cakeBases, jsonSerializerOptions);
             }
             return BadRequest("Invalid optionId");
+        }
+    
+        public async Task OnPostUploadFile(IFormFile file)
+        {
+            if (file != null && file.Length > 0)
+            {
+                byte[] imageData;
+                using (var stream = new MemoryStream())
+                {
+                    await file.CopyToAsync(stream);
+                    imageData = stream.ToArray();
+                }
+                var base64String = Convert.ToBase64String(imageData);
+                var _pizza = await service.GetPizzaById(pizza.Id);
+                _pizza.ImageUrl = base64String;
+                await context.SaveChangesAsync();
+                await _hubContext.Clients.All.SendAsync("ReloadData");
+                await OnGet(pizza.Id);
+            }
         }
     }
 }

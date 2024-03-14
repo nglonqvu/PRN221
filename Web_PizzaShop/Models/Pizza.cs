@@ -9,6 +9,7 @@ namespace Web_PizzaShop.Models
         {
             PizzaIngredients = new HashSet<PizzaIngredient>();
             PizzaOptions = new HashSet<PizzaOption>();
+            PizzaOrders = new HashSet<PizzaOrder>();
             Reviews = new HashSet<Review>();
         }
 
@@ -25,6 +26,7 @@ namespace Web_PizzaShop.Models
         public virtual Category Categories { get; set; } = null!;
         public virtual ICollection<PizzaIngredient> PizzaIngredients { get; set; }
         public virtual ICollection<PizzaOption> PizzaOptions { get; set; }
+        public virtual ICollection<PizzaOrder> PizzaOrders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }
     }
 }
