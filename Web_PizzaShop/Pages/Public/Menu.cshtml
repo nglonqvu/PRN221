@@ -1,5 +1,6 @@
 ﻿@page
 @model Web_PizzaShop.Pages.Public.MenuModel
+@Html.AntiForgeryToken()
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,260 +57,95 @@
 		<div class="container-wrap">
     <div class="row">
 	@foreach(var pizza in @Model._pizzaViewModels){
-        @* <div class="col-lg-4 ftco-animate center">
+        <div id="pizza-@pizza.Id"  class="col-lg-4 ftco-animate center">
 			<div class="services-wrap">
 				<img src="data:image/jpeg;base64,@pizza.ImageUrl" style="width:100%" class="img" alt=""/>
 			</div>
 			<div class="text p-4">
 				<p style="font-size: 16px; font-weight: bold; color: white">@pizza.Name</p>
-					<div class="text p-4 description-content">
-						<h3>Description</h3>
-						<p>@pizza.Description</p>
-						<button class="btn btn-link view-more-description">View More</button>
-					</div>
 				<p>@pizza.Description</p>
-				<button class="btn btn-link view-more-description">View More</button>
-				<select name="size" id="size">
-						<option value="regular"></option>
+				<select name="size" id="size-@pizza.Id" style="width: 300px;" onchange="handleSizeChange('@pizza.Id')">
+					@foreach (var pizzaViewModel in @pizza.Sizes)
+					{
+						<option value="@pizzaViewModel.Id">@pizzaViewModel.Size1</option>
+					}
 				</select>
-				<button class="ml-2 btn btn-white btn-outline-white">Add to Cart</button>
+				<br><br>
+				<select name="cakebase" id="cakebase-@pizza.Id" style="width: 300px;" onchange="handleCakeBaseChange('@pizza.Id')">
+					@foreach (var pizzaViewModel in @pizza.CakeBases)
+					{
+						<option value="@pizzaViewModel.Id">@pizzaViewModel.CakeBase</option>
+					}
+				</select>
+				<br><br>
+				<button id="addtocart-@pizza.Id" class="btn btn-white btn-outline-white">Add to Cart &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; @String.Format("{0:N0} đ", pizza.Total)</button>
 			</div>
-		</div> *@
+		</div>
 	}
     </div>
 </div>
-	<div class="container">
-		<div class="row justify-content-center mb-5 pb-3 mt-5 pt-5">
-			<div class="col-md-7 heading-section text-center ftco-animate">
-				<h2 class="mb-4">Our Menu Pricing</h2>
-				<p class="flip"><span class="deg1"></span><span class="deg2"></span><span class="deg3"></span></p>
-				<p class="mt-5">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6">
-				<div class="pricing-entry d-flex ftco-animate">
-					<div class="img" style=""></div>
-					<div class="desc pl-3">
-						<div class="d-flex text align-items-center">
-							<h3><span>Italian Pizza</span></h3>
-							<span class="price">$20.00</span>
-						</div>
-						<div class="d-block">
-							<p>A small river named Duden flows by their place and supplies</p>
-						</div>
-					</div>
-				</div>
-				<div class="pricing-entry d-flex ftco-animate">
-					<div class="img" style=""></div>
-					<div class="desc pl-3">
-						<div class="d-flex text align-items-center">
-							<h3><span>Hawaiian Pizza</span></h3>
-							<span class="price">$29.00</span>
-						</div>
-						<div class="d-block">
-							<p>A small river named Duden flows by their place and supplies</p>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-
-			<div class="col-md-6">
-				<div class="pricing-entry d-flex ftco-animate">
-					<div class="img" style=""></div>
-					<div class="desc pl-3">
-						<div class="d-flex text align-items-center">
-							<h3><span>Hawaiian Special</span></h3>
-							<span class="price">$49.91</span>
-						</div>
-						<div class="d-block">
-							<p>A small river named Duden flows by their place and supplies</p>
-						</div>
-					</div>
-				</div>
-				<div class="pricing-entry d-flex ftco-animate">
-					<div class="img" style=""></div>
-					<div class="desc pl-3">
-						<div class="d-flex text align-items-center">
-							<h3><span>Ultimate Overload</span></h3>
-							<span class="price">$20.00</span>
-						</div>
-						<div class="d-block">
-							<p>A small river named Duden flows by their place and supplies</p>
-						</div>
-					</div>
-				</div>
-				
-			</div>
-		</div>
-	</div>
 </section>
-
-	<section class="ftco-menu">
-		<div class="container-fluid">
-			<div class="row d-md-flex">
-				<div class="col-lg-4 ftco-animate img f-menu-img mb-5 mb-md-0" style="">
-				</div>
-				<div class="col-lg-8 ftco-animate p-md-5">
-					<div class="row">
-						<div class="col-md-12 nav-link-wrap mb-5">
-							<div class="nav ftco-animate nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-								<a class="nav-link active" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Pizza</a>
-
-								<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Drinks</a>
-
-								<a class="nav-link" id="v-pills-3-tab" data-toggle="pill" href="#v-pills-3" role="tab" aria-controls="v-pills-3" aria-selected="false">Burgers</a>
-
-								<a class="nav-link" id="v-pills-4-tab" data-toggle="pill" href="#v-pills-4" role="tab" aria-controls="v-pills-4" aria-selected="false">Pasta</a>
-							</div>
-						</div>
-						<div class="col-md-12 d-flex align-items-center">
-
-							<div class="tab-content ftco-animate" id="v-pills-tabContent">
-
-								<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-1-tab">
-									<div class="row">
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Itallian Pizza</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Itallian Pizza</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-										
-									</div>
-								</div>
-
-								<div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-2-tab">
-									<div class="row">
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Lemonade Juice</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Pineapple Juice</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-										
-									</div>
-								</div>
-
-								<div class="tab-pane fade" id="v-pills-3" role="tabpanel" aria-labelledby="v-pills-3-tab">
-									<div class="row">
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Itallian Pizza</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Itallian Pizza</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-										
-									</div>
-								</div>
-
-								<div class="tab-pane fade" id="v-pills-4" role="tabpanel" aria-labelledby="v-pills-4-tab">
-									<div class="row">
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Itallian Pizza</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Itallian Pizza</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-										<div class="col-md-4 text-center">
-											<div class="menu-wrap">
-												<a href="#" class="menu-img img mb-4" style=""></a>
-												<div class="text">
-													<h3><a href="#">Itallian Pizza</a></h3>
-													<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia.</p>
-													<p class="price"><span>$2.90</span></p>
-													<p><a href="#" class="btn btn-white btn-outline-white">Add to cart</a></p>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
 	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
 	<script>
-		$(document).ready(function(){
-			var fullDescription = $('.description-content p').text();
-			var shortDescription = fullDescription.substring(0, 20);
+		function handleSizeChange(pizzaId) {
+			var size = $("#size-" + pizzaId).val();
+			var data = {
+				size: size,
+				pizzaId: pizzaId
+			};
+			var newRow = ``;
+			$.ajax({
+				type: 'POST',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+				},
+				url: '/Public/Menu?handler=ReloadPizzaBySize',
+				data: data,
+				success: function (response) {
+					response.CakeBases.forEach(function (item) {
+						newRow += `<option value="${item.Id}">${item.CakeBase}</option>`;
+					});
+					$("#cakebase-" + pizzaId).html(newRow);
+					var total = response.Total;
+					var newHtml = 'Add to Cart &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; ' + total.toLocaleString('en-US') + ' đ';
+					$("#addtocart-" + pizzaId).html(newHtml);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
 
-			$('.description-content p').text(shortDescription + '...');
-
-			$('.view-more-description').click(function(){
-				$('.description-content p').text(fullDescription);
-				$(this).hide();
+					console.log(textStatus, errorThrown);
+				}
 			});
-		});
+		}
+
+		function handleCakeBaseChange(pizzaId) {
+			var size = $("#size-" + pizzaId).val();
+			var cakebase = $("#cakebase-" + pizzaId).val();
+			var data = {
+				size: size,
+				pizzaId: pizzaId,
+				cakebaseId: cakebase
+			};
+			var newRow = ``;
+			$.ajax({
+				type: 'POST',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+				},
+				url: '/Public/Menu?handler=ReloadPizzaByCakeBase',
+				data: data,
+				success: function (response) {
+					var total = response.Total;
+					var newHtml = 'Add to Cart &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; ' + total.toLocaleString('en-US') + ' đ';
+					$("#addtocart-" + pizzaId).html(newHtml);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+
+					console.log(textStatus, errorThrown);
+				}
+			});
+		}
+
 	</script>
 	<script src="~/js/jquery.min.js"></script>
 	<script src="~/js/jquery-migrate-3.0.1.min.js"></script>
