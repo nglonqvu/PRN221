@@ -17,7 +17,7 @@ namespace Web_PizzaShop.Models
         public string PhoneNumber { get; set; } = null!;
         public string? State { get; set; }
         public int? UserId { get; set; }
-        public DateTime? CreatedAt { get; set; }
+        public DateTime CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
         public virtual User? User { get; set; }

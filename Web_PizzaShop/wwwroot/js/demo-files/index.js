@@ -155,7 +155,6 @@ $(document).ready(function(){
 		 * @param {string} placeholder:	as stated in parent function
 		 */
 		function lineChartFlot(placeholder){
-
 			/* Get parameters set in in placeholder */
 			var colors = $(placeholder).data("graph-colors").split(',');
 			var dateRange = $(placeholder).closest(".block").find(".date-range-select").val();
@@ -167,7 +166,7 @@ $(document).ready(function(){
 					var data = {
 						"label1":{
 							"label":"Total Orders",
-							"data":[[0,0],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,3],[9,9],[10,2],[11,20],[12,0],[13,10],[14,17],[15,10],[16,9],[17,0],[18,0],[19,0],[20,0],[21,0],[22,0],[23,0]]
+							"data":[[0,11],[1,0],[2,0],[3,0],[4,0],[5,0],[6,0],[7,0],[8,3],[9,9],[10,2],[11,20],[12,0],[13,10],[14,17],[15,10],[16,9],[17,0],[18,0],[19,0],[20,0],[21,0],[22,0],[23,0]]
 						},
 						"label2":{
 							"label":"Total Customers",
