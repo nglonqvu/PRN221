@@ -1,13 +1,11 @@
 ﻿@page
-@model Web_PizzaShop.Pages.Common.LoginModel
+@model Web_PizzaShop.Pages.Common.LoginPageModel
 @{
     Layout = "_Layout";
 }
-
-
 <!DOCTYPE html>
 <html lang="en">
-    <head>
+<head>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,13 +14,13 @@
 
     <!-- Font Icon -->
     <link rel="stylesheet" href="~/css/Common/material-design-iconic-font.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min''.css">
 
 
     <link rel="stylesheet" href="~/css/Common/Style.css">
 
-    </head>
-    <body>
+</head>
+<body>
 
     <div class="container">
         <div class="signin-content">
@@ -35,12 +33,12 @@
                 <h2 class="form-title">Login</h2>
                 <form method="POST" class="register-form" id="login-form">
                     <div class="form-group">
-                        <label for="your_name"><i class="fa-solid fa-user"></i></label>
-                        <input type="text" name="your_name" id="your_name" placeholder="UserName" />
+
+                        <input type="text" name="your_name" id="your_name" placeholder="UserName" asp-for="@Model.UserLogin.UserName"/>
                     </div>
                     <div class="form-group">
                         <label for="your_pass"><i class="fa-solid fa-lock"></i></label>
-                        <input type="password" name="your_pass" id="your_pass" placeholder="Password" />
+                        <input type="password" name="your_pass" id="your_pass" placeholder="Password" asp-for="@Model.UserLogin.PasswordHash" />
                     </div>
                     <div class="form-group">
                         <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
@@ -63,5 +61,4 @@
     </div>
 
     <script src="~/js/Common/jquery.min.js"></script>
-    </body>
-</html>
+</body>

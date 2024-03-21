@@ -9,11 +9,10 @@
   <ItemGroup>
     <Folder Include="Interface\Common\" />
     <Folder Include="Interface\Customer\" />
-    <Folder Include="Interface\Public\" />
     <Folder Include="Interface\Vendor\" />
+    <Folder Include="Pages\test\" />
     <Folder Include="ServiceManager\Common\" />
     <Folder Include="ServiceManager\Customer\" />
-    <Folder Include="ServiceManager\Public\" />
     <Folder Include="ServiceManager\Vendor\" />
     <Folder Include="wwwroot\css\Admin\" />
     <Folder Include="wwwroot\css\Customer\" />

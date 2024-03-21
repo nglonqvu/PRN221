@@ -36,11 +36,11 @@ namespace Web_PizzaShop.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder()
-                    .SetBasePath(Directory.GetCurrentDirectory())
-                    .AddJsonFile("appsettings.json")
-                    .Build();
-            optionsBuilder.UseSqlServer(config.GetConnectionString("PRN221_DB"));
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("server =(local); database = PRN221_PRJ;uid=sa;pwd=123456;");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -148,7 +148,7 @@ namespace Web_PizzaShop.Models
                     .WithMany(p => p.PizzaIngredients)
                     .HasForeignKey(d => d.IngredientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PizzaIngr__Ingre__6383C8BA");
+                    .HasConstraintName("FK__PizzaIngr__Ingre__619B8048");
 
                 entity.HasOne(d => d.Pizza)
                     .WithMany(p => p.PizzaIngredients)
@@ -298,7 +298,7 @@ namespace Web_PizzaShop.Models
                 entity.HasOne(d => d.Supplier)
                     .WithMany(p => p.SupplierContracts)
                     .HasForeignKey(d => d.SupplierId)
-                    .HasConstraintName("FK__SupplierC__Suppl__6A30C649");
+                    .HasConstraintName("FK__SupplierC__Suppl__68487DD7");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -317,11 +317,11 @@ namespace Web_PizzaShop.Models
                     .WithMany(p => p.Users)
                     .UsingEntity<Dictionary<string, object>>(
                         "UserRole",
-                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__RoleI__6B24EA82"),
+                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__RoleI__693CA210"),
                         r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__UserI__5FB337D6"),
                         j =>
                         {
-                            j.HasKey("UserId", "RoleId").HasName("PK__UserRole__AF2760ADAF134C69");
+                            j.HasKey("UserId", "RoleId").HasName("PK__UserRole__AF2760AD0AB7E349");
 
                             j.ToTable("UserRoles");
 
