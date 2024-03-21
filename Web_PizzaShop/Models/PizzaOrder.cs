@@ -10,6 +10,8 @@ namespace Web_PizzaShop.Models
         public int PizzaId { get; set; }
         public int? SizeId { get; set; }
         public int? CakeBaseId { get; set; }
+        public int? Amount { get; set; }
+        public double? Price { get; set; }
         public string? Note { get; set; }
 
         public virtual CakeBasis? CakeBase { get; set; }
