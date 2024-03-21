@@ -89,7 +89,6 @@ namespace Web_PizzaShop.Pages.Admin
             await LoadDataAsync();
             categories = await service.GetAllCategory();
             TempData["msg"] = "Delete pizza successfully !!";
-
         }
     }
 }

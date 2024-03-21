@@ -3,8 +3,10 @@ using Microsoft.Net.Http.Headers;
 using System;
 using Web_PizzaShop.Hubs;
 using Web_PizzaShop.Interface.Admin;
+using Web_PizzaShop.Interface.Common;
 using Web_PizzaShop.Models;
 using Web_PizzaShop.ServiceManager.Admin;
+using Web_PizzaShop.ServiceManager.Common;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +15,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddSignalR();
 builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(15));
 builder.Services.AddScoped<IAdminService, AdminService>();
+builder.Services.AddScoped<ICommonService, CommonService>();
 builder.Services.AddDbContext<PRN221_PRJContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("PRN221_DB")));
 builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
 builder.Services.AddMvc();
@@ -31,7 +34,14 @@ app.UseCors("BTP_CORS");
 app.UseRouting();
 
 app.UseAuthorization();
-
 app.MapRazorPages();
-app.MapHub<HubService>("/HubService");
+// app.UseEndpoints(endpoints =>
+// {
+//     endpoints.MapRazorPages();
+//     endpoints.MapHub<HubService>("/HubService");
+//     endpoints.MapGet("/", async context =>
+//     {
+//         context.Response.Redirect("/Admin/Dashboard");
+//     });
+// });
 app.Run();

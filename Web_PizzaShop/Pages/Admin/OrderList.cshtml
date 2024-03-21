@@ -3,11 +3,34 @@
 @{
 	Layout = "_AdminLayout";
 }
+@{
+	Func<int?,string> generateUrl = (int? _pagenumber)  => {
+		var routeValues = new
+		{
+			OrderId = Request.Query["OrderId"],
+			CustomerName = Request.Query["CustomerName"],
+			Email = Request.Query["Email"],
+			Status = Request.Query["Status"],
+			Total = Request.Query["Total"],
+			pageNumber = _pagenumber
+		};
+        return Url.Page("OrderList", routeValues);
+    };
 
+	var paging = new Web_PizzaShop.Helpers.PagingModel()
+			{
+				currentPage = Model.currentPage,
+				countPages = Model.countPages,
+				generalUrl = generateUrl
+			};
+}
+@Html.AntiForgeryToken()
 <!DOCTYPE html>
 <html lang="en">
+<head>
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
 <body>
-
 	<!-- START Body Container -->
 	<div id="body-container">
 		<!-- START Left Column -->
@@ -34,172 +57,7 @@
 						<ul>
 							<li><a href="Dashboard">Dashboard</a></li>
 							<li><a href="OrderList">Order List</a></li>
-							<li><a href="OrderView">Order View</a></li>
 							<li><a href="ProductList">Product List</a></li>
-							<li><a href="ProductEdit">Product Edit</a></li>
-						</ul>
-					</li>
-					<li class="menu-item-top">
-						<a href="#" class="top">
-							<span class="main-menu-icon">
-								<span aria-hidden="true" class="icon icon-layers"></span>
-							</span>
-							<span class="badge pull-right-corner">3</span>
-							<span class="main-menu-text">Layouts</span>
-						</a>
-						<ul>
-							<li><a href="menu-left-header-fixed.html">Left Menu (Fixed Header)</a></li>
-							<li><a href="menu-left-icon-only.html">Left Menu (Icon Only)</a></li>
-							<li><a href="menu-left-fixed.html">Left Menu (Fixed)</a></li>
-							<li><a href="menu-left-boxed.html">Boxed Layout</a></li>
-							<li><a href="menu-horizontal-normal.html">Horizontal Menu (Normal)</a></li>
-							<li><a href="menu-horizontal-text-only.html">Horizontal Menu (Text Only)</a></li>
-							<li><a href="menu-horizontal-fixed.html">Horizontal Menu (Fixed + Header)</a></li>
-							<li><a href="menu-horizontal-boxed.html">Boxed Layout (Horizontal Menu)</a></li>
-						</ul>
-					</li>
-					<li class="menu-item-top">
-						<a href="#" class="top">
-							<span class="main-menu-icon">
-								<span aria-hidden="true" class="icon icon-star"></span>
-							</span>
-							<span class="main-menu-text">UI Kits</span>
-						</a>
-						<ul>
-							<li><a href="ui-blocks.html">Blocks</a></li>
-							<li><a href="ui-panels-wells.html">Panels &amp; Wells</a></li>
-							<li><a href="ui-buttons.html">Buttons</a></li>
-							<li><a href="ui-widgets.html">Widgets</a></li>
-							<li><a href="ui-charts.html">Charts</a></li>
-							<li><a href="ui-icons.html">Icons</a></li>
-							<li><a href="ui-typography.html">Typography</a></li>
-							<li><a href="ui-tabs-accordions.html">Tabs &amp; Accordions</a></li>
-							<li><a href="ui-tooltips-popover.html">Tooltips &amp; Popover</a></li>
-							<li><a href="ui-modal.html">Modal</a></li>
-							<li><a href="ui-bootstrap-others.html">Other Bootstrap Elements</a></li>
-							<li><a href="ui-notification-toastr.html">Notifications (Toastr)</a></li>
-							<li><a href="ui-grid-layout.html">Grid Layout</a></li>
-						</ul>
-					</li>
-					<li class="menu-item-top">
-						<a href="#" class="top">
-							<span class="main-menu-icon">
-								<span aria-hidden="true" class="icon icon-documents"></span>
-							</span>
-							<span class="badge pull-right-corner hidden-collapsed highlight-color-green">7</span>
-							<span class="main-menu-text">Pages</span>
-						</a>
-						<ul>
-							<li><a href="pages-blank.html">Blank Page</a></li>
-							<li><a href="pages-basic-text.html">Basic Text Page</a></li>
-							<li><a href="pages-search-results.html">Search Results</a></li>
-							<li><a href="pages-mailbox-inbox.html">Mailbox - Inbox</a></li>
-							<li><a href="pages-profile.html">Profile - Customer</a></li>
-							<li><a href="pages-profile-admin.html">Profile - Admin</a></li>
-							<li><a href="pages-signup.html">Sign Up</a></li>
-							<li><a href="pages-signin-1.html">Sign In - Type 1</a></li>
-							<li>
-								<a href="pages-signin-2.html">
-									<span class="badge pull-right">Fancy Effects</span>
-									Sign In - Type 2
-								</a>
-							</li>
-							<li><a href="pages-forgot-password.html">Forgot Password</a></li>
-							<li><a href="pages-404.html">404 Page</a></li>
-							<li><a href="pages-500.html">500 Page</a></li>
-							<li><a href="pages-invoice.html">Invoice</a></li>
-							<li><a href="pages-changelog-faqs.html">Changelog/FAQs</a></li>
-							<li><a href="pages-calendar.html">Calendar</a></li>
-							<li><a href="pages-task-list.html">Task List</a></li>
-							<li><a href="pages-timeline.html">Timeline</a></li>
-						</ul>
-					</li>
-					<li class="menu-item-top">
-						<a href="#" class="top">
-							<span class="main-menu-icon">
-								<span aria-hidden="true" class="icon icon-settings"></span>
-							</span>
-							<span class="main-menu-text">Forms</span>
-						</a>
-						<ul>
-							<li><a href="form-elements.html">Form Elements</a></li>
-							<li>
-								<a href="form-extras.html">
-									<span class="badge pull-right">Goodies</span>
-									Form Extras
-								</a>
-							</li>
-							<li><a href="form-validation.html">Form Validation</a></li>
-							<li><a href="form-wizard.html">Form Wizard</a></li>
-							<li><a href="form-file-upload.html">Form Upload</a></li>
-							<li><a href="form-image-cropping.html">Image Cropping</a></li>
-						</ul>
-					</li>
-					<li class="menu-item-top">
-						<a href="#" class="top">
-							<span class="main-menu-icon">
-								<span aria-hidden="true" class="icon icon-grids"></span>
-							</span>
-							<span class="main-menu-text">Tables</span>
-						</a>
-						<ul>
-
-							<li><a href="tables-basic.html">Basic Tables</a></li>
-							<li><a href="tables-responsive.html">Responsive Tables</a></li>
-							<li><a href="tables-datatables.html">Data Tables</a></li>
-						</ul>
-					</li>
-					<li class="menu-item-top">
-						<a href="#" class="top">
-							<span class="main-menu-icon">
-								<span aria-hidden="true" class="icon icon-block-menu"></span>
-							</span>
-							<span class="main-menu-text">Menu Levels</span>
-						</a>
-						<ul>
-							<li>
-								<a href="#">Menu Level 1.1</a>
-								<ul>
-									<li>
-										<a href="#">Menu Level 2.1</a>
-										<ul>
-											<li>
-												<a href="#">Menu Level 3.1</a>
-												<ul>
-													<li>
-														<a href="#">Menu Level 4.1</a>
-														<ul>
-															<li><a href="#">Menu Level 5.1</a></li>
-															<li><a href="#">Menu Level 5.2</a></li>
-															<li><a href="#">Menu Level 5.3</a></li>
-														</ul>
-													</li>
-													<li><a href="#">Menu Level 4.2</a></li>
-													<li><a href="#">Menu Level 4.3</a></li>
-												</ul>
-											</li>
-											<li><a href="#">Menu Level 3.2</a></li>
-											<li><a href="#">Menu Level 3.3</a></li>
-										</ul>
-									</li>
-									<li><a href="#">Menu Level 2.2</a></li>
-									<li><a href="#">Menu Level 2.3</a></li>
-								</ul>
-							</li>
-							<li><a href="#">Menu Level 1.2</a></li>
-							<li><a href="#">Menu Level 1.3</a></li>
-						</ul>
-					</li>
-					<li class="menu-item-top">
-						<a href="#" class="top">
-							<span class="main-menu-icon">
-								<span aria-hidden="true" class="icon icon-map"></span>
-							</span>
-							<span class="main-menu-text">Maps</span>
-						</a>
-						<ul>
-							<li><a href="maps-google.html">Google Maps</a></li>
-							<li><a href="maps-vector.html">Vector Maps</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -213,13 +71,7 @@
 					<div class="col-xs-12">
 						<ol class="breadcrumb">
 							<li>
-								<a href="index.html">Home</a>
-							</li>
-							<li>
-								<a href="ecommerce-order-list.html">eCommerce</a>
-							</li>
-							<li class="active">
-								<a href="ecommerce-order-list.html">Order List</a>
+								<a href="Dashboard">Dashboard</a>
 							</li>
 						</ol>
 					</div>
@@ -237,11 +89,7 @@
 
 						<!-- START Main Buttons -->
 						<div class="page-heading-controls">
-							<a href="pages-invoice.html" role="button" class="btn btn-primary">
-								<span class="glyphicon glyphicon-print"></span>
-								Print Invoice
-							</a>
-							<a href="#" role="button" class="btn btn-danger">Delete</a>
+							<button type="button" onclick="DeleteOrder()" role="button" class="btn btn-danger">Delete</button>
 						</div>
 					</div>
 					<!-- END Main Buttons -->
@@ -261,326 +109,103 @@
 								<div class="block-content-inner">
 									<div class="table-responsive">
 										<form role="form">
-											<table class="table table-condensed table-striped table-bordered table-hover">
+											<table class="table table-condensed table-striped table-bordered table-hover order-list">
 												<thead>
 													<tr>
 														<th class="text-center">
-															<input type="checkbox" class="list-select-all">
+															<input type="checkbox" class="list-select-all order-checkbox">
 														</th>
-														<th class="text-right col-xs-1">Order ID</th>
-														<th class="col-xs-2">Customer</th>
-														<th class="col-xs-1">Status</th>
-														<th class="text-right col-xs-2">Total</th>
-														<th class="col-xs-2">Date Added</th>
-														<th class="col-xs-2">Date Modified</th>
-														<th class="text-right col-xs-2">Action</th>
+														<th class="text-center col-xs-1">Order ID</th>
+														<th class="text-center col-xs-2">Customer</th>
+														<th class="text-center col-xs-2">Email</th>
+														<th class="text-center col-xs-2">Status</th>
+														<th class="text-center col-xs-1">Total Order</th>
+														<th class="text-center col-xs-2">Date Create</th>
+														<th class="text-center col-xs-2">Action</th>
 													</tr>
 												</thead>
 												<tbody>
-													<tr>
-														<td></td>
-														<td>
-															<input type="text" class="form-control input-sm text-right" placeholder="ID" size="2" />
-														</td>
-														<td>
-															<input type="text" class="form-control input-sm" placeholder="Customer Name" size="5" />
-														</td>
-														<td>
-															<select id="input-demo-v" class="form-control">
-																<option>-- Status --</option>
-																<option>Completed</option>
-																<option>Cancelled</option>
-																<option>Pending</option>
-																<option>Action Required</option>
-															</select>
-														</td>
-														<td>
-															<input type="text" class="form-control input-sm text-right" placeholder="Total" size="3" />
-														</td>
-														<td>
-															<div id="date-added-from" class="input-group">
-																<input type="text" class="form-control input-sm" placeholder="From Date" size="4" />
-																<span class="input-group-addon input-group-icon">
-																	<span class="glyphicon glyphicon-calendar"></span>
-																</span>
-															</div>
-															<div id="date-added-to" class="input-group">
-																<input type="text" class="form-control input-sm" placeholder="To Date" size="4" />
-																<span class="input-group-addon input-group-icon">
-																	<span class="glyphicon glyphicon-calendar"></span>
-																</span>
-															</div>
-														</td>
-														<td>
-															<div id="date-modified-from" class="input-group">
-																<input type="text" class="form-control input-sm" placeholder="From Date" size="4" />
-																<span class="input-group-addon input-group-icon">
-																	<span class="glyphicon glyphicon-calendar"></span>
-																</span>
-															</div>
-															<div id="date-modified-to" class="input-group">
-																<input type="text" class="form-control input-sm" placeholder="To Date" size="4" />
-																<span class="input-group-addon input-group-icon">
-																	<span class="glyphicon glyphicon-calendar"></span>
-																</span>
-															</div>
-														</td>
-														<td class="text-right">
-															<button type="button" class="btn btn-default">Filter</button>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10999</td>
-														<td>Samantha Carter</td>
-														<td>
-															<span class="label label-success">Completed</span>
-														</td>
-														<td class="text-right">$105.00</td>
-														<td>27/09/2014 08:13</td>
-														<td>27/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10998</td>
-														<td>Jonas Quinn</td>
-														<td>
-															<span class="label label-danger">Cancelled</span>
-														</td>
-														<td class="text-right">$785.00</td>
-														<td>26/09/2014 09:45</td>
-														<td>26/09/2014 09:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10997</td>
-														<td>George Hammond</td>
-														<td>
-															<span class="label label-warning">Pending</span>
-														</td>
-														<td class="text-right">$5,623.00</td>
-														<td>26/09/2014 08:13</td>
-														<td>26/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10996</td>
-														<td>Teal'c Jafar</td>
-														<td>
-															<span class="label label-info">Action Required</span>
-														</td>
-														<td class="text-right">$928.77</td>
-														<td>22/09/2014 08:13</td>
-														<td>22/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10995</td>
-														<td>Daniel Jackson</td>
-														<td>
-															<span class="label label-primary">Processing</span>
-														</td>
-														<td class="text-right">$1200.28</td>
-														<td>20/09/2014 08:13</td>
-														<td>20/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10994</td>
-														<td>Samantha Carter</td>
-														<td>
-															<span class="label label-success">Completed</span>
-														</td>
-														<td class="text-right">$105.00</td>
-														<td>27/09/2014 08:13</td>
-														<td>27/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10993</td>
-														<td>Jonas Quinn</td>
-														<td>
-															<span class="label label-danger">Cancelled</span>
-														</td>
-														<td class="text-right">$785.00</td>
-														<td>26/09/2014 09:45</td>
-														<td>26/09/2014 09:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10992</td>
-														<td>George Hammond</td>
-														<td>
-															<span class="label label-warning">Pending</span>
-														</td>
-														<td class="text-right">$5,623.00</td>
-														<td>26/09/2014 08:13</td>
-														<td>26/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10991</td>
-														<td>Teal'c Jafar</td>
-														<td>
-															<span class="label label-info">Action Required</span>
-														</td>
-														<td class="text-right">$928.77</td>
-														<td>22/09/2014 08:13</td>
-														<td>22/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10990</td>
-														<td>Daniel Jackson</td>
-														<td>
-															<span class="label label-primary">Processing</span>
-														</td>
-														<td class="text-right">$1200.28</td>
-														<td>20/09/2014 08:13</td>
-														<td>20/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10989</td>
-														<td>Samantha Carter</td>
-														<td>
-															<span class="label label-success">Completed</span>
-														</td>
-														<td class="text-right">$105.00</td>
-														<td>27/09/2014 08:13</td>
-														<td>27/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10988</td>
-														<td>Jonas Quinn</td>
-														<td>
-															<span class="label label-danger">Cancelled</span>
-														</td>
-														<td class="text-right">$785.00</td>
-														<td>26/09/2014 09:45</td>
-														<td>26/09/2014 09:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10987</td>
-														<td>George Hammond</td>
-														<td>
-															<span class="label label-warning">Pending</span>
-														</td>
-														<td class="text-right">$5,623.00</td>
-														<td>26/09/2014 08:13</td>
-														<td>26/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10986</td>
-														<td>Teal'c Jafar</td>
-														<td>
-															<span class="label label-info">Action Required</span>
-														</td>
-														<td class="text-right">$928.77</td>
-														<td>22/09/2014 08:13</td>
-														<td>22/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-													<tr>
-														<td class="text-center">
-															<input type="checkbox">
-														</td>
-														<td class="text-right">10985</td>
-														<td>Daniel Jackson</td>
-														<td>
-															<span class="label label-primary">Processing</span>
-														</td>
-														<td class="text-right">$1200.28</td>
-														<td>20/09/2014 08:13</td>
-														<td>20/09/2014 08:45</td>
-														<td class="text-right">
-															<a href="ecommerce-order-view.html" class="btn btn-primary btn-sm" role="button">View</a>
-														</td>
-													</tr>
-												</tbody>
+													<form>
+														<tr>
+															<td></td>
+															<td>
+																<input type="text" class="text-center form-control input-sm text-center" name="OrderId" placeholder="ID" size="2" />
+															</td>
+															<td>
+																<input type="text" class="text-center form-control input-sm" name="CustomerName" placeholder="Customer Name" size="5" />
+															</td>
+															<td>
+																<input type="text" class="text-center form-control input-sm text-center" name="Email" placeholder="Email" size="2" />
+															</td>
+															<td>
+																<select id="input-demo-v" class="text-center form-control" name="Status">
+																	<option value="">Status</option>
+																	<option value="Completed">Completed</option>
+																	<option value="Cancelled">Cancelled</option>
+																	<option value="Processing">Processing</option>
+																</select>
+															</td>
+															<td>
+																<input type="text" class="form-control input-sm text-center" name="Total" placeholder="Total" size="3" />
+															</td>
+															<td>
+																<div id="date-added-from" class="input-group" >
+																	<input type="date" name="FromDate" style="width: 185%;height: 30px;">
+																</div>
+																<div id="date-added-to" class="input-group">
+																	<input type="date" name="ToDate" style="width: 185%; height: 30px;">
+																</div>
+															</td>
+															<td class="text-center">
+																<button type="submit" class="btn btn-default">Filter</button>
+															</td>
+														</tr>
+													</form>
+														@{
+															foreach(var order in @Model.orders){
+																<tr>
+																	<td class="text-center">
+																		<input value="@order.OrderId" type="checkbox" class="order-checkbox">
+																	</td>
+																	<td class="text-center">@order.OrderId</td>
+																	<td class="text-center">@order.User.UserName</td>
+																	<td class="text-center">@order.User.Email</td>
+																	@if(@order.State == "Completed")
+																	{
+																		<td class="text-center">
+																			<span class="label label-success">Completed</span>
+																		</td>
+																	}
+																	else if(@order.State == "Cancelled")
+																	{
+																		<td class="text-center">
+																			<span class="label label-danger">Cancelled</span>
+																		</td>
+																	}
+																	else if(@order.State == "Processing")
+																	{
+																		<td class="text-center">
+																			<span class="label label-primary">Processing</span>
+																		</td>
+																	}
+																	else
+																	{
+																		<td class="text-center">
+																			<span class="label label-success">Completed</span>
+																		</td>
+																	}
+																	<td class="text-center">@String.Format("{0:N0} đ", order.OrderTotal)</td>
+																	<td class="text-center">@order.CreatedAt.ToString("dd/MM/yyyy")</td>
+																	<td class="text-center">
+																		<a asp-page="OrderView" asp-route-itemid="@order.OrderId"
+																			class="btn btn-primary">View</a>
+																	</td>
+																</tr>
+															}
+														}
+													</tbody>
 											</table>
-											<div class="help-text">Showing 1 - 20 of 98</div>
-											<ul class="pagination">
-												<li class="disabled"><a href="#">&laquo;</a></li>
-												<li class="active"><a href="#"><span>1 <span class="sr-only">(current)</span></span></a></li>
-												<li><a href="#">2</a></li>
-												<li><a href="#">3</a></li>
-												<li><a href="#">4</a></li>
-												<li><a href="#">5</a></li>
-												<li><a href="#">&raquo;</a></li>
-											</ul>
+											<partial id="paginationContainer" name="_Paging" model="@paging">
 										</form>
 									</div>
 								</div>
@@ -598,6 +223,142 @@
 		<!-- END Right Column -->
 
 	</div>
+	    <div id="error_size" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">        
+                <div class="modal-body" style="color: red; text-align: center; font-size: large;">
+                    Please choose order to delete
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<script>
+		function updateSelectedIds() {
+				var checkedCheckboxes = document.querySelectorAll('.order-checkbox:checked');
+				var checkedIds = Array.from(checkedCheckboxes).map(function (checkbox) {
+					return checkbox.value;
+				});
+
+				var Ids = checkedIds.join(',');
+				return Ids;
+			}
+
+		function DeleteOrder() {
+			var selectedSizeId = updateSelectedIds();
+			if (selectedSizeId === "") {
+				$('#error_size').modal('show');
+				setTimeout(function () {
+					$('#error_size').modal('hide');
+				}, 2500);
+			} 
+			else {
+				$.ajax({
+					type: 'POST',
+					beforeSend: function (xhr) {
+						xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+					},
+					url: '/Admin/OrderList?handler=DeleteOrder',
+					data: {
+						sizeId: selectedSizeId,
+					},
+					success: function (response) {
+    var table = $('.order-list');
+    var tableBody = table.find('tbody');
+    var newRow = '';
+
+    response.forEach(function (item) {
+        newRow += `
+            <tr>
+                <td class="text-center">
+                    <input value="${item.OrderId}" type="checkbox" class="order-checkbox">
+                </td>
+                <td class="text-center">${item.OrderId}</td>
+                <td class="text-center">${item.User.UserName}</td>
+                <td class="text-center">${item.User.Email}</td>`;
+                
+        if (item.State === "Completed") {
+            newRow += `
+                <td class="text-center">
+                    <span class="label label-success">Completed</span>
+                </td>`;
+        } else if (item.State === "Cancelled") {
+            newRow += `
+                <td class="text-center">
+                    <span class="label label-danger">Cancelled</span>
+                </td>`;
+        } else if (item.State === "Processing") {
+            newRow += `
+                <td class="text-center">
+                    <span class="label label-primary">Processing</span>
+                </td>`;
+        } else {
+            newRow += `
+                <td class="text-center">
+                    <span class="label label-success">Completed</span>
+                </td>`;
+        }
+
+        newRow += `
+                <td class="text-center">${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.OrderTotal)}</td>
+                <td class="text-center">${item.CreatedAt ? new Date(item.CreatedAt).toLocaleDateString('vi-VN') : ''}</td>
+                <td class="text-center">
+                    <a asp-page="OrderView" asp-route-itemid="${item.OrderId}" class="btn btn-primary">View</a>
+                </td>
+            </tr>`;
+    });
+
+    var newForm = `
+        <form>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="text" class="text-center form-control input-sm text-center" name="OrderId" placeholder="ID" size="2" />
+                </td>
+                <td>
+                    <input type="text" class="text-center form-control input-sm" name="CustomerName" placeholder="Customer Name" size="5" />
+                </td>
+                <td>
+                    <input type="text" class="text-center form-control input-sm text-center" name="Email" placeholder="Email" size="2" />
+                </td>
+                <td>
+                    <select id="input-demo-v" class="text-center form-control" name="Status">
+                        <option value="">Status</option>
+                        <option value="Completed">Completed</option>
+                        <option value="Cancelled">Cancelled</option>
+                        <option value="Processing">Processing</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" class="form-control input-sm text-center" name="Total" placeholder="Total" size="3" />
+                </td>
+                <td>
+                    <div id="date-added-from" class="input-group" >
+                        <input type="date" name="FromDate" style="width: 185%;height: 30px;">
+                    </div>
+                    <div id="date-added-to" class="input-group">
+                        <input type="date" name="ToDate" style="width: 185%; height: 30px;">
+                    </div>
+                </td>
+                <td class="text-center">
+                    <button type="submit" class="btn btn-default">Filter</button>
+                </td>
+            </tr>
+        </form>`;
+
+    // Thêm form mới và dữ liệu vào tbody
+    tableBody.html(newForm + newRow);
+},
+				error: function (error) {
+					console.error(error);
+				}
+			});
+		}
+	}
+
+	</script>
+
 	<!-- END Body Container -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<!-- Required JS Files -->

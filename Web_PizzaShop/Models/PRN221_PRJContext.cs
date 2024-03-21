@@ -21,7 +21,6 @@ namespace Web_PizzaShop.Models
         public virtual DbSet<ContractDetail> ContractDetails { get; set; } = null!;
         public virtual DbSet<Ingredient> Ingredients { get; set; } = null!;
         public virtual DbSet<Order> Orders { get; set; } = null!;
-        public virtual DbSet<OrderDetail> OrderDetails { get; set; } = null!;
         public virtual DbSet<Pizza> Pizzas { get; set; } = null!;
         public virtual DbSet<PizzaIngredient> PizzaIngredients { get; set; } = null!;
         public virtual DbSet<PizzaOption> PizzaOptions { get; set; } = null!;
@@ -34,7 +33,6 @@ namespace Web_PizzaShop.Models
         public virtual DbSet<Supplier> Suppliers { get; set; } = null!;
         public virtual DbSet<SupplierContract> SupplierContracts { get; set; } = null!;
         public virtual DbSet<User> Users { get; set; } = null!;
-        public virtual DbSet<UserToken> UserTokens { get; set; } = null!;
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -93,11 +91,7 @@ namespace Web_PizzaShop.Models
             {
                 entity.HasIndex(e => e.UserId, "IX_Orders_UserId");
 
-                entity.Property(e => e.AddressLine1).HasMaxLength(100);
-
-                entity.Property(e => e.City).HasMaxLength(50);
-
-                entity.Property(e => e.Country).HasMaxLength(50);
+                entity.Property(e => e.AddressLine).HasMaxLength(100);
 
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("date")
@@ -107,37 +101,16 @@ namespace Web_PizzaShop.Models
                     .HasColumnType("date")
                     .HasColumnName("Deleted_at");
 
-                entity.Property(e => e.Email).HasMaxLength(50);
-
-                entity.Property(e => e.FirstName).HasMaxLength(50);
-
-                entity.Property(e => e.LastName).HasMaxLength(50);
-
                 entity.Property(e => e.OrderTotal).HasColumnType("decimal(18, 2)");
 
                 entity.Property(e => e.PhoneNumber).HasMaxLength(25);
 
                 entity.Property(e => e.State).HasMaxLength(10);
 
-                entity.Property(e => e.ZipCode).HasMaxLength(10);
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.UserId)
                     .HasConstraintName("FK__Orders__UserId__5441852A");
-            });
-
-            modelBuilder.Entity<OrderDetail>(entity =>
-            {
-                entity.HasIndex(e => e.OrderId, "IX_OrderDetails_OrderId");
-
-                entity.Property(e => e.Price).HasColumnType("decimal(18, 2)");
-
-                entity.HasOne(d => d.Order)
-                    .WithMany(p => p.OrderDetails)
-                    .HasForeignKey(d => d.OrderId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__OrderDeta__Order__5AEE82B9");
             });
 
             modelBuilder.Entity<Pizza>(entity =>
@@ -281,6 +254,14 @@ namespace Web_PizzaShop.Models
 
             modelBuilder.Entity<ShoppingCartItem>(entity =>
             {
+                entity.Property(e => e.CakebaseId)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
+                entity.Property(e => e.SizeId)
+                    .HasMaxLength(10)
+                    .IsFixedLength();
+
                 entity.HasOne(d => d.ShoppingCart)
                     .WithMany(p => p.ShoppingCartItems)
                     .HasForeignKey(d => d.ShoppingCartId)
@@ -322,6 +303,8 @@ namespace Web_PizzaShop.Models
 
             modelBuilder.Entity<User>(entity =>
             {
+                entity.Property(e => e.Address).HasMaxLength(9);
+
                 entity.Property(e => e.CreatedAt)
                     .HasColumnType("date")
                     .HasColumnName("Created_at");
@@ -344,18 +327,6 @@ namespace Web_PizzaShop.Models
 
                             j.HasIndex(new[] { "RoleId" }, "IX_AspNetUserRoles_RoleId");
                         });
-            });
-
-            modelBuilder.Entity<UserToken>(entity =>
-            {
-                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name })
-                    .HasName("PK__UserToke__8CC49841B52FF7A3");
-
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.UserTokens)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__UserToken__UserI__60A75C0F");
             });
 
             OnModelCreatingPartial(modelBuilder);
