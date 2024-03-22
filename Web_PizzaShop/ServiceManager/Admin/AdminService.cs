@@ -392,7 +392,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
                 {
                     if (parsedFromDate != default && parsedToDate != default)
                     {
-                        query = query.Where(x => DateTime.Parse(x.CreatedAt.ToString("MM-dd-yyyy")) <= parsedToDate.Date && DateTime.Parse(x.CreatedAt.ToString("MM-dd-yyyy")) >= parsedToDate);
+                        query = query.Where(x => Convert.ToDateTime(x.CreatedAt) <= parsedToDate.Date && Convert.ToDateTime(x.CreatedAt) >= parsedToDate);
                     }
                 }
             }
@@ -442,7 +442,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
                 {
                     if (parsedFromDate != default && parsedToDate != default)
                     {
-                        query = query.Where(x => DateTime.Parse(x.CreatedAt.ToString("MM-dd-yyyy")) <= parsedToDate.Date && DateTime.Parse(x.CreatedAt.ToString("MM-dd-yyyy")) >= parsedToDate);
+                        query = query.Where(x => Convert.ToDateTime(x.CreatedAt) <= parsedToDate.Date && Convert.ToDateTime(x.CreatedAt) >= parsedToDate);
                     }
                 }
             }

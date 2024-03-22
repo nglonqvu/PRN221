@@ -195,7 +195,7 @@
 																		</td>
 																	}
 																	<td class="text-center">@String.Format("{0:N0} đ", order.OrderTotal)</td>
-																	<td class="text-center">@order.CreatedAt.ToString("dd/MM/yyyy")</td>
+																	<td class="text-center">@order.CreatedAt?.ToString("dd/MM/yyyy")</td>
 																	<td class="text-center">
 																		<a asp-page="OrderView" asp-route-itemid="@order.OrderId"
 																			class="btn btn-primary">View</a>

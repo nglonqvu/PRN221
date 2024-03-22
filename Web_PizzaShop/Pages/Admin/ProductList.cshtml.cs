@@ -31,8 +31,13 @@ namespace Web_PizzaShop.Pages.Admin
             this.context = context;
         }
 
-        public async Task OnGet(string PizzaName, string Description, string Price, string Hot, string Category, DateTime DateCreate, DateTime DateDelete)
+        public async Task<IActionResult> OnGet(string PizzaName, string Description, string Price, string Hot, string Category, DateTime DateCreate, DateTime DateDelete)
         {
+            string userRole = HttpContext.Session.GetString("userRole");
+            if (string.IsNullOrEmpty(userRole) || !userRole.Equals("Admin"))
+            {
+                return RedirectToPage("../Common/AuthorFailed");
+            }
             if (string.IsNullOrEmpty(PizzaName) && string.IsNullOrEmpty(Description) && string.IsNullOrEmpty(Price) && string.IsNullOrEmpty(Hot) && string.IsNullOrEmpty(Category) && DateCreate == default && DateDelete == default)
             {
                 await LoadDataAsync();
@@ -52,6 +57,7 @@ namespace Web_PizzaShop.Pages.Admin
                 pizzas = await service.FilterPizza(PizzaName, Description, Price, Hot, Category, DateCreate.ToString(), DateDelete.ToString(), currentPage, item_per_page);
             }
             categories = await service.GetAllCategory();
+            return Page();
         }
 
 

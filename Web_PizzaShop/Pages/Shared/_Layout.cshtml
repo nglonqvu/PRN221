@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+    string userRole = "";
+    var role = HttpContextAccessor.HttpContext.Session.GetString("userRole");
+    if (role != null)
+    {
+        userRole = role;
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Pizza - Free Bootstrap 4 Template by Colorlib</title>
@@ -40,6 +50,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a asp-page="/Index" class="nav-link">Home</a></li>
                         <li class="nav-item"><a asp-page="/Public/Menu" class="nav-link">Menu</a></li>
+<<<<<<< Updated upstream
                         <li class="nav-item"><a asp-page="/Common/Cart" class="nav-link">Cart</a></li>
                         @if (Context.Session.GetString("account") != null)
                             {
@@ -49,6 +60,11 @@
                             {
                                 <li class="nav-item"><a asp-page="/Common/LoginPage" class="nav-link">Login</a></li>
                             }
+=======
+                        <li class="nav-item"><a asp-page="/Common/Login" class="nav-link">Login</a></li>
+                        <li class="nav-item"><a asp-page="/Common/Register" class="nav-link">Register</a></li>
+
+>>>>>>> Stashed changes
                     </ul>
                 </div>
             </div>
@@ -95,7 +111,12 @@
                                 <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about</a></h3>
                                 <div class="meta">
                                     <div><a href="#"><span class="icon-calendar"></span> Sept 15, 2018</a></div>
-                                    <div><a href="#"><span class="icon-person"></span> Admin</a></div>
+                                    @{
+                                        if (!string.IsNullOrEmpty(userRole) && userRole.Equals("Admin"))
+                                        {
+                                            <div><a href="#"><span class="icon-person"></span> Admin</a></div>
+                                        }
+                                    }
                                     <div><a href="#"><span class="icon-chat"></span> 19</a></div>
                                 </div>
                             </div>

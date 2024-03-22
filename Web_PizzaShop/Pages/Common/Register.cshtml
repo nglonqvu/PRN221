@@ -30,20 +30,25 @@
                 <h2 class="form-title">Register</h2>
                 <form method="POST" class="register-form" id="register-form">
                     <div class="form-group">
-                        <label for="name"><i class="fa-solid fa-user"></i></label>
-                        <input type="text" name="name" id="name" placeholder="UserName" />
+                        <label for="user.UserName"><i class="fa-solid fa-user"></i></label>
+                        <input type="text" asp-for="user.UserName" placeholder="UserName" />
                     </div>
                     <div class="form-group">
-                        <label for="email"><i class="fa-solid fa-envelope"></i></label>
-                        <input type="email" name="email" id="email" placeholder="Your Email" />
+                        <label asp-for="user.Email"><i class="fa-solid fa-envelope"></i></label>
+                        <input type="email" asp-for="user.Email" placeholder="Your Email" />
                     </div>
                     <div class="form-group">
-                        <label for="pass"><i class="fa-solid fa-lock"></i></label>
-                        <input type="password" name="pass" id="pass" placeholder="Password" />
+                        <label asp-for="user.PasswordHash"><i class="fa-solid fa-lock"></i></label>
+                        <input type="password" asp-for="user.PasswordHash" placeholder="Password" />
                     </div>
+                   
                     <div class="form-group">
                         <label for="re-pass"><i class="fa-regular fa-lock"></i></label>
-                        <input type="password" name="re_pass" id="re_pass" placeholder="Repeat your password" />
+                        <input type="password" asp-for="@Model.passwordConfirm" placeholder="Repeat your password" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="user.Address"><i class="fa-solid fa-lock"></i></label>
+                        <input type="text" asp-for="user.Address" placeholder="Address" />
                     </div>
                     <div class="form-group">
                         <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
@@ -53,6 +58,7 @@
                         <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
                     </div>
                 </form>
+                <p style="color: red"> @Model.message </p>
             </div>
             <div class="signup-image">
                 <figure><img src="~/images/Login.jpg" alt="sing up image"></figure>

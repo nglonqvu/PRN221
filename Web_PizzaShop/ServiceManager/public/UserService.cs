@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using BCrypt.Net;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Web_PizzaShop.Interface.Public;
 using Web_PizzaShop.Models;
@@ -26,29 +27,53 @@ namespace Web_PizzaShop.ServiceManager
             }
             return userLoged;
         }
-        public async Task<User> FindExistEmail(string email)
+        public async Task<User> FindExistEmailAndUserName(string email, string username)
         {
-            var userLoged = await _context.Users.Where(x => x.Email == email).FirstOrDefaultAsync();
+            var userLoged = await _context.Users.Where(x => x.Email == email || x.UserName == username).FirstOrDefaultAsync();
             return userLoged;
         }
-        public async Task<bool> Regis(User user)
+        public async Task<Tuple<bool, int>> Regis(User user)
         {
-            var check = FindExistEmail(user.Email);
-            if (check == null)
+            var userExist = await FindExistEmailAndUserName(user.Email, user.UserName);
+            if (userExist == null)
             {
                 User newUser = new User()
                 {
                     Email = user.Email,
-                    PasswordHash = user.PasswordHash,
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword(user.PasswordHash),
                     UserName = user.UserName,
+                    Address = user.Address,
                 };
-                await _context.AddAsync(newUser);
+                _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
-                return true;
+                Tuple<bool, int> result = new Tuple<bool, int>(true, newUser.Id);
+                return result;
             }
             else
             {
-                return false;
+                return new Tuple<bool, int>(false, 0);
+            }
+        }
+        public async Task<string> GetUserRoleByUserId(int userId)
+        {
+            var query = @$"
+                SELECT Roles.*
+                FROM Users
+                INNER JOIN UserRoles ON Users.Id = UserRoles.UserId
+                INNER JOIN Roles ON UserRoles.RoleId = Roles.Id
+                WHERE Users.Id = {userId}";
+            var userRole = await _context.Roles
+            .FromSqlRaw(query)
+            .AsNoTracking()
+    .FirstOrDefaultAsync();
+            //var userRole = await _context.Roles.Include(x => x.Users).Where(x => x.Users.Select(x => x.Id).ToList().Contains(userId)).FirstOrDefaultAsync();
+            if (userRole == null)
+            {
+                return "";
+            }
+            else
+            {
+                return userRole.Name;
             }
         }
     }
