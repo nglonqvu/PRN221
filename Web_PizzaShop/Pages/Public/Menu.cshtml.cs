@@ -1,3 +1,4 @@
+
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,16 +18,23 @@ namespace Web_PizzaShop.Pages.Public
             public string Name { get; set; }
             public decimal Price { get; set; }
             public string Description { get; set; }
+            public string? ImageUrl { get; set; }
+            public decimal Total { get; set; }
             public List<Size> Sizes { get; set; }
-            public Dictionary<int, List<CakeBasis>> sizeCakeBase { get; set; }
+            public List<CakeBasis> CakeBases { get; set; }
+        }
 
+        public class CakeBaseData
+        {
+            public List<CakeBasis> CakeBases { get; set; }
+            public decimal Total { get; set; }
         }
         private readonly ILogger<IndexModel> _logger;
         private readonly PRN221_PRJContext _context;
         private readonly IHubContext<HubService> _hubContext;
         public List<Pizza> pizzas { get; set; }
         public int totalpizza { get; set; }
-        public List<PizzaViewModel> _pizzaViewModels {get; set;}
+        public List<PizzaViewModel> _pizzaViewModels { get; set; }
         public MenuModel(ILogger<IndexModel> logger, PRN221_PRJContext context, IHubContext<HubService> hubContext)
         {
             _logger = logger;
@@ -39,7 +47,7 @@ namespace Web_PizzaShop.Pages.Public
         public async Task OnGet()
         {
             var _pizzas = await _context.Pizzas.Include(x => x.PizzaOptions).OrderByDescending(x => x.CreatedAt).ToListAsync();
-            var _size = await _context.Sizes.ToListAsync();
+            var _size = await _context.Sizes.OrderBy(x => x.Id).ToListAsync();
             Dictionary<int, Size> sizeMap = new Dictionary<int, Size>();
             sizeMap = _size.ToDictionary(c => c.Id);
             var _cakebase = await _context.CakeBases.ToListAsync();
@@ -49,34 +57,112 @@ namespace Web_PizzaShop.Pages.Public
             List<PizzaViewModel> pizzaViewModels = new List<PizzaViewModel>();
             foreach (var pizza in _pizzas)
             {
-                List<CakeBasis> cakeBases = new List<CakeBasis>();
+                decimal total = 0;
                 PizzaViewModel pizzaViewModel = new PizzaViewModel();
                 pizzaViewModel.Id = pizza.Id;
                 pizzaViewModel.Name = pizza.Name;
                 pizzaViewModel.Price = pizza.Price;
                 pizzaViewModel.Description = pizza.Description;
+                pizzaViewModel.ImageUrl = pizza.ImageUrl;
                 pizzaViewModel.Sizes = new List<Size>();
-                var SizeIds = pizza.PizzaOptions.Select(x => x.SizeId).Distinct().ToList();
+                pizzaViewModel.CakeBases = new List<CakeBasis>();
+                total += pizza.Price;
+                var SizeIds = pizza.PizzaOptions.OrderBy(x => x.SizeId).Select(x => x.SizeId).Distinct().ToList();
                 foreach (var sizeId in SizeIds)
                 {
                     if (sizeMap.TryGetValue(sizeId, out var size))
                     {
                         pizzaViewModel.Sizes.Add(size);
-                        var _CakeBases = pizza.PizzaOptions.Where(X => X.SizeId == sizeId).Select(x => x.CakeBaseId).Distinct().ToList();
+                    }
+                }
+                var firstSizeId = pizza.PizzaOptions.OrderBy(x => x.SizeId).Select(x => x.SizeId).FirstOrDefault();
+                if (sizeMap.TryGetValue(firstSizeId, out var sizee))
+                {
+                    total += (decimal)sizee.PriceSize;
+                }
+                foreach (var sizeId in SizeIds)
+                {
+                    if (sizeMap.TryGetValue(sizeId, out var size))
+                    {
+                        var _CakeBases = pizza.PizzaOptions.Where(X => X.SizeId == sizeId).OrderBy(x => x.SizeId).Select(x => x.CakeBaseId).Distinct().ToList();
                         foreach (var cakeBaseId in _CakeBases)
                         {
                             if (cakebaseMap.TryGetValue((int)cakeBaseId, out CakeBasis cakeBasis))
                             {
-                                cakeBases.Add(cakeBasis);
+                                pizzaViewModel.CakeBases.Add(cakeBasis);
                             }
                         }
-                        sizeCakeBaseMap[sizeId] = cakeBases;
-                        pizzaViewModel.sizeCakeBase = sizeCakeBaseMap;
                     }
+                    var firstcaksebaseId = pizza.PizzaOptions.Where(X => X.SizeId == sizeId).OrderBy(x => x.SizeId).Select(x => x.CakeBaseId).FirstOrDefault();
+                    if (cakebaseMap.TryGetValue((int)firstcaksebaseId, out CakeBasis _cakeBasis))
+                    {
+                        total += (decimal)_cakeBasis.PriceBase;
+                    }
+                    break;
                 }
+                pizzaViewModel.Total = total;
                 pizzaViewModels.Add(pizzaViewModel);
             }
             _pizzaViewModels = pizzaViewModels;
+        }
+
+        public async Task<IActionResult> OnPostReloadPizzaBySize()
+        {
+            string sizeId = Request.Form["size"];
+            string pizzaId = Request.Form["pizzaId"];
+            decimal total = 0;
+            List<int> cakebaseId = new List<int>();
+            Pizza pizza = _context.Pizzas.Include(x => x.PizzaOptions).FirstOrDefault(x => x.Id == int.Parse(pizzaId));
+            total += pizza.Price;
+            foreach (var cb in pizza.PizzaOptions)
+            {
+                if (cb.SizeId == int.Parse(sizeId))
+                {
+                    cakebaseId.Add(cb.CakeBaseId);
+                }
+            }
+            cakebaseId = cakebaseId.Distinct().ToList();
+            Size size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == int.Parse(sizeId));
+            total += (decimal)size.PriceSize;
+            List<CakeBasis> CakeBases = await _context.CakeBases.Where(cb => cakebaseId.Contains(cb.Id)).ToListAsync();
+            total += (decimal)CakeBases[0].PriceBase;
+            var cakeBaseData = new CakeBaseData
+            {
+                CakeBases = CakeBases,
+                Total = total
+            };
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                WriteIndented = true
+            };
+            return new JsonResult(cakeBaseData, jsonSerializerOptions);
+        }
+
+        public async Task<IActionResult> OnPostReloadPizzaByCakeBase()
+        {
+            int sizeId = int.Parse(Request.Form["size"]);
+            int pizzaId = int.Parse(Request.Form["pizzaId"]);
+            int cakeBaseId = int.Parse(Request.Form["cakeBaseId"]);
+            decimal total = 0;
+            List<int> cakebaseId = new List<int>();
+            Pizza pizza = await _context.Pizzas.Include(x => x.PizzaOptions).FirstOrDefaultAsync(x => x.Id ==pizzaId);
+            total += pizza.Price;
+            Size size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == sizeId);
+            total += (decimal)size.PriceSize;
+            List<CakeBasis> CakeBases = await _context.CakeBases.Where(cb => cb.Id == cakeBaseId).ToListAsync();
+            total += (decimal)CakeBases[0].PriceBase;
+            var cakeBaseData = new CakeBaseData
+            {
+                CakeBases = CakeBases,
+                Total = total
+            };
+            var jsonSerializerOptions = new JsonSerializerOptions
+            {
+                ReferenceHandler = ReferenceHandler.IgnoreCycles,
+                WriteIndented = true
+            };
+            return new JsonResult(cakeBaseData, jsonSerializerOptions);
         }
     }
 }
