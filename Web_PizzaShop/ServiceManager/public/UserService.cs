@@ -15,15 +15,15 @@ namespace Web_PizzaShop.ServiceManager
             _context = context;
         }
        
-        public async Task<User> Login(User user)
+        public async Task<User?> Login(User user)
         {
 
-            //var userLoged = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
-            //if (userLoged == null)
-            //{
-
-            //}
-            User userLoged = new User();
+            var userLoged = await _context.Users.Where(x => x.UserName == user.UserName).FirstOrDefaultAsync();
+            
+            if (!BCrypt.Net.BCrypt.Verify(user.PasswordHash, userLoged.PasswordHash))
+            {
+                return null;
+            }
             return userLoged;
         }
         public async Task<User> FindExistEmail(string email)
