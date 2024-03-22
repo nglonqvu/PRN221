@@ -33,29 +33,78 @@ namespace Web_PizzaShop.Pages.Common
 
         public async Task OnGet()
         {
-            var cartCookie = Request.Cookies["Cart"];
-            List<PizzaViewModel> _pizzaViewModels;
-            if (cartCookie == null)
+            var user = HttpContext.Session.GetString("account");
+            List<ShoppingCartItem> _shoppingCartItems = new List<ShoppingCartItem>();
+            List<PizzaViewModel> _pizzaViewModels = new List<PizzaViewModel>();
+            if (user == null)
             {
-                _pizzaViewModels = new List<PizzaViewModel>();
+                var cartCookie = Request.Cookies["Cart"];
+
+                if (cartCookie == null)
+                {
+                    _pizzaViewModels = new List<PizzaViewModel>();
+                }
+                else
+                {
+                    _shoppingCartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
+                }
             }
             else
             {
-                _pizzaViewModels = new List<PizzaViewModel>();
-                var _shoppingCartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
-                foreach (var item in _shoppingCartItems)
-                {
-                    PizzaViewModel pizzaViewModel = new PizzaViewModel()
-                    {
-                        pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Id == item.PizzaId),
-                        size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == int.Parse(item.SizeId)),
-                        cakeBasis = await _context.CakeBases.FirstOrDefaultAsync(x => x.Id == int.Parse(item.CakebaseId)),
-                        amount = item.Amount,
+                User _user = JsonSerializer.Deserialize<User>(user);
+                ShoppingCart CartId = await _context.ShoppingCarts.FirstOrDefaultAsync(x => x.UserId == _user.Id);
+                if(CartId == null){
+                    CartId = new ShoppingCart(){
+                        UserId = _user.Id,
                     };
-                    _pizzaViewModels.Add(pizzaViewModel);
+                    await _context.ShoppingCarts.AddAsync(CartId);
+                    await _context.SaveChangesAsync();
                 }
-                pizzaViewModels = _pizzaViewModels;
+                var cartCookie = Request.Cookies["Cart"];
+                if (cartCookie == null)
+                {
+                    _shoppingCartItems = await _context.ShoppingCartItems.Where(x => x.ShoppingCartId == CartId.Id).ToListAsync();
+                }
+                else
+                {
+                    _shoppingCartItems = await _context.ShoppingCartItems.Where(x => x.ShoppingCartId == CartId.Id).ToListAsync();
+                    List<ShoppingCartItem> shoppingCartItemsToRemove = new List<ShoppingCartItem>();
+                    List<ShoppingCartItem> shoppingCartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
+                    foreach (ShoppingCartItem _item in _shoppingCartItems)
+                    {
+                        foreach (ShoppingCartItem item in shoppingCartItems)
+                        {
+                            if (_item.PizzaId == item.PizzaId && _item.SizeId == item.SizeId && _item.CakebaseId == item.CakebaseId)
+                            {
+                                _item.Amount++;
+                                shoppingCartItemsToRemove.Add(item);
+                            }
+                        }
+                    }
+
+                    foreach (var itemToRemove in shoppingCartItemsToRemove)
+                    {
+                        shoppingCartItems.Remove(itemToRemove);
+                        var cookieOptions = new CookieOptions
+                        {
+                            Expires = DateTime.Now.AddMinutes(7)
+                        }; Response.Cookies.Append("Cart", JsonSerializer.Serialize(shoppingCartItems), cookieOptions);
+                    }
+                    _context.SaveChanges();
+                }
             }
+            foreach (var item in _shoppingCartItems)
+            {
+                PizzaViewModel pizzaViewModel = new PizzaViewModel()
+                {
+                    pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Id == item.PizzaId),
+                    size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == item.SizeId),
+                    cakeBasis = await _context.CakeBases.FirstOrDefaultAsync(x => x.Id == item.CakebaseId),
+                    amount = item.Amount,
+                };
+                _pizzaViewModels.Add(pizzaViewModel);
+            }
+            pizzaViewModels = _pizzaViewModels;
         }
 
         public async Task<IActionResult> OnPostUpdateQuantity()
@@ -66,46 +115,95 @@ namespace Web_PizzaShop.Pages.Common
                 int pizzaId = int.Parse(Request.Form["pizzaId"]);
                 int cakeBaseId = int.Parse(Request.Form["cakebaseId"]);
                 string action = Request.Form["action"];
-                var cartCookie = Request.Cookies["Cart"];
+                var user = HttpContext.Session.GetString("account");
                 List<PizzaViewModel> _pizzaViewModels = new List<PizzaViewModel>();
                 List<ShoppingCartItem> cartItems = new List<ShoppingCartItem>();
-                cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
-                bool found = false;
-                foreach (var item in cartItems)
+                if (user == null)
                 {
-                    if (item.PizzaId == pizzaId && item.SizeId == sizeId.ToString() && item.CakebaseId == cakeBaseId.ToString() && action == "increase")
+                    var cartCookie = Request.Cookies["Cart"];
+                    cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
+                    bool found = false;
+                    foreach (var item in cartItems)
                     {
-                        item.Amount++;
-                        found = true;
-                        break;
-                    }
-                    else if (item.PizzaId == pizzaId && item.SizeId == sizeId.ToString() && item.CakebaseId == cakeBaseId.ToString() && action == "decrease")
-                    {
-                        item.Amount--;
-                        if(item.Amount == 0){
-                            cartItems.Remove(item);
+                        if (item.PizzaId == pizzaId && item.SizeId == sizeId && item.CakebaseId == cakeBaseId && action == "increase")
+                        {
+                            item.Amount++;
+                            found = true;
+                            break;
                         }
-                        found = true;
-                        break;
+                        else if (item.PizzaId == pizzaId && item.SizeId == sizeId && item.CakebaseId == cakeBaseId && action == "decrease")
+                        {
+                            item.Amount--;
+                            if (item.Amount == 0)
+                            {
+                                cartItems.Remove(item);
+                            }
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                foreach (var item in cartItems)
-                {
-                    PizzaViewModel pizzaViewModel = new PizzaViewModel()
+                    foreach (var item in cartItems)
                     {
-                        pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Id == item.PizzaId),
-                        size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == int.Parse(item.SizeId)),
-                        cakeBasis = await _context.CakeBases.FirstOrDefaultAsync(x => x.Id == int.Parse(item.CakebaseId)),
-                        amount = item.Amount,
-                    };
-                    _pizzaViewModels.Add(pizzaViewModel);
+                        PizzaViewModel pizzaViewModel = new PizzaViewModel()
+                        {
+                            pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Id == item.PizzaId),
+                            size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == item.SizeId),
+                            cakeBasis = await _context.CakeBases.FirstOrDefaultAsync(x => x.Id == item.CakebaseId),
+                            amount = item.Amount,
+                        };
+                        _pizzaViewModels.Add(pizzaViewModel);
+                    }
+                    pizzaViewModels = _pizzaViewModels;
                 }
-                pizzaViewModels = _pizzaViewModels;
-                var cookieOptions = new CookieOptions
+                else
                 {
-                    Expires = DateTime.Now.AddMinutes(7)
-                };
-                Response.Cookies.Append("Cart", JsonSerializer.Serialize(cartItems), cookieOptions);
+                    User _user = JsonSerializer.Deserialize<User>(user);
+                    var CartId = await _context.ShoppingCarts.FirstOrDefaultAsync(x => x.UserId == _user.Id);
+                    cartItems = await _context.ShoppingCartItems.Where(x => x.ShoppingCartId == CartId.Id).ToListAsync();
+                    bool found = false;
+                    foreach (var item in cartItems)
+                    {
+                        if (item.PizzaId == pizzaId && item.SizeId == sizeId && item.CakebaseId == cakeBaseId && action == "increase")
+                        {
+                            item.Amount++;
+                            found = true;
+                            break;
+                        }
+                        else if (item.PizzaId == pizzaId && item.SizeId == sizeId && item.CakebaseId == cakeBaseId && action == "decrease")
+                        {
+                            item.Amount--;
+                            if (item.Amount == 0)
+                            {
+                                cartItems.Remove(item);
+                                _context.ShoppingCartItems.Remove(item);
+                                await _context.SaveChangesAsync();
+                            }
+                            found = true;
+                            break;
+                        }
+                    }
+                    _context.SaveChanges();
+                    foreach (var item in cartItems)
+                    {
+                        PizzaViewModel pizzaViewModel = new PizzaViewModel()
+                        {
+                            pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Id == item.PizzaId),
+                            size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == item.SizeId),
+                            cakeBasis = await _context.CakeBases.FirstOrDefaultAsync(x => x.Id == item.CakebaseId),
+                            amount = item.Amount,
+                        };
+                        _pizzaViewModels.Add(pizzaViewModel);
+                    }
+                    pizzaViewModels = _pizzaViewModels;
+                }
+                if (user == null)
+                {
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddMinutes(7)
+                    };
+                    Response.Cookies.Append("Cart", JsonSerializer.Serialize(cartItems), cookieOptions);
+                }
                 var jsonSerializerOptions = new JsonSerializerOptions
                 {
                     ReferenceHandler = ReferenceHandler.IgnoreCycles,
@@ -126,37 +224,75 @@ namespace Web_PizzaShop.Pages.Common
                 int sizeId = int.Parse(Request.Form["sizeId"]);
                 int pizzaId = int.Parse(Request.Form["pizzaId"]);
                 int cakeBaseId = int.Parse(Request.Form["cakebaseId"]);
-                var cartCookie = Request.Cookies["Cart"];
+                var user = HttpContext.Session.GetString("account");
                 List<PizzaViewModel> _pizzaViewModels = new List<PizzaViewModel>();
                 List<ShoppingCartItem> cartItems = new List<ShoppingCartItem>();
-                cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
-                bool found = false;
-                foreach (var item in cartItems)
+                if (user == null)
                 {
-                    if (item.PizzaId == pizzaId && item.SizeId == sizeId.ToString() && item.CakebaseId == cakeBaseId.ToString())
+                    var cartCookie = Request.Cookies["Cart"];
+                    cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
+                    bool found = false;
+                    foreach (var item in cartItems)
                     {
-                        cartItems.Remove(item);
-                        found = true;
-                        break;
+                        if (item.PizzaId == pizzaId && item.SizeId == sizeId && item.CakebaseId == cakeBaseId)
+                        {
+                            cartItems.Remove(item);
+                            found = true;
+                            break;
+                        }
                     }
-                }
-                foreach (var item in cartItems)
-                {
-                    PizzaViewModel pizzaViewModel = new PizzaViewModel()
+                    foreach (var item in cartItems)
                     {
-                        pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Id == item.PizzaId),
-                        size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == int.Parse(item.SizeId)),
-                        cakeBasis = await _context.CakeBases.FirstOrDefaultAsync(x => x.Id == int.Parse(item.CakebaseId)),
-                        amount = item.Amount,
-                    };
-                    _pizzaViewModels.Add(pizzaViewModel);
+                        PizzaViewModel pizzaViewModel = new PizzaViewModel()
+                        {
+                            pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Id == item.PizzaId),
+                            size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == item.SizeId),
+                            cakeBasis = await _context.CakeBases.FirstOrDefaultAsync(x => x.Id == item.CakebaseId),
+                            amount = item.Amount,
+                        };
+                        _pizzaViewModels.Add(pizzaViewModel);
+                    }
+                    pizzaViewModels = _pizzaViewModels;
                 }
-                pizzaViewModels = _pizzaViewModels;
-                var cookieOptions = new CookieOptions
+                else
                 {
-                    Expires = DateTime.Now.AddMinutes(7)
-                };
-                Response.Cookies.Append("Cart", JsonSerializer.Serialize(cartItems), cookieOptions);
+                    User _user = JsonSerializer.Deserialize<User>(user);
+                    var CartId = await _context.ShoppingCarts.FirstOrDefaultAsync(x => x.UserId == _user.Id);
+                    cartItems = await _context.ShoppingCartItems.Where(x => x.ShoppingCartId == CartId.Id).ToListAsync();
+                    bool found = false;
+                    foreach (var item in cartItems)
+                    {
+                        if (item.PizzaId == pizzaId && item.SizeId == sizeId && item.CakebaseId == cakeBaseId)
+                        {
+                            cartItems.Remove(item);
+                            _context.ShoppingCartItems.Remove(item);                    
+                            _context.SaveChanges();
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    foreach (var item in cartItems)
+                    {
+                        PizzaViewModel pizzaViewModel = new PizzaViewModel()
+                        {
+                            pizza = await _context.Pizzas.FirstOrDefaultAsync(x => x.Id == item.PizzaId),
+                            size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == item.SizeId),
+                            cakeBasis = await _context.CakeBases.FirstOrDefaultAsync(x => x.Id == item.CakebaseId),
+                            amount = item.Amount,
+                        };
+                        _pizzaViewModels.Add(pizzaViewModel);
+                    }
+                    pizzaViewModels = _pizzaViewModels;
+                }
+                if (user == null)
+                {
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddMinutes(7)
+                    };
+                    Response.Cookies.Append("Cart", JsonSerializer.Serialize(cartItems), cookieOptions);
+                }
                 var jsonSerializerOptions = new JsonSerializerOptions
                 {
                     ReferenceHandler = ReferenceHandler.IgnoreCycles,

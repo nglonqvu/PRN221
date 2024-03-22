@@ -179,47 +179,94 @@ namespace Web_PizzaShop.Pages.Public
                 int sizeId = int.Parse(Request.Form["size"]);
                 int pizzaId = int.Parse(Request.Form["pizzaId"]);
                 int cakeBaseId = int.Parse(Request.Form["cakebase"]);
-                var cartCookie = Request.Cookies["Cart"];
+
+                var user = HttpContext.Session.GetString("account");
                 List<ShoppingCartItem> cartItems;
 
-                if (cartCookie == null)
+                if (user == null)
                 {
-                    cartItems = new List<ShoppingCartItem>();
+                    var cartCookie = Request.Cookies["Cart"];
+
+                    if (cartCookie == null)
+                    {
+                        cartItems = new List<ShoppingCartItem>();
+                    }
+                    else
+                    {
+                        cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
+                    }
+
+                    bool found = false;
+
+                    foreach (var item in cartItems)
+                    {
+                        if (item.PizzaId == pizzaId && item.SizeId == sizeId&& item.CakebaseId == cakeBaseId)
+                        {
+                            item.Amount++;
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        var newItem = new ShoppingCartItem
+                        {
+                            ShoppingCartId = -1,
+                            ShoppingCartItemId = -1,
+                            PizzaId = pizzaId,
+                            SizeId = sizeId,
+                            CakebaseId = cakeBaseId,
+                            Amount = 1
+                        };
+                        cartItems.Add(newItem);
+                    }
+
+                    var cookieOptions = new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddMinutes(7)
+                    };
+                    Response.Cookies.Append("Cart", JsonSerializer.Serialize(cartItems), cookieOptions);
                 }
                 else
                 {
-                    cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
-                }
-                Console.WriteLine(cartItems.Count());
-                bool found = false;
-                foreach (var item in cartItems)
-                {
-                    if (item.PizzaId == pizzaId && item.SizeId == sizeId.ToString() && item.CakebaseId == cakeBaseId.ToString())
+                    User _user = JsonSerializer.Deserialize<User>(user);
+                    ShoppingCart cart = await _context.ShoppingCarts.FirstOrDefaultAsync(x => x.UserId == _user.Id);
+
+                    if (cart == null)
                     {
-                        item.Amount++;
-                        found = true;
-                        break;
+                        ShoppingCart newcart = new ShoppingCart()
+                        {
+                            UserId = _user.Id,
+                        };
+                        await _context.ShoppingCarts.AddAsync(newcart);
+                        await _context.SaveChangesAsync();
+                        cart = newcart;
                     }
-                }
-                if (!found)
-                {
-                    var newItem = new ShoppingCartItem
+
+                    var existingItem = await _context.ShoppingCartItems.FirstOrDefaultAsync(item =>
+                        item.PizzaId == pizzaId && item.SizeId == sizeId&& item.CakebaseId == cakeBaseId&& item.ShoppingCartId == cart.Id);
+
+                    if (existingItem != null)
                     {
-                        ShoppingCartId = -1,
-                        ShoppingCartItemId = -1,
-                        PizzaId = pizzaId,
-                        SizeId = sizeId.ToString(),
-                        CakebaseId = cakeBaseId.ToString(),
-                        Amount = 1
-                    };
-                    cartItems.Add(newItem);
+                        existingItem.Amount++;
+                    }
+                    else
+                    {
+                        var newItem = new ShoppingCartItem
+                        {
+                            ShoppingCartId = cart.Id,
+                            PizzaId = pizzaId,
+                            SizeId = sizeId,
+                            CakebaseId = cakeBaseId,
+                            Amount = 1
+                        };
+                        await _context.ShoppingCartItems.AddAsync(newItem);
+                    }
+
+                    await _context.SaveChangesAsync();
                 }
 
-                var cookieOptions = new CookieOptions
-                {
-                    Expires = DateTime.Now.AddMinutes(7)
-                };
-                Response.Cookies.Append("Cart", JsonSerializer.Serialize(cartItems), cookieOptions);
                 return new JsonResult("Item added to cart successfully!");
             }
             catch (Exception ex)
@@ -227,6 +274,8 @@ namespace Web_PizzaShop.Pages.Public
                 return BadRequest("Error adding item to cart");
             }
         }
-
     }
 }
+
+
+
