@@ -36,6 +36,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("BTP_CORS");
 app.UseRouting();
+<<<<<<< HEAD
+=======
+app.UseSession();
+>>>>>>> 8314b5a2160e955a7f8ab79b6a0328382367a95a
 app.UseAuthorization();
 app.MapRazorPages();
 // app.UseEndpoints(endpoints =>

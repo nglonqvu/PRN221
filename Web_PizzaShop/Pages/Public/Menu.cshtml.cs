@@ -1,6 +1,7 @@
 
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.SignalR;
@@ -28,6 +29,14 @@ namespace Web_PizzaShop.Pages.Public
         {
             public List<CakeBasis> CakeBases { get; set; }
             public decimal Total { get; set; }
+        }
+
+        public class CartSession
+        {
+            public int Amount { get; set; }
+            public int? PizzaId { get; set; }
+            public string? SizeId { get; set; }
+            public string? CakebaseId { get; set; }
         }
         private readonly ILogger<IndexModel> _logger;
         private readonly PRN221_PRJContext _context;
@@ -146,7 +155,7 @@ namespace Web_PizzaShop.Pages.Public
             int cakeBaseId = int.Parse(Request.Form["cakeBaseId"]);
             decimal total = 0;
             List<int> cakebaseId = new List<int>();
-            Pizza pizza = await _context.Pizzas.Include(x => x.PizzaOptions).FirstOrDefaultAsync(x => x.Id ==pizzaId);
+            Pizza pizza = await _context.Pizzas.Include(x => x.PizzaOptions).FirstOrDefaultAsync(x => x.Id == pizzaId);
             total += pizza.Price;
             Size size = await _context.Sizes.FirstOrDefaultAsync(x => x.Id == sizeId);
             total += (decimal)size.PriceSize;
@@ -164,5 +173,58 @@ namespace Web_PizzaShop.Pages.Public
             };
             return new JsonResult(cakeBaseData, jsonSerializerOptions);
         }
+
+        public async Task<IActionResult> OnPostAddToCart()
+        {
+            try
+            {
+                int sizeId = int.Parse(Request.Form["size"]);
+                int pizzaId = int.Parse(Request.Form["pizzaId"]);
+                int cakeBaseId = int.Parse(Request.Form["cakebase"]);
+
+                var cartSession = HttpContext.Session.GetString("Cart");
+                List<ShoppingCartItem> cartItems;
+
+                if (cartSession == null)
+                {
+                    cartItems = new List<ShoppingCartItem>();
+                }
+                else
+                {
+                    cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartSession);
+                }
+                Console.WriteLine(cartItems.Count());
+                bool found = false;
+                foreach (var item in cartItems)
+                {
+                    if (item.PizzaId == pizzaId && item.SizeId == sizeId.ToString() && item.CakebaseId == cakeBaseId.ToString())
+                    {
+                        item.Amount++;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found)
+                {
+                    var newItem = new ShoppingCartItem
+                    {
+                        PizzaId = pizzaId,
+                        SizeId = sizeId.ToString(),
+                        CakebaseId = cakeBaseId.ToString(),
+                        Amount = 1
+                    };
+                    cartItems.Add(newItem);
+                }
+
+                HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(cartItems));
+
+                return new JsonResult("Item added to cart successfully!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"Error adding item to cart: {ex.Message}");
+            }
+        }
+
     }
 }

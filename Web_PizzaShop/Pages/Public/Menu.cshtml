@@ -78,7 +78,7 @@
 					}
 				</select>
 				<br><br>
-				<button id="addtocart-@pizza.Id" class="btn btn-white btn-outline-white">Add to Cart &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; @String.Format("{0:N0} đ", pizza.Total)</button>
+				<button id="addtocart-@pizza.Id" class="btn btn-white btn-outline-white" onclick="addToCart(@pizza.Id)">Add to Cart &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp; @String.Format("{0:N0} đ", pizza.Total)</button>
 			</div>
 		</div>
 	}
@@ -145,6 +145,29 @@
 				}
 			});
 		}
+
+		function addToCart(pizzaId) {
+		var size = $("#size-" + pizzaId).val();
+		var cakebase = $("#cakebase-" + pizzaId).val();
+        $.ajax({
+            type: 'POST',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            url: '/Public/Menu?handler=AddToCart',
+            data: { 
+				pizzaId: pizzaId,
+				size: size,
+				cakebase: cakebase
+			},
+            success: function (response) {
+                console.log("Item added to cart successfully!");
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error("Error adding item to cart:", textStatus, errorThrown);
+            }
+        });
+    }
 
 	</script>
 	<script src="~/js/jquery.min.js"></script>
