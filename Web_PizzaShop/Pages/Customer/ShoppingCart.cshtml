@@ -101,35 +101,38 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr class="woocommerce-cart-form__cart-item cart_item">
-                                                    <td class="product-remove">
-                                                        <a href="https://pizza.webmau68.com/gio-hang/?remove_item=2a38a4a9316c49e5a833517c45d31070&amp;_wpnonce=1d8d275a2b" class="remove" aria-label="Xóa sản phẩm này" data-product_id="88" data-product_sku="">×</a>
-                                                    </td>
-                                                    <td class="product-thumbnail">
-                                                        <a href=""><img width="300" height="300" src="https://pizza.webmau68.com/wp-content/uploads/hawaii1.jpg" </a>
-                                                    </td>
-                                                    <td class="product-name" data-title="Sản phẩm">
-                                                        <a href="https://pizza.webmau68.com/sản%20phẩm/hawaii-pizza/">Hawaii Pizza</a>
-                                                        <div class="show-for-small mobile-product-price">
-                                                            <span class="mobile-product-price__qty">1 x </span>
+                                                @foreach (var item in Model.Items)
+                                                {
+                                                    <tr class="woocommerce-cart-form__cart-item cart_item">
+                                                        <td class="product-remove">
+                                                            <a href="https://pizza.webmau68.com/gio-hang/?remove_item=2a38a4a9316c49e5a833517c45d31070&amp;_wpnonce=1d8d275a2b" class="remove" aria-label="Xóa sản phẩm này" data-product_id="88" data-product_sku="">×</a>
+                                                        </td>
+                                                        <td class="product-thumbnail">
+                                                            <a href=""><img width="300" height="300" src="https://pizza.webmau68.com/wp-content/uploads/hawaii1.jpg" /> </a>
+                                                        </td>
+                                                        <td class="product-name" data-title="Sản phẩm">
+                                                            <a href="https://pizza.webmau68.com/sản%20phẩm/hawaii-pizza/">@item.ShoppingCart.Id</a>
+                                                            <div class="show-for-small mobile-product-price">
+                                                                <span class="mobile-product-price__qty">1 x </span>
+                                                                <span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span>
+                                                            </div>
+                                                        </td>
+                                                        <td class="product-price" data-title="Giá">
                                                             <span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span>
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-price" data-title="Giá">
-                                                        <span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span>
-                                                    </td>
-                                                    <td class="product-quantity" data-title="Số lượng">
-                                                        <div class="quantity buttons_added">
-                                                            <input type="button" value="-" class="minus button is-form">
-                                                            <label class="screen-reader-text" for="quantity_65d4c43b70008">#p2: Hawaii Pizza số lượng</label>
-                                                            <input type="number" id="quantity_65d4c43b70008" class="input-text qty text" step="1" min="0" max="" name="cart[2a38a4a9316c49e5a833517c45d31070][qty]" value="1" title="SL" size="4" placeholder="" inputmode="numeric">
-                                                            <input type="button" value="+" class="plus button is-form">
-                                                        </div>
-                                                    </td>
-                                                    <td class="product-subtotal" data-title="Tạm tính">
-                                                        <span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td class="product-quantity" data-title="Số lượng">
+                                                            <div class="quantity buttons_added">
+                                                                <input type="button" value="-" class="minus button is-form">
+                                                                <label class="screen-reader-text" for="quantity_65d4c43b70008">#p2: Hawaii Pizza số lượng</label>
+                                                                <input type="number" id="quantity_65d4c43b70008" class="input-text qty text" step="1" min="0" max="" name="cart[2a38a4a9316c49e5a833517c45d31070][qty]" value="1" title="SL" size="4" placeholder="" inputmode="numeric">
+                                                                <input type="button" value="+" class="plus button is-form">
+                                                            </div>
+                                                        </td>
+                                                        <td class="product-subtotal" data-title="Tạm tính">
+                                                            <span class="woocommerce-Price-amount amount"><bdi>100.000<span class="woocommerce-Price-currencySymbol">₫</span></bdi></span>
+                                                        </td>
+                                                    </tr>
+                                                }
                                                 <tr>
                                                     <td colspan="6" class="actions clear">
                                                         <div class="continue-shopping pull-left text-left">

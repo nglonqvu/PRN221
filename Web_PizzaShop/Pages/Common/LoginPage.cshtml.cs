@@ -38,6 +38,7 @@ namespace Web_PizzaShop.Pages.Common
                 var user = _userService.Login(userLogin).Result;
                 if (user != null)
                 {
+                    HttpContext.Session.SetString("username", userName);
                     //return NotFound();
                     return RedirectToPage("../Index");
                 }
