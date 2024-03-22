@@ -31,13 +31,19 @@ namespace Web_PizzaShop.Pages.Admin
             this.context = context;
             _hubContext = hubContext;
         }
-        public async Task OnGet(int itemid)
+        public async Task<IActionResult> OnGet(int itemid)
         {
+            string userRole = HttpContext.Session.GetString("userRole");
+            if (string.IsNullOrEmpty(userRole) || !userRole.Equals("Admin"))
+            {
+                return RedirectToPage("../Common/AuthorFailed");
+            }
             pizza = await service.GetPizzaById(itemid);
             categories = await service.GetAllCategory();
             sizes = await service.GetSizes();
             pizza_sizes = await service.GetSizesByPizzaId(itemid);
             cakeBases = context.CakeBases.ToList();
+            return Page();
         }
 
         public async Task OnPost()

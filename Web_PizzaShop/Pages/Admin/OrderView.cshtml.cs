@@ -18,10 +18,16 @@ namespace Web_PizzaShop.Pages.Admin
             this.service = service;
             this.context = context;
         }
-        public async Task OnGet(int itemid)
+        public async Task<IActionResult> OnGet(int itemid)
         {
+            string userRole = HttpContext.Session.GetString("userRole");
+            if (string.IsNullOrEmpty(userRole) || !userRole.Equals("Admin"))
+            {
+                return RedirectToPage("../Common/AuthorFailed");
+            }
             order = await service.GetOrderByOrderId(itemid);
             pizzaOrders = await service.GetListPizzaOrder(itemid);
+            return Page();
         }
     }
 }

@@ -19,7 +19,7 @@ namespace Web_PizzaShop.ServiceManager
         public async Task<User?> Login(User user)
         {
 
-            var userLoged = await _context.Users.Include(x => x.Roles).FirstOrDefaultAsync(x => x.Email == user.Email);
+            var userLoged = await _context.Users.FirstOrDefaultAsync(x => x.UserName.Equals(user.UserName));
             
             if (!BCrypt.Net.BCrypt.Verify(user.PasswordHash, userLoged.PasswordHash))
             {

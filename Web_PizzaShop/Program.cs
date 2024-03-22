@@ -17,12 +17,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(60));
 builder.Services.AddSignalR();
 builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IAdminService, AdminService>();
-builder.Services.AddScoped<ICommonService, CommonService>();
-builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddTransient<IAdminService, AdminService>();
+builder.Services.AddTransient<ICommonService, CommonService>();
+builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddDbContext<PRN221_PRJContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("PRN221_DB")));
 builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
-builder.Services.AddMvc();
 var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -34,22 +33,11 @@ if (!app.Environment.IsDevelopment())
 app.UseSession();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseCors("BTP_CORS");
+//app.UseCors("BTP_CORS");
 app.UseRouting();
-<<<<<<< Updated upstream
-=======
 
->>>>>>> Stashed changes
 app.UseSession();
 app.UseAuthorization();
 app.MapRazorPages();
-// app.UseEndpoints(endpoints =>
-// {
-//     endpoints.MapRazorPages();
-//     endpoints.MapHub<HubService>("/HubService");
-//     endpoints.MapGet("/", async context =>
-//     {
-//         context.Response.Redirect("/Admin/Dashboard");
-//     });
-// });
+
 app.Run();

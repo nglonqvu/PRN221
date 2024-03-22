@@ -27,9 +27,14 @@ namespace Web_PizzaShop.Pages.Admin
             this.context = context;
         }
 
-        public async Task OnGet(string OrderId, string CustomerName, string Email, string Status, string Total,
+        public async Task<IActionResult> OnGet(string OrderId, string CustomerName, string Email, string Status, string Total,
         DateTime FromDate, DateTime ToDate)
         {
+            string userRole = HttpContext.Session.GetString("userRole");
+            if (string.IsNullOrEmpty(userRole) || !userRole.Equals("Admin"))
+            {
+                return RedirectToPage("../Common/AuthorFailed");
+            }
             if (string.IsNullOrEmpty(OrderId) && string.IsNullOrEmpty(CustomerName) && string.IsNullOrEmpty(Email) && string.IsNullOrEmpty(Status) && string.IsNullOrEmpty(Total)
             && FromDate == default && ToDate == default)
             {
@@ -59,6 +64,7 @@ namespace Web_PizzaShop.Pages.Admin
                 }
                 orders = await service.FilterOrder(OrderId, CustomerName, Email, Status, Total, FromDate.ToString(), ToDate.ToString(), currentPage, item_per_page);
             }
+            return Page();
         }
 
         public async Task<IActionResult> OnPostDeleteOrder()

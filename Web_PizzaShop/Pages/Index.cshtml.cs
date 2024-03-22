@@ -24,9 +24,17 @@ namespace Web_PizzaShop.Pages
 
         public async Task OnGet()
         {
-            pizza_hots = await _context.Pizzas.Where(p => p.IsPizzaOfTheWeek == true).ToListAsync();
-            var pizzas = await _context.Pizzas.ToListAsync();
-            totalpizza = pizzas.Count();
+            try
+            {
+                pizza_hots = await _context.Pizzas.Where(p => p.IsPizzaOfTheWeek == true).ToListAsync();
+                var pizzas = await _context.Pizzas.ToListAsync();
+                totalpizza = pizzas.Count();
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return;
+            }
         }
     }
 }

@@ -26,9 +26,15 @@ namespace Web_PizzaShop.Pages.Admin
             this.context = context;
             _hubContext = hubContext;
         }
-        public async Task OnGet()
+        public async Task<IActionResult> OnGet()
         {
+            string userRole = HttpContext.Session.GetString("userRole");
+            if (string.IsNullOrEmpty(userRole) || !userRole.Equals("Admin"))
+            {
+                return RedirectToPage("../Common/AuthorFailed");
+            }
             categories = await service.GetAllCategory();
+            return Page();
         }
 
         public async Task OnPost()

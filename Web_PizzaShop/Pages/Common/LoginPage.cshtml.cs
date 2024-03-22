@@ -22,12 +22,12 @@ namespace Web_PizzaShop.Pages.Common
         }
 
         [BindProperty]
-        public String email { get; set; }
+        public String userName { get; set; }
 
         [BindProperty]
         public String password { get; set; }
         [BindProperty]
-        public String msg {  get; set; }
+        public String msg { get; set; }
         public IActionResult OnGet()
         {
             return Page();
@@ -38,14 +38,13 @@ namespace Web_PizzaShop.Pages.Common
             {
                 User userLogin = new User
                 {
-                    Email = email,
+                    UserName = userName,
                     PasswordHash = password
                 };
 
                 User user = await _userService.Login(userLogin);
                 if (user != null)
                 {
-<<<<<<< Updated upstream
                     var jsonSerializerOptions = new JsonSerializerOptions
                     {
                         ReferenceHandler = ReferenceHandler.IgnoreCycles,
@@ -53,9 +52,18 @@ namespace Web_PizzaShop.Pages.Common
                     };
 
                     HttpContext.Session.SetString("account", JsonSerializer.Serialize(user, jsonSerializerOptions));
-                    List<Role> userrole = user.Roles.ToList();
-                    string role = userrole[0].Name;
-                    if (role == "Admin")
+                    //List<Role> userrole = user.Roles.ToList();
+                    //string role = userrole[0].Name;
+
+                    var userRole = await _userService.GetUserRoleByUserId(user.Id);
+                    HttpContext.Session.SetString("userRole", userRole);
+                    HttpContext.Session.SetString("username", userName);
+                    if (string.IsNullOrEmpty(userRole))
+                    {
+                        return Page();
+                    }
+                    var role = HttpContext.Session.GetString("userRole");
+                    if (role != null && userRole.Equals("Admin"))
                     {
                         return RedirectToPage("../Admin/Dashboard");
                     }
@@ -63,19 +71,11 @@ namespace Web_PizzaShop.Pages.Common
                     {
                         return RedirectToPage("../Index");
                     }
-=======
-                    var userRole = await _userService.GetUserRoleByUserId(user.Id);
-                    if (string.IsNullOrEmpty(userRole))
-                    {
-                        return Page();
-                    }
-                    HttpContext.Session.SetString("userRole", user.Id.ToString());
-                    HttpContext.Session.SetString("username", userName);
                     //return NotFound();
-                    return RedirectToPage("../Index");
->>>>>>> Stashed changes
+
                 }
-                
+                //return RedirectToPage("../Index");
+
                 return Page();
             }
             catch (Exception ex)
