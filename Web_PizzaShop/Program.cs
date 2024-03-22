@@ -14,9 +14,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
 builder.Services.AddRazorPages();
-builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(30));
+builder.Services.AddSession(opt => opt.IdleTimeout = TimeSpan.FromMinutes(60));
 builder.Services.AddSignalR();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IAdminService, AdminService>();
 builder.Services.AddScoped<ICommonService, CommonService>();
 builder.Services.AddScoped<IUserService, UserService>();
@@ -36,6 +36,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("BTP_CORS");
 app.UseRouting();
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 app.UseSession();
 app.UseAuthorization();
 app.MapRazorPages();

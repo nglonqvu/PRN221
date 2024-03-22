@@ -20,6 +20,7 @@ namespace Web_PizzaShop.Models
         public string? UserName { get; set; }
         public string? Address { get; set; }
         public DateTime CreatedAt { get; set; }
+        public bool? IsActive { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
         public virtual ICollection<Review> Reviews { get; set; }

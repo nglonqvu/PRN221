@@ -26,6 +26,8 @@ namespace Web_PizzaShop.Pages.Common
 
         [BindProperty]
         public String password { get; set; }
+        [BindProperty]
+        public String msg {  get; set; }
         public IActionResult OnGet()
         {
             return Page();
@@ -43,6 +45,7 @@ namespace Web_PizzaShop.Pages.Common
                 User user = await _userService.Login(userLogin);
                 if (user != null)
                 {
+<<<<<<< Updated upstream
                     var jsonSerializerOptions = new JsonSerializerOptions
                     {
                         ReferenceHandler = ReferenceHandler.IgnoreCycles,
@@ -60,8 +63,20 @@ namespace Web_PizzaShop.Pages.Common
                     {
                         return RedirectToPage("../Index");
                     }
+=======
+                    var userRole = await _userService.GetUserRoleByUserId(user.Id);
+                    if (string.IsNullOrEmpty(userRole))
+                    {
+                        return Page();
+                    }
+                    HttpContext.Session.SetString("userRole", user.Id.ToString());
+                    HttpContext.Session.SetString("username", userName);
+                    //return NotFound();
+                    return RedirectToPage("../Index");
+>>>>>>> Stashed changes
                 }
-                return NotFound();
+                
+                return Page();
             }
             catch (Exception ex)
             {
