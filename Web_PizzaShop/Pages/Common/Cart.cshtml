@@ -127,7 +127,11 @@ body{
                                         </div>
                                     </div>
                                     <div class="cart-footer text-right">
-                                        <a href="page-checkout.html" class="btn btn-success my-1">Proceed to Checkout<i class="ri-arrow-right-line ml-2"></i></a>
+                                        @if(Model.pizzaViewModels != null && Model.pizzaViewModels.Any()) {
+                                            <form method="get" asp-page="/Customer/Ordered">
+                                                <button class="btn btn-success my-1">Proceed to Order<i class="ri-arrow-right-line ml-2"></i></button>
+                                            </form>
+                                        }
                                     </div>
                                 </div>
                             </div>
@@ -194,6 +198,9 @@ body{
                     </tr>`;
                     $('.cart tbody').html(newRow);
                     $('.total tbody').html(newRow1);
+                    if (response && response.length == 0){
+                        $('.cart-footer').hide();
+                    }
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 
@@ -253,6 +260,9 @@ body{
                     </tr>`;
                     $('.cart tbody').html(newRow);
                     $('.total tbody').html(newRow1);
+                    if (response && response.length == 0){
+                        $('.cart-footer').hide();
+                    }
 				},
 				error: function (jqXHR, textStatus, errorThrown) {
 

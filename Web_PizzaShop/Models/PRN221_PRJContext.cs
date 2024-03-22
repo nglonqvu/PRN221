@@ -36,14 +36,11 @@ namespace Web_PizzaShop.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-                var builder = new ConfigurationBuilder()
+            var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
                 IConfigurationRoot configuration = builder.Build();
                 optionsBuilder.UseSqlServer(configuration.GetConnectionString("PRN221_DB"));
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -151,7 +148,7 @@ namespace Web_PizzaShop.Models
                     .WithMany(p => p.PizzaIngredients)
                     .HasForeignKey(d => d.IngredientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__PizzaIngr__Ingre__619B8048");
+                    .HasConstraintName("FK__PizzaIngr__Ingre__6383C8BA");
 
                 entity.HasOne(d => d.Pizza)
                     .WithMany(p => p.PizzaIngredients)
@@ -257,14 +254,6 @@ namespace Web_PizzaShop.Models
 
             modelBuilder.Entity<ShoppingCartItem>(entity =>
             {
-                entity.Property(e => e.CakebaseId)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-
-                entity.Property(e => e.SizeId)
-                    .HasMaxLength(10)
-                    .IsFixedLength();
-
                 entity.HasOne(d => d.ShoppingCart)
                     .WithMany(p => p.ShoppingCartItems)
                     .HasForeignKey(d => d.ShoppingCartId)
@@ -301,7 +290,7 @@ namespace Web_PizzaShop.Models
                 entity.HasOne(d => d.Supplier)
                     .WithMany(p => p.SupplierContracts)
                     .HasForeignKey(d => d.SupplierId)
-                    .HasConstraintName("FK__SupplierC__Suppl__68487DD7");
+                    .HasConstraintName("FK__SupplierC__Suppl__6A30C649");
             });
 
             modelBuilder.Entity<User>(entity =>
@@ -320,11 +309,11 @@ namespace Web_PizzaShop.Models
                     .WithMany(p => p.Users)
                     .UsingEntity<Dictionary<string, object>>(
                         "UserRole",
-                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__RoleI__693CA210"),
+                        l => l.HasOne<Role>().WithMany().HasForeignKey("RoleId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__RoleI__6B24EA82"),
                         r => r.HasOne<User>().WithMany().HasForeignKey("UserId").OnDelete(DeleteBehavior.ClientSetNull).HasConstraintName("FK__UserRoles__UserI__5FB337D6"),
                         j =>
                         {
-                            j.HasKey("UserId", "RoleId").HasName("PK__UserRole__AF2760AD0AB7E349");
+                            j.HasKey("UserId", "RoleId").HasName("PK__UserRole__AF2760ADAF134C69");
 
                             j.ToTable("UserRoles");
 

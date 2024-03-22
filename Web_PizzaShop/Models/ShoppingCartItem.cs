@@ -8,8 +8,8 @@ namespace Web_PizzaShop.Models
         public int ShoppingCartItemId { get; set; }
         public int Amount { get; set; }
         public int? PizzaId { get; set; }
-        public string? SizeId { get; set; }
-        public string? CakebaseId { get; set; }
+        public int? SizeId { get; set; }
+        public int? CakebaseId { get; set; }
         public int ShoppingCartId { get; set; }
 
         public virtual ShoppingCart ShoppingCart { get; set; } = null!;

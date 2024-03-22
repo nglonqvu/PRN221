@@ -13,7 +13,7 @@ namespace Web_PizzaShop.Models
         public int OrderId { get; set; }
         public string AddressLine { get; set; } = null!;
         public DateTime OrderPlaced { get; set; }
-        public decimal OrderTotal { get; set; }
+        public decimal? OrderTotal { get; set; }
         public string PhoneNumber { get; set; } = null!;
         public string? State { get; set; }
         public int? UserId { get; set; }
