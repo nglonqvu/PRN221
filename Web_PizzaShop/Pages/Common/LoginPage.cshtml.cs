@@ -34,7 +34,6 @@ namespace Web_PizzaShop.Pages.Common
             {
                 _logger.LogError(ex.ToString());
                 throw;
-
             }
         }
     }

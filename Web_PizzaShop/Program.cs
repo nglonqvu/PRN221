@@ -32,7 +32,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseCors("BTP_CORS");
 app.UseRouting();
-
+app.UseSession();
 app.UseAuthorization();
 app.MapRazorPages();
 // app.UseEndpoints(endpoints =>
