@@ -10,23 +10,36 @@ namespace Web_PizzaShop.Pages.Common
 
         private readonly ILogger<IndexModel> _logger;
         private readonly IUserService _userService;
+        public LoginPageModel(ILogger<IndexModel> logger, IUserService userService)
+        {
+            _logger = logger;
+            _userService = userService;
+        }
 
         [BindProperty]
-        public User UserLogin { get; set; }
-        public void OnGet()
-        {
+        public String userName { get; set; }
 
+        [BindProperty]
+        public String password { get; set; }
+        public IActionResult OnGet()
+        {
+            return Page();
         }
-        public IActionResult OnPost(User userLogin)
+        public async Task<IActionResult> OnPost()
         {
             try
             {
-                userLogin.PasswordHash = BCrypt.Net.BCrypt.HashPassword(userLogin.PasswordHash);
-                _logger.LogError(userLogin.PasswordHash);
+                User userLogin = new User
+                {
+                    UserName = userName,
+                    PasswordHash = password
+                };
+               
                 var user = _userService.Login(userLogin).Result;
                 if (user != null)
                 {
-                    return RedirectToPage("./");
+                    //return NotFound();
+                    return RedirectToPage("../Index");
                 }
                 return NotFound();
             }
