@@ -51,8 +51,6 @@ namespace Web_PizzaShop.Pages.Public
             _hubContext = hubContext;
         }
 
-
-
         public async Task OnGet()
         {
             var _pizzas = await _context.Pizzas.Include(x => x.PizzaOptions).OrderByDescending(x => x.CreatedAt).ToListAsync();
@@ -181,17 +179,16 @@ namespace Web_PizzaShop.Pages.Public
                 int sizeId = int.Parse(Request.Form["size"]);
                 int pizzaId = int.Parse(Request.Form["pizzaId"]);
                 int cakeBaseId = int.Parse(Request.Form["cakebase"]);
-
-                var cartSession = HttpContext.Session.GetString("Cart");
+                var cartCookie = Request.Cookies["Cart"];
                 List<ShoppingCartItem> cartItems;
 
-                if (cartSession == null)
+                if (cartCookie == null)
                 {
                     cartItems = new List<ShoppingCartItem>();
                 }
                 else
                 {
-                    cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartSession);
+                    cartItems = JsonSerializer.Deserialize<List<ShoppingCartItem>>(cartCookie);
                 }
                 Console.WriteLine(cartItems.Count());
                 bool found = false;
@@ -208,6 +205,8 @@ namespace Web_PizzaShop.Pages.Public
                 {
                     var newItem = new ShoppingCartItem
                     {
+                        ShoppingCartId = -1,
+                        ShoppingCartItemId = -1,
                         PizzaId = pizzaId,
                         SizeId = sizeId.ToString(),
                         CakebaseId = cakeBaseId.ToString(),
@@ -216,13 +215,16 @@ namespace Web_PizzaShop.Pages.Public
                     cartItems.Add(newItem);
                 }
 
-                HttpContext.Session.SetString("Cart", JsonSerializer.Serialize(cartItems));
-
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMinutes(7)
+                };
+                Response.Cookies.Append("Cart", JsonSerializer.Serialize(cartItems), cookieOptions);
                 return new JsonResult("Item added to cart successfully!");
             }
             catch (Exception ex)
             {
-                return BadRequest($"Error adding item to cart: {ex.Message}");
+                return BadRequest("Error adding item to cart");
             }
         }
 

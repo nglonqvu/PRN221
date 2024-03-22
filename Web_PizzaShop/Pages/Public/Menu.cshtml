@@ -87,6 +87,28 @@
 </section>
 	<!-- loader -->
 	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" /><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg></div>
+	<div id="successModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+				<div class="modal-body" style="color: green; text-align: center; font-size: large;">
+					Pizza added to cart successfully!
+				</div>
+            </div>
+        </div>
+    </div>
+
+	<div id="failModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+				<div class="modal-body" style="color: red; text-align: center; font-size: large;">
+					Error adding pizza to cart!
+				</div>
+            </div>
+        </div>
+    </div>
+	
 	<script>
 		function handleSizeChange(pizzaId) {
 			var size = $("#size-" + pizzaId).val();
@@ -161,7 +183,18 @@
 				cakebase: cakebase
 			},
             success: function (response) {
-                console.log("Item added to cart successfully!");
+                if(response == 'Item added to cart successfully!'){
+					$('#successModal').modal('show');
+					setTimeout(function () {
+						$('#successModal').modal('hide');
+					}, 800);
+				}
+				else{
+					$('#failModal').modal('show');
+					setTimeout(function () {
+						$('#failModal').modal('hide');
+					}, 800);
+				}
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.error("Error adding item to cart:", textStatus, errorThrown);

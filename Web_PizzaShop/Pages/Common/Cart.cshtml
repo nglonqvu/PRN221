@@ -1,0 +1,255 @@
+﻿@page
+@model Web_PizzaShop.Pages.Common.CartModel
+@{
+    Layout = "_Layout";
+    int count = 0;
+    decimal? total = 0;
+}
+@Html.AntiForgeryToken()
+<style>
+body{
+    margin-top:20px;
+}
+.cart-container {
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 30px;
+}
+.cart-container .cart-body {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 30px 0 20px;
+  margin: 20px 0 30px;
+}
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css">
+<div class="container">                
+<div class="contentbar">                
+        <!-- Start row -->
+        <div class="row">
+            <!-- Start col -->
+            <div class="col-md-12 col-lg-12 col-xl-12">
+                <div class="card m-b-30">
+                    <div class="card-header">
+                        <h5 class="card-title" style="color:black;">Cart</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row justify-content-center">
+                            <div class="">
+                                <div class="cart-container" style="width: 140%; margin-left: -20%;">
+                                    <div class="cart-head">
+                                        <div class="table-responsive">
+                                            <table class="table table-borderless cart">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col" style="width: 50px;text-align: center">#</th>
+                                                        <th scope="col" style="width: 50px;text-align: center">Action</th>                                               
+                                                        <th scope="col" style="width: 150px;text-align: center">Photo</th>
+                                                        <th scope="col" style="width: 150px;text-align: left">Product</th>
+                                                        <th scope="col" style="width: 150px;text-align: center">Qty</th>
+                                                        <th scope="col"style="width: 120px;text-align: center">Price</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                @if(@Model.pizzaViewModels == null){
+
+                                                }
+                                                else{
+                                                    @foreach(var cartitem in @Model.pizzaViewModels){
+                                                        count++;
+                                                        <tr>
+                                                            <th scope="row" style="text-align: center">@count</th>
+                                                            <td style="text-align: center"><a style="cursor: pointer" onclick="deleteitemcart('@cartitem.pizza.Id','@cartitem.size.Id','@cartitem.cakeBasis.Id')" class="text-danger"><i class="ri-delete-bin-3-line"></i></a></td>
+                                                            <td style="text-align: center"><img src="data:image/jpeg;base64,@cartitem.pizza.ImageUrl" class="img-fluid" width="140" height="70" alt="product"></td>
+                                                            <td style="text-align: left">
+                                                                @cartitem.pizza.Name<br>
+                                                                <small>@cartitem.size.Size1</small><br>
+                                                                <small>@cartitem.cakeBasis.CakeBase</small>
+                                                            </td>
+                                                            <td style="text-align: center">
+                                                               <div class="form-group mb-0">
+                                                                    <button style="cursor: pointer" onclick="updateQuantity('@cartitem.pizza.Id','@cartitem.size.Id','@cartitem.cakeBasis.Id','decrease')">-</button>&emsp;&emsp;
+                                                                    <span id="quantity">@cartitem.amount</span>
+                                                                    &emsp;&emsp;<button style="cursor: pointer" onclick="updateQuantity('@cartitem.pizza.Id','@cartitem.size.Id','@cartitem.cakeBasis.Id','increase')">+</button>
+                                                                </div>
+                                                            </td>
+                                                            <td style="text-align: center">@String.Format("{0:N0} ₫", (cartitem.pizza.Price + cartitem.size.PriceSize + cartitem.cakeBasis.PriceBase) * cartitem.amount) </td>
+                                                        </tr>
+                                                    }
+                                                }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="cart-body">
+                                        <div class="row">
+                                            <div class="col-md-12 order-2 order-lg-1 col-lg-5 col-xl-6">
+                                                <div class="order-note">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            @* <div class="input-group">
+                                                                <input type="search" class="form-control" placeholder="Coupon Code" aria-label="Search" aria-describedby="button-addonTags">
+                                                                <div class="input-group-append">
+                                                                    <button class="input-group-text" type="submit" id="button-addonTags">Apply</button>
+                                                                </div>
+                                                            </div> *@
+                                                        </div>
+                                                        <div class="form-group">
+                                                            @* <label for="specialNotes">Special Note for this order:</label>
+                                                            <textarea class="form-control" name="specialNotes" id="specialNotes" rows="3" placeholder="Message here"></textarea> *@
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 order-1 order-lg-2 col-lg-7 col-xl-6">
+                                                <div class="order-total table-responsive ">
+                                                    <table class="total table table-borderless text-right">
+                                                        <tbody>
+                                                            <tr>
+                                                                @foreach(var cartitem in @Model.pizzaViewModels){
+                                                                    total+= (cartitem.pizza.Price + cartitem.size.PriceSize + cartitem.cakeBasis.PriceBase) * cartitem.amount;
+                                                                }
+                                                                <td>Total :</td>
+                                                                <td>@String.Format("{0:N0} ₫",total)</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="cart-footer text-right">
+                                        <a href="page-checkout.html" class="btn btn-success my-1">Proceed to Checkout<i class="ri-arrow-right-line ml-2"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End col -->
+        </div>
+        <!-- End row -->
+    </div>
+    </div>
+
+    <script>
+    function updateQuantity(pizzaId,sizeId,cakebaseId,action) {
+			var data = {
+				sizeId: sizeId,
+				pizzaId: pizzaId,
+				cakebaseId: cakebaseId,
+                action: action
+			};
+			var newRow = ``;
+			var newRow1 = ``;
+            var count = 0;
+            var total1 = 0;
+			$.ajax({
+				type: 'POST',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+				},
+				url: '/Common/Cart?handler=UpdateQuantity',
+				data: data,
+				success: function (response) {
+                    var tableBody = $('.cart tbody');
+                    var tableBody1 = $('.total tbody');
+                    tableBody.empty();
+                    tableBody1.empty();
+                    response.forEach(function (item) {
+					newRow += 
+                        `<tr>
+                            <th style="text-align: center" scope="row">${count+1}</th>
+                            <td style="text-align: center"><a style="cursor: pointer" onclick="deleteitemcart('${item.pizza.Id}', '${item.size.Id}', '${item.cakeBasis.Id}')" class="text-danger"><i class="ri-delete-bin-3-line"></i></a></td>
+                            <td style="text-align: center"><img src="data:image/jpeg;base64,${item.pizza.ImageUrl}" class="img-fluid" width="140" height="70" alt="product"></td>
+                            <td style="text-align: left">
+                                ${item.pizza.Name}<br>
+                                <small>${item.size.Size1}</small><br>
+                                <small>${item.cakeBasis.CakeBase}</small>
+                            </td>
+                            <td style="text-align: center">
+                                <div class="form-group mb-0">
+                                    <button style="cursor: pointer" onclick="updateQuantity('${item.pizza.Id}', '${item.size.Id}', '${item.cakeBasis.Id}', 'decrease')">-</button>&emsp;&emsp;
+                                    <span id="quantity">${item.amount}</span>
+                                    &emsp;&emsp;<button style="cursor: pointer" onclick="updateQuantity('${item.pizza.Id}', '${item.size.Id}', '${item.cakeBasis.Id}', 'increase')">+</button>
+                                </div>
+                            </td>
+                            <td style="text-align: center">${((item.pizza.Price + item.size.PriceSize + item.cakeBasis.PriceBase) * item.amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                        </tr>`;
+                        total1 += (item.pizza.Price + item.size.PriceSize + item.cakeBasis.PriceBase) * item.amount;
+                    });
+                    newRow1 += 
+                    `<tr>
+                        <td>Total :</td>
+                        <td>${total1.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                    </tr>`;
+                    $('.cart tbody').html(newRow);
+                    $('.total tbody').html(newRow1);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+
+					console.log(textStatus, errorThrown);
+				}
+			});
+		}
+
+    function deleteitemcart(pizzaId,sizeId,cakebaseId) {
+			var data = {
+				sizeId: sizeId,
+				pizzaId: pizzaId,
+				cakebaseId: cakebaseId,
+			};
+			var newRow = ``;
+			var newRow1 = ``;
+            var count = 0;
+            var total1 = 0;
+			$.ajax({
+				type: 'POST',
+				beforeSend: function (xhr) {
+					xhr.setRequestHeader("XSRF-TOKEN", $('input:hidden[name="__RequestVerificationToken"]').val());
+				},
+				url: '/Common/Cart?handler=Deleteitemcart',
+				data: data,
+				success: function (response) {
+                    var tableBody = $('.cart tbody');
+                    var tableBody1 = $('.total tbody');
+                    tableBody.empty();
+                    tableBody1.empty();
+                    response.forEach(function (item) {
+					newRow += 
+                        `<tr>
+                            <th style="text-align: center" scope="row">${count+1}</th>
+                            <td style="text-align: center"><a style="cursor: pointer" onclick="deleteitemcart('${item.pizza.Id}', '${item.size.Id}', '${item.cakeBasis.Id}')" class="text-danger"><i class="ri-delete-bin-3-line"></i></a></td>
+                            <td style="text-align: center"><img src="data:image/jpeg;base64,${item.pizza.ImageUrl}" class="img-fluid" width="140" height="70" alt="product"></td>
+                            <td style="text-align: left">
+                                ${item.pizza.Name}<br>
+                                <small>${item.size.Size1}</small><br>
+                                <small>${item.cakeBasis.CakeBase}</small>
+                            </td>
+                            <td style="text-align: center">
+                                <div class="form-group mb-0">
+                                    <button style="cursor: pointer" onclick="updateQuantity('${item.pizza.Id}', '${item.size.Id}', '${item.cakeBasis.Id}', 'decrease')">-</button>&emsp;&emsp;
+                                    <span id="quantity">${item.amount}</span>
+                                    &emsp;&emsp;<button style="cursor: pointer" onclick="updateQuantity('${item.pizza.Id}', '${item.size.Id}', '${item.cakeBasis.Id}', 'increase')">+</button>
+                                </div>
+                            </td>
+                            <td style="text-align: center">${((item.pizza.Price + item.size.PriceSize + item.cakeBasis.PriceBase) * item.amount).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                        </tr>`;
+                        total1 += (item.pizza.Price + item.size.PriceSize + item.cakeBasis.PriceBase) * item.amount;
+                    });
+                    newRow1 += 
+                    `<tr>
+                        <td>Total :</td>
+                        <td>${total1.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' })}</td>
+                    </tr>`;
+                    $('.cart tbody').html(newRow);
+                    $('.total tbody').html(newRow1);
+				},
+				error: function (jqXHR, textStatus, errorThrown) {
+
+					console.log(textStatus, errorThrown);
+				}
+			});
+		}
+    </script>
