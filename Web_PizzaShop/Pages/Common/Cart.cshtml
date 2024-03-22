@@ -105,13 +105,21 @@ body{
                                                 <div class="order-total table-responsive ">
                                                     <table class="total table table-borderless text-right">
                                                         <tbody>
-                                                            <tr>
-                                                                @foreach(var cartitem in @Model.pizzaViewModels){
-                                                                    total+= (cartitem.pizza.Price + cartitem.size.PriceSize + cartitem.cakeBasis.PriceBase) * cartitem.amount;
-                                                                }
-                                                                <td>Total :</td>
-                                                                <td>@String.Format("{0:N0} ₫",total)</td>
-                                                            </tr>
+                                                            @if(@Model.pizzaViewModels == null){
+                                                                <tr>
+                                                                    <td>Total :</td>
+                                                                    <td>@String.Format("{0:N0} ₫","0")</td>
+                                                                </tr>
+                                                            }
+                                                            else{
+                                                                <tr>
+                                                                    @foreach(var cartitem in @Model.pizzaViewModels){
+                                                                        total+= (cartitem.pizza.Price + cartitem.size.PriceSize + cartitem.cakeBasis.PriceBase) * cartitem.amount;
+                                                                    }
+                                                                    <td>Total :</td>
+                                                                    <td>@String.Format("{0:N0} ₫",total)</td>
+                                                                </tr>
+                                                            }
                                                         </tbody>
                                                     </table>
                                                 </div>
