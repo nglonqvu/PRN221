@@ -44,7 +44,7 @@ namespace Web_PizzaShop.Pages.Common
             if (!passwordConfirm.Equals(user.PasswordHash))
             {
                 message = "Please enter password again";
-                Console.WriteLine("dmmmm");
+               
                 return Page();
             }
             var check = _userService.Regis(user).Result;
@@ -66,8 +66,8 @@ namespace Web_PizzaShop.Pages.Common
             try
             {
                 await SendConfirmEmail(user.Email, confirmLink);
-                TempData["Message"] = "Đã gửi email xác nhận. Vui lòng kiểm tra hộp thư và xác nhận.";
-                return RedirectToPage("/Confirm");
+                message = "Please check your mail to confirm your registration.";
+                return Page();
             }
             catch (Exception ex)
             {

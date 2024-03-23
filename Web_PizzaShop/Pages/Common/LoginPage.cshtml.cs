@@ -74,6 +74,9 @@ namespace Web_PizzaShop.Pages.Common
                     }
                     //return NotFound();
 
+                } else
+                {
+                    msg = "Username or password information is incorrect";
                 }
                 //return RedirectToPage("../Index");
 
