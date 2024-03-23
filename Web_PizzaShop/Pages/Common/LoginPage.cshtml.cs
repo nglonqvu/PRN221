@@ -30,6 +30,7 @@ namespace Web_PizzaShop.Pages.Common
         public String msg { get; set; }
         public IActionResult OnGet()
         {
+            HttpContext.Session.Clear();
             return Page();
         }
         public async Task<IActionResult> OnPost()
@@ -83,6 +84,11 @@ namespace Web_PizzaShop.Pages.Common
                 _logger.LogError(ex.ToString());
                 throw;
             }
+        }
+
+        public IActionResult OnPostLogout1(){
+            HttpContext.Session.Clear();
+            return RedirectToPage("/Common/LoginPage");
         }
     }
 }

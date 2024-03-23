@@ -135,7 +135,7 @@ namespace Web_PizzaShop.Models
                     .WithMany(p => p.Pizzas)
                     .HasForeignKey(d => d.CategoriesId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK__Pizzas__Categori__571DF1D5");
+                    .HasConstraintName("FK_Pizzas_Categories");
             });
 
             modelBuilder.Entity<PizzaIngredient>(entity =>

@@ -230,6 +230,7 @@ namespace Web_PizzaShop.ServiceManager.Admin
                     IsPizzaOfTheWeek = pizza.IsPizzaOfTheWeek,
                     CategoriesId = categoryId,
                     CreatedAt = DateTime.Now,
+                    IsActive = false,
                     DeletedAt = null
                 };
 

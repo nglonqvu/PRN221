@@ -43,7 +43,7 @@ namespace Web_PizzaShop.Pages.Admin
             List<Pizza> pizzas = await context.Pizzas.ToListAsync();
             foreach (var _pizza in pizzas)
             {
-                if (pizza.Name == _pizza.Name)
+                if (pizza.Name.Equals(_pizza.Name))
                 {
                     TempData["msg"] = "Pizza Name already exist!!";
                     break;

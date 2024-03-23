@@ -20,6 +20,7 @@ namespace Web_PizzaShop.Models
         public string Name { get; set; } = null!;
         public decimal Price { get; set; }
         public int CategoriesId { get; set; }
+        public bool? IsActive { get; set; }
         public DateTime? CreatedAt { get; set; }
         public DateTime? DeletedAt { get; set; }
 
